@@ -12,7 +12,7 @@ sudo apt install python3-base64
 sudo apt install python3-colorama
 sudo apt install python3-requests
 
-git clone https://github.com/Intikam21kurucu/intframework/
+git clone https://github.com/Intikam21kurucu/intframework
 
 cd intframework
 
