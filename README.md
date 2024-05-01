@@ -12,11 +12,11 @@ sudo apt install python3-base64
 sudo apt install python3-colorama
 sudo apt install python3-requests
 
-git clone https://github.com/Intikam21kurucu/Intikam21
+git clone https://github.com/Intikam21kurucu/intframework/
 
-cd Intikam21
+cd intframework
 
-python3 Intıkam21.py
+python3 intconsole.py
 ````
 
 # EKRAN GÖRÜNTÜSÜ 
