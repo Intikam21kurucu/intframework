@@ -22,7 +22,7 @@ python3 intconsole.py
 # EKRAN GÖRÜNTÜSÜ 
 
 system photos:
-[![Github Badge](https://github.com/Intikam21kurucu/intframework/blob/Intikam21kurucu-patch-1/%5BOrijinal%20boyut%5D%20Renkli%20Modern%20Yuvarlak%20Okul%20Logo_20240423_141004_0000.png?style=quare&labelColor=000&logo=Github&logoColor=white&link=link)](link) 
+[![Github Badge](https://github.com/Intikam21kurucu/intframework/blob/Intikam21kurucu-patch-1/IMG_20240501_162217.jpg?style=quare&labelColor=000&logo=Github&logoColor=white&link=link)](link) 
 
 
 
