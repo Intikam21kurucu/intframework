@@ -16,7 +16,7 @@ git clone https://github.com/Intikam21kurucu/intframework
 
 cd intframework
 
-python3 intconsole.py
+python3 intconsoleV2.py
 ````
 
 # EKRAN GÖRÜNTÜSÜ 
