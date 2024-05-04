@@ -21,7 +21,7 @@
 
 
 İntikam21 hiçbir sorumluluğu kabul etmez
-sorumluluğu kabul etmek için: <button size"50">sorumluluğu kabul ediyorum
+sorumluluğu kabul etmek için: <button>sorumluluğu kabul ediyorum
 
 
 
