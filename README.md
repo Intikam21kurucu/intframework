@@ -1,4 +1,5 @@
-![ROZET](https://github.com/Schweinepriester/github-profile-achievements/blob/main/images%2Ftiers%2Fpull-shark-gold.png)
+![ROZET](https://github.com/Schweinepriester/github-profile-achievements/blob/main/images%2Ftiers%2Fpull-shark-gold.png size=50)
+
 
 
 
