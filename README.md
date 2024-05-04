@@ -65,7 +65,9 @@ python3 intconsoleV2.py
 
 # YouTube
 
-![](https://youtu.be/f_anqzelhnM?si=gGP5-TaBHe9QvH23)
+[![Now in Android: 55]          // Title
+(https://i.ytimg.com/vi/Hc79sDi3f0U/maxresdefault.jpg)] // Thumbnail
+(https://youtu.be/f_anqzelhnM?si=-HXfF9wd72LL6GED) "HOW TO USİNG İNTCONSOLE?")    // Video Link
 
 
 
