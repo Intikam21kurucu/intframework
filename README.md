@@ -4,7 +4,7 @@
 
 ![](https://github.com/Intikam21kurucu/intframework/blob/43b69f75b8bce99b2300ce8c885f314cb4da0c30/lv_0_20240504124041.gif)
 
-
+-----------------------------------------------
 
 
 .
@@ -21,7 +21,10 @@
 
 
 İntikam21 hiçbir sorumluluğu kabul etmez
-sorumluluğu kabul etmek için: <button>sorumluluğu kabul ediyorum
+sorumluluğu kabul etmek için:
+
+
+<button>sorumluluğu kabul ediyorum
 
 
 
