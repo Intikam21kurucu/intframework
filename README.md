@@ -63,6 +63,12 @@ python3 intconsoleV2.py
 
 
 
+# YouTube
+
+![](https://youtu.be/f_anqzelhnM?si=gGP5-TaBHe9QvH23)
+
+
+
 
 
 
