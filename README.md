@@ -1,20 +1,3 @@
-
-
-
-
-![](https://github.com/Intikam21kurucu/intframework/blob/43b69f75b8bce99b2300ce8c885f314cb4da0c30/lv_0_20240504124041.gif)
-
------------------------------------------------
-
-
-.
-
-
-
-
-.
-
-
 <img src="https://github.com/Schweinepriester/github-profile-achievements/blob/main/images%2Ftiers%2Fpull-shark-gold.png" alt="Rozet" width="150" height="150" size="50"> İNTİKAM21 ROZET
 
 
@@ -28,11 +11,8 @@ sorumluluğu kabul etmek için:
 
 
 
-
-
-
-
-
+-----------------------------------------------
+![](https://github.com/Intikam21kurucu/intframework/blob/43b69f75b8bce99b2300ce8c885f314cb4da0c30/lv_0_20240504124041.gif)
 
 -----------------------------------------------
 
