@@ -17,6 +17,22 @@
 
 <img src="https://github.com/Schweinepriester/github-profile-achievements/blob/main/images%2Ftiers%2Fpull-shark-gold.png" alt="Rozet" width="150" height="150" size="50"> İNTİKAM21 ROZET
 
+
+
+
+İntikam21 hiçbir sorumluluğu kabul etmez
+sorumluluğu kabul etmek için: <button size"50">sorumluluğu kabul ediyorum
+
+
+
+
+
+
+
+
+
+-----------------------------------------------
+
  
 
   
