@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-# Gerekli kütüphaneler burada import edilir
 from pyfiglet import Figlet
 from colorama import Fore, init
 import threading
@@ -10,35 +9,11 @@ import time
 import sys
 import os
 import base64
+import time as t
 import argparse
+import sys
 
-# Global değişkenler
-spinner = ['/', '-', '\\', '|']
-spin_index = 0
 
-# Metni büyütüp küçültmek ve dönen karakterleri göstermek için bir fonksiyon
-def run_animation(text, max_size, duration):
-    global spin_index  # spin_index'i global olarak kullan
-    resize_generator = resize_text(text, max_size)  # Generator nesnesi oluştur
-
-    start_time = time.time()
-    while time.time() - start_time < duration:  # Belirtilen süre boyunca döndür
-        resized_text = next(resize_generator)
-        # Dönen karakteri ve yeniden boyutlandırılmış metni yazdır
-        sys.stdout.write(f"{spinner[spin_index]} {resized_text}\r")
-        sys.stdout.flush()
-        # Dönen karakteri güncelle
-        spin_index = (spin_index + 1) % len(spinner)
-        # Kısa bir süre beklet
-        time.sleep(0.2)
-
-# Metni büyütüp küçültmek için generator fonksiyonu
-def resize_text(text, max_size):
-    while True:  # Sonsuz döngü ile sürekli değer üret
-        for size in range(len(text), max_size + 1):
-            yield ' ' * (max_size - size) + text[:size]
-        for size in range(max_size, len(text) - 1, -1):
-            yield ' ' * (max_size - size) + text[:size]
 
 
 # Argparse nesnesini oluştur ve otomatik --help işlevselliğini devre dışı bırak
@@ -95,11 +70,10 @@ elif 'intconsole' in args:
 . ⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶
 ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿ ⣿⣿⣿⣿⣿⣷⣷⣶⣿⣿ """	
     print(ascii_sanat)
-    # Fonksiyonu 10 saniye boyunca çalıştır
-run_animation("İNTİKAM21 CYBER TOOLS CONSOLE STARTING...", 10, 10)
+    # 5 saniye boyunca animasyonu çalıştır
+    os.system("python3 startoolkit.py")
 
-    
- 
+     
 
 time.sleep(5)   
       
@@ -129,12 +103,15 @@ ASCI = """      ⣀⣴⣿⣿⠿⠿⠟⠛⠿⠿⣿⣿⣶⣄⠀⠀⠀
 ⣰⠟⠛⠛⠁⣨⡿⢷⣤⣈⠙⢿⡙⠒⠓⠒⠒⠚⡹⠛⢁⣤⣾⠿⣧⡀⠙⠋⠙⣆
 ⠹⣤⡀⠀⠐⡏⠉⠛⠿⣶⣿⣶⣤⣤⣤⣾⣷⠾⠟⠋⢸⢠⣤
 ⠀⠀⠳⢤⠾⠃⠀⠀⠀⠀⠀⠀⠈⠉⠉⠉⠉⠁⠀⠀⠀⠀⠘⠷⠤⠾⠁"""
+# Kullanıcıdan 'help' komutunu girmesini iste
+print(Fore.BLUE + 'başlatmak için help yaz')
+	
 
-print(Fore.RED+ASCI)
 
 while True:
-# Kullanıcıdan 'help' komutunu girmesini iste
-	print(Fore.BLUE + 'başlatmak için help yaz')
+	
+	
+	print(Fore.RED+ASCI)
 	print(Fore.RED + '------------------------------------------------------------')
 	print("""5-)Tools * 1000-)commands * 70-)exploits 
 """)
@@ -148,18 +125,45 @@ while True:
 			4-)METASPLOİT
 			5-)İNTİKAM21
 			6-)iptracker
-		
+			7-)youtube-hack
+			8-)Send email
+			9-)OSINT Framework
+	SPECİAL:	
+			----------------------------------------------
+			| [10]android-pin-bruteforce |
+			-----------------------------------------------
 		""")
 		print("exploit usage: exp-number")
 		print("""
 		Exploits:
-			1-Exploit Database 
-			2-MSFVENOM
-			3-MSFCONSOLE
-			4-NMAP
-			......
+			[1]-Exploit Database 
+			[2]-MSFVENOM
+			[3]-MSFCONSOLE
+			[4]-NMAP
+			[5]-TRAİTOR
+			[6]-facebook-id-collector			
+			
+			SPECİAL:
+			---------------------------------------------
+		   |. [7]-youtube -------- exploit    |
+		   |	[8]-phonesploit	  			|
+		   |	[9]-camera exploit			 |
+		   |	 [10]-camexp2				   |
+			---------------------------------------------	
+			
+			
+			[11] EMAIL FINDER
+			[12]-error!
+			[13]-error!
+			[14]-error!
+			[15]-error!
+			
+			we are working...
 		
 		""")
+		
+		print("command help for using : com-help")
+	
 	if help_input == "1":
 		os.system("python3 DDOS.py")
 	if help_input == "3":
@@ -201,34 +205,66 @@ python3 Intıkam21.py""")
 			os.system("nmap")
 		except:
 			os.system("sudo apt-get install nmap")
-	else:
-		print("please restart console")
-		os.system("python3 intconsole.V2py")
 	if help_input == "exit":
 		os.system("exit")
 	if help_input == "6":
 		os.system("python3 iptracker.py")
+	if help_input == "exp-5":
+		os.system("""git clone https://github.com/liamg/traitor
+		cd traitor
+		traitor -p -e docker:writable-socket			
+		""")
+	if help_input == "exit":
+		print("exiting console...")
+		time.sleep(2)
+		os.system("exit")
+	if help_input == "exp-6":
+		os.system("python2 id-collector.py")
+	if help_input == "exp-7":
+		os.system("python3 specialintikam21youtube.py")
 
+	if help_input == "exp-8":
+		os.system("python phonesploit.py")
+	
+	if help_input == "exp-9":
+		os.system("python expcamera.py")
+	if help_input == "exp-10":
+		s = input ("Do yo want to continue [y/n]")
+		if s == "y":
+			os.system("python3 camexp2.py")
+		if s == "n":
+			print("restarting...")
+			time.sleep(3)
+			os.system("python3 intconsoleV2.py")
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-def banner():
-	# 'INTIKAM21 CYBER' metnini mavi renkte ve slant fontuyla yazdır
-	f = Figlet(font='slant')
-	print(Fore.BLUE + f.renderText('INTIKAM21 CYBER') + Fore.RESET)
+	if help_input == "7": 
+		os.system("""
+		git clone https://github.com/in4osecurity/Youtube-Hack
+		cd Youtube-Hack
+		bash kurulum.sh		
+		""")
+	if help_input == "8":
+		os.system("python3 sendemail.py")
+	if help_input == "9":
+		os.system("Python3 OSINT.py")
+	if help_input == "exp-11":
+		os.system("python3 emailfinder.py")
+	if help_input == "10":
+		s = input("do you want to continue? [y/n]")
+		if s == "y":
+			os.system("""			
+			git clone https://github.com/urbanadventurer/Android-PIN-Bruteforce
+			cd Android-PIN-Bruteforce
+			./android-pin-bruteforce crack --length 6				""")
+		if s == "n":
+			print("restarting...")
+			time.sleep(3)
+			os.system("python3 intconsoleV2.py")
+	if help_input == "11":
+		os.system("""
+		
+		git clone https://github.com/Antu7/python-bruteForce	
+		cd python-bruteForce
+		pip install requests
+		python3 bruteforce.py		
+		""")
