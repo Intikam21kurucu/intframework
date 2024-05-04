@@ -45,7 +45,7 @@ python3 intconsoleV2.py
 # EKRAN GÖRÜNTÜSÜ 
 
 system photos:
-![İntikam21 photos:](https://github.com/Intikam21kurucu/intframework/blob/Intikam21kurucu-patch-1/IMG_20240501_162217.jpg) 😄 
+![İntikam21 photos:](https://github.com/Intikam21kurucu/intframework/blob/Intikam21kurucu-patch-1/IMG_20240504_183657.jpg) 😄 
 
 
 
