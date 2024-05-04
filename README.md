@@ -65,7 +65,24 @@ python3 intconsoleV2.py
 # EKRAN GÖRÜNTÜSÜ 
 
 system photos:
-![İntikam21 photos:](https://github.com/Intikam21kurucu/intframework/blob/Intikam21kurucu-patch-1/IMG_20240501_162217.jpg) 😄 Termux versiyonu gelecek
+![İntikam21 photos:](https://github.com/Intikam21kurucu/intframework/blob/Intikam21kurucu-patch-1/IMG_20240501_162217.jpg) 😄 
+
+
+
+
+# İNSTALL TERMUX
+````apt update && apt upgrade
+pkg update && pkg upgrade
+pkg install python3
+pkg install git
+pip3 install requests
+git clone https://github.com/Intikam21kurucu/intframework
+cd intframework
+python3 intconsoleV2.py
+````
+
+
+
 
 
 
