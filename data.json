@@ -1,0 +1,681 @@
+{
+  "sites": [
+    {
+      "app": "Facebook",
+      "id": 1,
+      "method": "GET",
+      "url": "https://www.facebook.com/{username}",
+      "valid": "response.status == 200"
+    },
+    {
+      "app": "YouTube",
+      "id": 2,
+      "method": "GET",
+      "url": "https://www.youtube.com/user/{username}",
+      "valid": "response.status == 200 and 'name\" content=' in responseContent"
+    },
+    {
+      "app": "Twitter",
+      "id": 3,
+      "metadata": [
+        {
+          "key": "Name",
+          "type": "generic-data",
+          "value": "soup.find('a', class_='profile-card-fullname')['title']"
+        },
+        {
+          "key": "Bio",
+          "type": "generic-data",
+          "value": "soup.find('div',class_='profile-bio').string"
+        },
+        {
+          "key": "Site",
+          "type": "generic-data",
+          "value": "soup.find('div',class_='profile-website').text.strip('\\t\\r\\n')"
+        },
+        {
+          "key": "Member since",
+          "type": "generic-data",
+          "value": "soup.find('div',class_='profile-joindate').find('span')['title']"
+        },
+        {
+          "key": "picture",
+          "type": "image",
+          "value": "'https://nitter.net'+soup.find('a', class_='profile-card-avatar')['href']"
+        },
+        {
+          "key": "location",
+          "type": "location",
+          "value": "soup.select_one('.profile-location:nth-of-type(2)').text.strip('\\t\\r\\n')"
+        }
+      ],
+      "method": "GET",
+      "url": "https://nitter.net/{username}",
+      "valid": "response.status == 200 and ') | nitter</title>' in responseContent"
+    },
+    {
+      "app": "Telegram",
+      "id": 4,
+      "metadata": [
+        {
+          "key": "Name",
+          "type": "generic-data",
+          "value": "soup.find('span', dir='auto').string"
+        },
+        {
+          "key": "picture",
+          "type": "image",
+          "value": "soup.find('img', class_='tgme_page_photo_image')['src']"
+        }
+      ],
+      "method": "GET",
+      "url": "https://t.me/{username}",
+      "valid": "'You can contact' in soup.find('meta', property='og:description')['content'] and 'tgme_page_title' in responseContent"
+    },
+    {
+      "app": "TikTok",
+      "id": 5,
+      "metadata": [
+        {
+          "key": "Name",
+          "type": "generic-data",
+          "value": "soup.find('h1').text"
+        },
+        {
+          "key": "Bio",
+          "type": "generic-data",
+          "value": "soup.find('h2', attrs={'data-e2e':'user-bio'}).text"
+        },
+        {
+          "key": "picture",
+          "type": "image",
+          "value": "soup.find('img')['src']"
+        }
+      ],
+      "method": "GET",
+      "url": "https://www.tiktok.com/@{username}",
+      "valid": "response.status == 200 and 'title=\"Following\"' in responseContent"
+    },
+    {
+      "app": "Tinder",
+      "id": 6,
+      "metadata": [
+        {
+          "key": "Name",
+          "type": "generic-data",
+          "value": "soup.find('meta', property='profile:first_name')['content']"
+        },
+        {
+          "key": "picture",
+          "type": "image",
+          "value": "soup.find('meta', property='og:image')['content']"
+        }
+      ],
+      "method": "GET",
+      "url": "https://tinder.com/@{username}",
+      "valid": "'@' in soup.find('meta', property='og:title')['content'] and ') | Tinder</title><meta' in responseContent"
+    },
+    {
+      "app": "Instagram",
+      "id": 7,
+      "metadata": [
+        {
+          "key": "Name",
+          "type": "generic-data",
+          "value": "soup.find('h2', class_='profile-name-bottom').string"
+        },
+        {
+          "key": "Bio",
+          "type": "generic-data",
+          "value": "soup.find('div', class_='profile-description').text.strip('\\t\\r\\n')"
+        },
+        {
+          "key": "Followers",
+          "type": "generic-data",
+          "value": "soup.find('span', class_='followed_by').string"
+        },
+        {
+          "key": "Following",
+          "type": "generic-data",
+          "value": "soup.find('span', class_='follows').string"
+        },
+        {
+          "key": "picture",
+          "type": "image",
+          "value": "soup.find('div', class_='profile-avatar').find('img')['src']"
+        }
+      ],
+      "method": "GET",
+      "url": "https://www.picuki.com/profile/{username}",
+      "valid": "response.status == 200 and 'Instagram profile with posts and stories' in responseContent"
+    },
+    {
+      "app": "Pinterest",
+      "id": 8,
+      "metadata": [
+        {
+          "key": "Name",
+          "type": "generic-data",
+          "value": "soup.find('h1').string "
+        },
+        {
+          "key": "Bio",
+          "type": "generic-data",
+          "value": "soup.find('meta', property='og:description')['content']"
+        },
+        {
+          "key": "Followers",
+          "type": "generic-data",
+          "value": "soup.find('meta', property='pinterestapp:followers')['content']"
+        },
+        {
+          "key": "Following",
+          "type": "generic-data",
+          "value": "soup.find('meta', property='pinterestapp:following')['content']"
+        },
+        {
+          "key": "picture",
+          "type": "image",
+          "value": "soup.find('img')['src']"
+        }
+      ],
+      "method": "GET",
+      "url": "https://pinterest.com/{username}/",
+      "valid": "response.status == 200 and ' - Profile | Pinterest' in responseContent"
+    },
+    {
+      "app": "Snapchat",
+      "id": 9,
+      "metadata": [
+        {
+          "key": "picture",
+          "type": "image",
+          "value": "soup.find('image')['xlink:href']"
+        }
+      ],
+      "method": "GET",
+      "url": "https://feelinsonice.appspot.com/web/deeplink/snapcode?username={username}&size=400&type=SVG",
+      "valid": "soup.find('defs') != None and '</clipPath>' in responseContent"
+    },
+    {
+      "app": "Reddit",
+      "id": 10,
+      "metadata": [
+        {
+          "key": "Name",
+          "type": "generic-data",
+          "value": "jsonData['data']['subreddit']['title']"
+        },
+        {
+          "key": "Bio",
+          "type": "generic-data",
+          "value": "jsonData['data']['subreddit']['public_description']"
+        },
+        {
+          "key": "picture",
+          "type": "image",
+          "value": "jsonData['data']['snoovatar_img']"
+        }
+      ],
+      "method": "GET",
+      "url": "https://www.reddit.com/user/{username}/about.json",
+      "valid": "response.status == 200 and 'total_karma' in responseContent"
+    },
+    {
+      "app": "Soundcloud",
+      "id": 11,
+      "metadata": [
+        {
+          "key": "Name",
+          "type": "generic-data",
+          "value": "soup.find('header').find('p').string"
+        },
+        {
+          "key": "location",
+          "type": "location",
+          "value": "soup.find('meta',property='og:locality')['content']+', '+soup.find('meta',property='og:country-name')['content']"
+        },
+        {
+          "key": "picture",
+          "type": "image",
+          "value": "soup.find('meta',property='twitter:image')['content']"
+        }
+      ],
+      "method": "GET",
+      "url": "https://soundcloud.com/{username}",
+      "valid": "response.status == 200"
+    },
+    {
+      "app": "Github",
+      "id": 12,
+      "metadata": [
+        {
+          "key": "Name",
+          "type": "generic-data",
+          "value": "soup.find('span',class_='p-name').text.strip('\\t\\r\\n')"
+        },
+        {
+          "key": "Nickname",
+          "type": "generic-data",
+          "value": "soup.find('span',class_='p-nickname').text.strip('\\t\\r\\n')"
+        },
+        {
+          "key": "Site",
+          "type": "generic-data",
+          "value": "soup.find('a',rel='nofollow me').text"
+        },
+        {
+          "key": "location",
+          "type": "location",
+          "value": "soup.find('span',class_='p-label').text"
+        },
+        {
+          "key": "picture",
+          "type": "image",
+          "value": "soup.find('meta',property='og:image')['content']"
+        }
+      ],
+      "method": "GET",
+      "url": "https://github.com/{username}",
+      "valid": "response.status == 200"
+    },
+    {
+      "app": "Steam",
+      "id": 13,
+      "metadata": [
+        {
+          "key": "Name",
+          "type": "generic-data",
+          "value": "soup.find('div',class_='header_real_name').find('bdi').text"
+        },
+        {
+          "key": "Nickname",
+          "type": "generic-data",
+          "value": "soup.find('span',class_='actual_persona_name').string"
+        },
+        {
+          "key": "Bio",
+          "type": "generic-data",
+          "value": "soup.find('meta',property='og:description')['content']"
+        },
+        {
+          "key": "location",
+          "type": "location",
+          "value": "soup.find('img',class_='profile_flag').next_sibling.strip('\\t\\r\\n')"
+        },
+        {
+          "key": "picture",
+          "type": "image",
+          "value": "soup.find('link',rel='image_src')['href']"
+        }
+      ],
+      "method": "GET",
+      "url": "https://steamcommunity.com/id/{username}/",
+      "valid": "'Error' not in soup.find('title').string and 'g_rgProfileData =' in responseContent"
+    },
+    {
+      "app": "Linktree",
+      "id": 14,
+      "metadata": [
+        {
+          "key": "Name",
+          "type": "generic-data",
+          "value": "soup.find('h1').string"
+        },
+        {
+          "key": "Description",
+          "type": "generic-data",
+          "value": "soup.find('meta',attrs={'name':'description'})['content']"
+        },
+        {
+          "key": "picture",
+          "type": "image",
+          "value": "soup.find('meta',property='og:image')['content']"
+        }
+      ],
+      "method": "GET",
+      "url": "https://linktr.ee/{username}",
+      "valid": "response.status == 200"
+    },
+    {
+      "app": "Xbox Gamertag",
+      "id": 15,
+      "metadata": [
+        {
+          "key": "Name",
+          "type": "generic-data",
+          "value": "soup.find('h1').string"
+        },
+        {
+          "key": "picture",
+          "type": "image",
+          "value": "'https:' + soup.find('img',class_='rounded img-thumbnail')['src']"
+        }
+      ],
+      "method": "GET",
+      "url": "https://www.xboxgamertag.com/search/{username}",
+      "valid": "response.status == 200 and 'Games Played' in responseContent"
+    },
+    {
+      "app": "Twitter Archived",
+      "id": 16,
+      "method": "GET",
+      "url": "http://archive.org/wayback/available?url=https://twitter.com/{username}",
+      "valid": "'available' in responseContent"
+    },
+    {
+      "app": "Xvideos",
+      "id": 17,
+      "metadata": [
+        {
+          "key": "Name",
+          "type": "generic-data",
+          "value": "soup.find('div',id='profile-title').find('strong').text"
+        },
+        {
+          "key": "Gender",
+          "type": "generic-data",
+          "value": "soup.find('p',id='pinfo-sex').find('span').text"
+        },
+        {
+          "key": "Age",
+          "type": "generic-data",
+          "value": "soup.find('p',id='pinfo-age').find('span').text"
+        },
+        {
+          "key": "Member since",
+          "type": "generic-data",
+          "value": "soup.find('p',id='pinfo-signedup').find('span').text"
+        },
+        {
+          "key": "location",
+          "type": "location",
+          "value": "soup.find('p',id='pinfo-city').find('span').text+', '+soup.find('p',id='pinfo-country').find('span').text"
+        },
+        {
+          "key": "picture",
+          "type": "image",
+          "value": "soup.find('img')['src']"
+        }
+      ],
+      "method": "GET",
+      "url": "https://www.xvideos.com/profiles/{username}",
+      "valid": "response.status == 200"
+    },
+    {
+      "app": "PornHub",
+      "id": 18,
+      "metadata": [
+        {
+          "key": "Name",
+          "type": "generic-data",
+          "value": "soup.find('div',class_='profileUserName').find('a').string"
+        },
+        {
+          "key": "Gender",
+          "type": "generic-data",
+          "value": "soup.find('dl',class_='moreInformation').select_one('dd:nth-of-type(1)').string"
+        },
+        {
+          "key": "Last login",
+          "type": "generic-data",
+          "value": "soup.find('dl',class_='moreInformation').select_one('dd:nth-of-type(2)').string"
+        },
+        {
+          "key": "Relationship Status",
+          "type": "generic-data",
+          "value": "soup.find('dl',class_='moreInformation').select_one('dd:nth-of-type(3)').string"
+        },
+        {
+          "key": "Interested In",
+          "type": "generic-data",
+          "value": "soup.find('dl',class_='moreInformation').select_one('dd:nth-of-type(4)').string"
+        },
+        {
+          "key": "location",
+          "type": "location",
+          "value": "soup.find('dl',class_='moreInformation').select_one('dd:nth-of-type(5)').string+', '+soup.find('dl',class_='moreInformation').select_one('dd:nth-of-type(6)').string"
+        },
+        {
+          "key": "picture",
+          "type": "image",
+          "value": "soup.find('img',id='getAvatar')['src']"
+        }
+      ],
+      "method": "GET",
+      "url": "https://www.pornhub.com/users/{username}",
+      "valid": "response.status == 200"
+    },
+    {
+      "app": "Xhamster",
+      "id": 19,
+      "metadata": [
+        {
+          "key": "Name",
+          "type": "generic-data",
+          "value": "soup.find('div',class_='user-name').text.strip('\\t\\r\\n')"
+        },
+        {
+          "key": "Gender",
+          "type": "generic-data",
+          "value": "soup.find('div',class_='i-am').find(class_='value').text"
+        },
+        {
+          "key": "Last login",
+          "type": "generic-data",
+          "value": "soup.find('div',class_='offline').text"
+        },
+        {
+          "key": "location",
+          "type": "location",
+          "value": "soup.find('div',class_='from').find(class_='value').text"
+        },
+        {
+          "key": "picture",
+          "type": "image",
+          "value": "soup.find('img',class_='xh-avatar')['src']"
+        }
+      ],
+      "method": "GET",
+      "url": "https://xhamster.com/users/{username}",
+      "valid": "response.status == 200"
+    },
+    {
+      "app": "Periscope",
+      "id": 20,
+      "method": "GET",
+      "url": "https://www.periscope.tv/{username}",
+      "valid": "response.status == 200 and '<label>Followers' in responseContent"
+    },
+    {
+      "app": "AskFM",
+      "id": 21,
+      "metadata": [
+        {
+          "key": "Name",
+          "type": "generic-data",
+          "value": "soup.find('h1').text"
+        },
+        {
+          "key": "Bio",
+          "type": "generic-data",
+          "value": "soup.find('div',class_='icon-bio').text"
+        },
+        {
+          "key": "location",
+          "type": "location",
+          "value": "soup.find('div',class_='icon-location').text"
+        },
+        {
+          "key": "picture",
+          "type": "image",
+          "value": "soup.find('img',class_='userAvatar')['src']"
+        }
+      ],
+      "method": "GET",
+      "url": "https://ask.fm/{username}",
+      "valid": "response.status == 200"
+    },
+    {
+      "app": "Vimeo",
+      "id": 22,
+      "metadata": [
+        {
+          "key": "Name",
+          "type": "generic-data",
+          "value": "soup.find('meta', property='og:title')['content']"
+        },
+        {
+          "key": "Bio",
+          "type": "generic-data",
+          "value": "soup.find('meta', property='og:description')['content']"
+        },
+        {
+          "key": "picture",
+          "type": "image",
+          "value": "soup.find('meta', property='og:image')['content']"
+        }
+      ],
+      "method": "GET",
+      "url": "https://vimeo.com/{username}",
+      "valid": "response.status == 200 and soup.find('title').text != 'VimeOhOh' and 'is a member of Vimeo, the' in responseContent"
+    },
+    {
+      "app": "Pastebin",
+      "id": 23,
+      "metadata": [
+        {
+          "key": "Member since",
+          "type": "generic-data",
+          "value": "soup.find('span',class_='date-text')['title']"
+        },
+        {
+          "key": "location",
+          "type": "location",
+          "value": "soup.find('span',class_='location').text"
+        },
+        {
+          "key": "picture",
+          "type": "image",
+          "value": "'https://pastebin.com'+soup.find('div',class_='user-icon').find('img')['src']"
+        }
+      ],
+      "method": "GET",
+      "url": "https://pastebin.com/u/{username}",
+      "valid": "response.status == 200"
+    },
+    {
+      "app": "WordPress Profile",
+      "id": 24,
+      "method": "GET",
+      "url": "https://profiles.wordpress.org/{username}/",
+      "valid": "response.status == 200"
+    },
+    {
+      "app": "WordPress Site",
+      "id": 25,
+      "method": "GET",
+      "url": "https://{username}.wordpress.com/",
+      "valid": "'Do you want to register' not in responseContent and 'cannot be registered' not in responseContent"
+    },
+    {
+      "app": "AllMyLinks",
+      "id": 26,
+      "metadata": [
+        {
+          "key": "Name",
+          "type": "generic-data",
+          "value": "soup.find('span',class_='profile-username').text.strip('\\t\\r\\n')"
+        },
+        {
+          "key": "Bio",
+          "type": "generic-data",
+          "value": "soup.find('p',class_='profile-bio').text.strip('\\t\\r\\n')"
+        },
+        {
+          "key": "picture",
+          "type": "image",
+          "value": "soup.find('meta',property='og:image')['content']"
+        }
+      ],
+      "method": "GET",
+      "url": "https://allmylinks.com/{username}",
+      "valid": "response.status == 200"
+    },
+    {
+      "app": "Buzzfeed",
+      "id": 27,
+      "metadata": [
+        {
+          "key": "Name",
+          "type": "generic-data",
+          "value": "soup.find('meta', attrs={'name':'og:title'})['content']"
+        },
+        {
+          "key": "Member since",
+          "type": "generic-data",
+          "value": "soup.find('dd').text"
+        },
+        {
+          "key": "picture",
+          "type": "image",
+          "value": "'https://img.buzzfeed.com/buzzfeed-static'+soup.find('meta',attrs={'name':'og:image'})['content']"
+        }
+      ],
+      "method": "GET",
+      "url": "https://www.buzzfeed.com/{username}",
+      "valid": "response.status == 200"
+    },
+    {
+      "app": "JsFiddle",
+      "id": 28,
+      "metadata": [
+        {
+          "key": "Name",
+          "type": "generic-data",
+          "value": "soup.find('div',class_='profileDetails').find('a').text.strip('\\t\\r\\n')"
+        },
+        {
+          "key": "picture",
+          "type": "image",
+          "value": "soup.find('div',class_='avatar').find('img')['src']"
+        }
+      ],
+      "method": "GET",
+      "url": "https://jsfiddle.net/user/{username}/",
+      "valid": "response.status == 200"
+    },
+    {
+      "app": "Sourceforge",
+      "id": 29,
+      "metadata": [
+        {
+          "key": "Name",
+          "type": "generic-data",
+          "value": "soup.find('h1').text.strip('\\t\\r\\n')"
+        },
+        {
+          "key": "Member since",
+          "type": "generic-data",
+          "value": "soup.find('dl',class_='personal-data').select_one('dd:nth-of-type(2)').string.strip('\\t\\r\\n')"
+        },
+        {
+          "key": "Gender",
+          "type": "generic-data",
+          "value": "soup.find('dl',class_='personal-data').select_one('dd:nth-of-type(4)').string.strip('\\t\\r\\n')"
+        },
+        {
+          "key": "location",
+          "type": "location",
+          "value": "soup.find('dl',class_='personal-data').select_one('dd:nth-of-type(3)').string.strip('\\t\\r\\n')"
+        },
+        {
+          "key": "picture",
+          "type": "image",
+          "value": "soup.find('img',class_='project_icon')['src']"
+        }
+      ],
+      "method": "GET",
+      "url": "https://sourceforge.net/u/{username}/profile",
+      "valid": "response.status == 200"
+    }
