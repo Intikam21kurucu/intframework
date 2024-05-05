@@ -132,7 +132,11 @@ while True:
 			----------------------------------------------
 			| [10]android-pin-bruteforce |
 			-----------------------------------------------
-		""")
+		[11] bruteforce 
+		[12]update
+		+90 tools: [13]
+		[14]social hack
+				""")
 		print("exploit usage: exp-number")
 		print("""
 		Exploits:
@@ -161,6 +165,7 @@ while True:
 			we are working...
 		
 		""")
+		
 		
 		print("command help for using : com-help")
 	
@@ -268,3 +273,22 @@ python3 Intıkam21.py""")
 		pip install requests
 		python3 bruteforce.py		
 		""")
+	if help_input == "12":
+		os.system("""
+cd 
+rm -rf intframework
+git clone https://github.com/Intikam21kurucu/intframework
+cd intframework
+python3 intconsoleV2.py				
+		""")
+	if help_input == "13":
+		os.system("python3 +90wifitools.py")
+	if help_input == "14":
+		os.system("python3 socialhack.py")
+
+
+
+
+
+
+	
