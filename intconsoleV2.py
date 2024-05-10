@@ -251,7 +251,7 @@ cd
 rm -rf intframework
 git clone https://github.com/Intikam21kurucu/intframework
 cd intframework
-python3 intconsoleV2.py				
+python3 installintconsole.py	
 		""")
 	if help_input == "13":
 		os.system("python3 +90wifitools.py")
