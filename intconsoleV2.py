@@ -257,11 +257,3 @@ python3 intconsoleV2.py
 		os.system("python3 +90wifitools.py")
 	if help_input == "14":
 		os.system("python3 socialhack.py")
-
-
-	except:
-		print("please re install intconsole")
-
-
-
-	
