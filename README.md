@@ -39,7 +39,7 @@ git clone https://github.com/Intikam21kurucu/intframework
 
 cd intframework
 
-python3 intconsoleV2.py
+python3 installintconsole.py
 ````
 
 # EKRAN GÖRÜNTÜSÜ 
@@ -58,7 +58,7 @@ pkg install git
 pip3 install requests
 git clone https://github.com/Intikam21kurucu/intframework
 cd intframework
-python3 intconsoleV2.py
+python3 ile installintconsole.py
 ````
 
 
