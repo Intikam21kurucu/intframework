@@ -1,4 +1,4 @@
-#!/usr/bin/env/python3
+#!/usr/bin/env python3
 
 
 import os
@@ -46,10 +46,7 @@ if user_input == "y" or "Y":
 	os.system("cd ~")
 	os.system("source .bashrc")
 	os.system("alias intconsole='python3 /data/data/com.termux/files/home/intconsoleV2.py' ")
-	else:
-		os.system("chmod +x wrapper.js")
-		os.system("""echo "alias intconsole='node /yol/wrapper.js'" >> ~/.bashrc
-source ~/.bashrc""")
+	
 
 
 
@@ -70,6 +67,10 @@ source ~/.bashrc""")
 	if k == "n" or k == "N":
 		print("type intconsole to start please")
 
+else:
+	os.system("chmod +x wrapper.js")
+	os.system("""echo "alias intconsole='node /yol/wrapper.js'" >> ~/.bashrc
+source ~/.bashrc""")
 
 if user_input == "n" or input == "N":
 	start_exploit()	
@@ -94,10 +95,6 @@ if user_input == "n" or input == "N":
 	os.system("nano .bashrc")
 	os.system("source ~/.bashrc")
 	os.system("echo \"alias intconsole='python3 /path/to/intconsoleV2.py'\" >> ~/.bashrc") or os.system("sudo mv intconsoleV2.py /usr/local/bin/intconsole")
-	else:
-		os.system("chmod +x wrapper.js")
-		os.system("""echo "alias intconsole='node /yol/wrapper.js'" >> ~/.bashrc
-source ~/.bashrc""")
 	loading("İntconsole Downloading..........")
 	print("""
 	installed intconsole 
@@ -114,3 +111,7 @@ source ~/.bashrc""")
     	os.system("echo \"alias intconsole='python3 /path/to/intconsoleV2.py'\" >> ~/.bashrc")
 	elif k == "n" or k == "N":
     	print("type intconsole to start please")	
+else:
+	os.system("chmod +x wrapper.js")
+	os.system("""echo "alias intconsole='node /yol/wrapper.js'" >> ~/.bashrc
+source ~/.bashrc""")
