@@ -43,6 +43,10 @@ if input == "y" or "Y":
 	os.system("pip3 install time")
 	os.system("pip3 install argparse")
 	os.system("chmod +x intconsole.js")
+	os.system("cd ~")
+	os.system("nano .bashrc")
+	os.system("source .bashrc")
+	os.system("alias intconsole='python3 /data/data/com.termux/files/home/intconsoleV2.py' ")
 	loading("İntconsole Downloading..........")
 	print("""
 	installed intconsole 
@@ -80,6 +84,10 @@ if input == "n" or input == "N":
 	os.system("sudo apt install python3-time")
 	os.system("sudo apt install python3-argparse")
 	os.system("sudo chmod +x intconsole.js")
+	os.system("cd ~")
+    os.system("nano .bashrc")
+    os.system("source ~/.bashrc")
+    os.system("echo \"alias intconsole='python3 /path/to/intconsoleV2.py'\" >> ~/.bashrc")
 	loading("İntconsole Downloading..........")
 	print("""
 	installed intconsole 
