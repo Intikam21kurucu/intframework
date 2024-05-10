@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env/python3
 
 
 import os
@@ -103,12 +103,12 @@ if user_input == "n" or input == "N":
 	""")
 	k = input("Do you command is working[Y/n]")
 	
-	
-	if k == "y" or k == "Y":
+		if k == "y" or k == "Y":
     	os.system("cd ~")
     	os.system("nano .bashrc")
     	os.system("source ~/.bashrc")
     	os.system("echo \"alias intconsole='python3 /path/to/intconsoleV2.py'\" >> ~/.bashrc")
+
 	elif k == "n" or k == "N":
     	print("type intconsole to start please")	
 else:
