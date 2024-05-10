@@ -45,7 +45,8 @@ if user_input == "y" or "Y":
 	os.system("chmod +x intconsole.js")
 	os.system("cd ~")
 	os.system("source .bashrc")
-	os.system("alias intconsole='python3 /data/data/com.termux/files/home/intframework/intconsoleV2.py' ")
+	os.system("echo "alias intconsole='python3 /data/data/com.termux/files/home/intframework/intconsoleV2.py'" >> ~/.bashrc
+source ~/.bashrc")
 	
 
 
