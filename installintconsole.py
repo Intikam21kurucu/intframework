@@ -85,9 +85,9 @@ if input == "n" or input == "N":
 	os.system("sudo apt install python3-argparse")
 	os.system("sudo chmod +x intconsole.js")
 	os.system("cd ~")
-    os.system("nano .bashrc")
-    os.system("source ~/.bashrc")
-    os.system("echo \"alias intconsole='python3 /path/to/intconsoleV2.py'\" >> ~/.bashrc")
+	os.system("nano .bashrc")
+	os.system("source ~/.bashrc")
+	os.system("echo \"alias intconsole='python3 /path/to/intconsoleV2.py'\" >> ~/.bashrc")
 	loading("İntconsole Downloading..........")
 	print("""
 	installed intconsole 
