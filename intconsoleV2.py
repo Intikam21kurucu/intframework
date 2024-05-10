@@ -13,37 +13,9 @@ import time as t
 import argparse
 import sys
 
-
-
-
-# Argparse nesnesini oluştur ve otomatik --help işlevselliğini devre dışı bırak
-parser = argparse.ArgumentParser(prog='İntikam21', description='Çeşitli komutlar için CLI aracı', add_help=False)
-
-# Özel yardım komutu ekleyin
-parser.add_argument('--help', action='store_true', help='Yardım mesajını göster')
-
-# Diğer komut satırı argümanlarını tanımla
-parser.add_argument('--linux', action='store_true', help='Linux ile ilgili bilgi göster')
-parser.add_argument('intconsole', nargs='?', help='Cyber TOOLS CONSOLE\'u başlat')
-
-# Argümanları ayrıştır
-args = parser.parse_args()
-
-# Yardım komutu
-if args.help:
-    print("İntikam21 kullanılabilir komutlar:")
-    print("--help  : Bu yardım mesajını gösterir")
-    print("--linux   : Linux ile ilgili bilgi gösterir")
-    print("intconsole: Cyber TOOLS CONSOLE'u başlat")
-
-# Linux komutu
-elif args.linux:
-    print("the linux not updating system! please retrying command : python3 intconsole intconsole / if command not working retry command : ""python3 intconsole"" ")
-
 # intconsole komutu
-elif 'intconsole' in args:
     # ASCII sanatı
-    ascii_sanat = """⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣠⣤⠶⠶⠶⠶⢦⣄⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+ascii_sanat = """⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣠⣤⠶⠶⠶⠶⢦⣄⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⡾⠛⠁⠀⠀⠀⠀⠀⠀⠈⠙⢷⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣼⠏⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠙⢷⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⡾⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⢿⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
@@ -69,9 +41,9 @@ elif 'intconsole' in args:
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
 . ⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶
 ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿ ⣿⣿⣿⣿⣿⣷⣷⣶⣿⣿ """	
-    print(ascii_sanat)
+print(ascii_sanat)
     # 5 saniye boyunca animasyonu çalıştır
-    os.system("python3 startoolkit.py")
+os.system("python3 startoolkit.py")
 
      
 
@@ -287,7 +259,8 @@ python3 intconsoleV2.py
 		os.system("python3 socialhack.py")
 
 
-
+	else:
+		print("please install intconsole")
 
 
 
