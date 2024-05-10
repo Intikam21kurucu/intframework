@@ -22,9 +22,9 @@ def start_exploit():
     loading("Crafting İntconsole...........")
     loading("Sending İntconsole............")
 
-input = input("Do you using termux?[Y/n]")
+user_input = input("Do you using termux?[Y/n]")
 
-if input == "y" or "Y":
+if user_input == "y" or "Y":
 	start_exploit()	
 	loading("İnstalling İntconsole...........")
 	os.system("apt-get install python3")
@@ -65,7 +65,7 @@ if input == "y" or "Y":
 		print("type intconsole to start please")
 
 
-if input == "n" or input == "N":
+if user_input == "n" or input == "N":
 	start_exploit()	
 	loading("İnstalling İntconsole...........")
 	os.system("sudo apt-get install python3")
