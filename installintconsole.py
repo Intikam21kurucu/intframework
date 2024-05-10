@@ -110,7 +110,7 @@ if user_input == "n" or input == "N":
 	   	os.system("source ~/.bashrc")
 	   	os.system("echo \"alias intconsole='python3 /path/to/intconsoleV2.py'\" >> ~/.bashrc")
 	elif k == "n" or k == "N":
-    	print("type intconsole to start please")	
+		print("type intconsole to start please")	
 else:
 	os.system("chmod +x wrapper.js")
 	os.system("""echo "alias intconsole='node /yol/wrapper.js'" >> ~/.bashrc
