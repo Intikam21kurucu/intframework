@@ -44,9 +44,15 @@ if user_input == "y" or "Y":
 	os.system("pip3 install argparse")
 	os.system("chmod +x intconsole.js")
 	os.system("cd ~")
-	os.system("nano .bashrc")
 	os.system("source .bashrc")
 	os.system("alias intconsole='python3 /data/data/com.termux/files/home/intconsoleV2.py' ")
+	else:
+		os.system("chmod +x wrapper.js")
+		os.system("""echo "alias intconsole='node /yol/wrapper.js'" >> ~/.bashrc
+source ~/.bashrc""")
+
+
+
 	loading("İntconsole Downloading..........")
 	print("""
 	installed intconsole 
@@ -87,7 +93,11 @@ if user_input == "n" or input == "N":
 	os.system("cd ~")
 	os.system("nano .bashrc")
 	os.system("source ~/.bashrc")
-	os.system("echo \"alias intconsole='python3 /path/to/intconsoleV2.py'\" >> ~/.bashrc")
+	os.system("echo \"alias intconsole='python3 /path/to/intconsoleV2.py'\" >> ~/.bashrc") or os.system("sudo mv intconsoleV2.py /usr/local/bin/intconsole")
+	else:
+		os.system("chmod +x wrapper.js")
+		os.system("""echo "alias intconsole='node /yol/wrapper.js'" >> ~/.bashrc
+source ~/.bashrc""")
 	loading("İntconsole Downloading..........")
 	print("""
 	installed intconsole 
@@ -97,10 +107,10 @@ if user_input == "n" or input == "N":
 	k = input("Do you command is working[Y/n]")
 	
 	
-if k == "y" or k == "Y":
-    os.system("cd ~")
-    os.system("nano .bashrc")
-    os.system("source ~/.bashrc")
-    os.system("echo \"alias intconsole='python3 /path/to/intconsoleV2.py'\" >> ~/.bashrc")
-elif k == "n" or k == "N":
-    print("type intconsole to start please")	
+	if k == "y" or k == "Y":
+    	os.system("cd ~")
+    	os.system("nano .bashrc")
+    	os.system("source ~/.bashrc")
+    	os.system("echo \"alias intconsole='python3 /path/to/intconsoleV2.py'\" >> ~/.bashrc")
+	elif k == "n" or k == "N":
+    	print("type intconsole to start please")	
