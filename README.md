@@ -58,7 +58,7 @@ pkg install git
 pip3 install requests
 git clone https://github.com/Intikam21kurucu/intframework
 cd intframework
-python3 ile installintconsole.py
+python3 installintconsole.py
 ````
 
 
