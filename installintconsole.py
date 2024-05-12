@@ -109,7 +109,7 @@ if user_input == "n" or input == "N":
 	   	os.system("cd ~")
 	   	os.system("nano .bashrc")
 	   	os.system("source ~/.bashrc")
-	   	os.system("echo \"alias intconsole='python3 /path/to/intconsoleV2.py'\" >> ~/.bashrc")
+	   	os.system("echo \"alias intconsole='python3 usr/bin/intframework/intconsoleV2.py'\" >> ~/.bashrc")
 	elif k == "n" or k == "N":
 		print("type intconsole to start please")	
 else:
