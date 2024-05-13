@@ -91,7 +91,7 @@ if user_input == "n" or input == "N":
 	os.system("cd ~")
 	os.system("nano .bashrc")
 	os.system("echo \"alias intconsole='python3 /path/to/intconsoleV2.py'\" >> ~/.bashrc") or os.system("sudo mv intconsoleV2.py /usr/local/bin/intconsole")
-os.system("source ~/.bashrc")
+ os.system("source ~/.bashrc")
 	loading("İntconsole Downloading..........")
 	print("""
 	installed intconsole 
