@@ -64,7 +64,7 @@ if user_input == "y" or "Y":
 		os.system("nano .bashrc")
 		os.system("source .bashrc")
 		os.system("alias intconsole='python3 /data/data/com.termux/files/home/intconsoleV2.py' ")
-    os.system("source .bashrc")
+       os.system("source .bashrc")
 	if k == "n" or k == "N":
 		print("type intconsole to start please")
 
