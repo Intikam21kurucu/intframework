@@ -64,6 +64,7 @@ if user_input == "y" or "Y":
 		os.system("nano .bashrc")
 		os.system("source .bashrc")
 		os.system("alias intconsole='python3 /data/data/com.termux/files/home/intconsoleV2.py' ")
+  os.system("source .bashrc")
 	if k == "n" or k == "N":
 		print("type intconsole to start please")
 
@@ -89,8 +90,8 @@ if user_input == "n" or input == "N":
 	os.system("sudo chmod +x intconsole.js")
 	os.system("cd ~")
 	os.system("nano .bashrc")
-	os.system("source ~/.bashrc")
 	os.system("echo \"alias intconsole='python3 /path/to/intconsoleV2.py'\" >> ~/.bashrc") or os.system("sudo mv intconsoleV2.py /usr/local/bin/intconsole")
+os.system("source ~/.bashrc")
 	loading("İntconsole Downloading..........")
 	print("""
 	installed intconsole 
