@@ -70,7 +70,8 @@ chmod +x terbuild.sh
 
 # YouTube
 
-![İntikam21 photos:](https://github.com/Intikam21kurucu/intframework/blob/Intikam21kurucu-patch-1/IMG_20240504_183657.jpg)(https://youtube.com/@intikam21cyberteam?si=zuxo9JBJ9aPQ7Cow)
+[![Github Badge](https://github.com/Intikam21kurucu/intframework/blob/Intikam21kurucu-patch-1/%5BOrijinal%20boyut%5D%20Renkli%20Modern%20Yuvarlak%20Okul%20Logo_20240423_141004_0000.png?style=quare&labelColor=000&logo=Github&logoColor=white&link=link)](https://youtube.com/@intikam21cyberteam?si=zuxo9JBJ9aPQ7Cow)
+
 
 
 
