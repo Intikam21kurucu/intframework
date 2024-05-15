@@ -249,16 +249,15 @@ python3 Intıkam21.py""")
 		""")
 		
 	if help_input == "12":
-	   k = input("Do you using [kali/termux]? ")
-	   if k.lower() in ["kali", "termux"]:
-	           if k.lower() == "kali":
-	           	os.system("cd intframework")
-	           	os.system("chmod +x start_kali.sh")
-	           	os.system("./start_kali.sh")
-	           elif k.lower() == "termux":
-	           	os.system("cd intframework")
-	           	os.system("chmod +x terbuild.sh")
-            # Termux için ek komutlar burada yer alabilir.
+	   	k = input("Do you using [kali/termux]? ")
+	   	if k.lower() in ["kali", "termux"]:
+	   	   	     if k.lower() == "kali":
+	   	   	     	os.chdir("intframework")  # Dizin değiştirme
+	   	   	     	os.system("chmod +x start_kali.sh && ./start_kali.sh")  # Komutları birleştirme
+	   	   	     	if k.lower() == "termux":
+	   	   	     		os.chdir("intframework") 
+	   	   	     		os.system("chmod +x terbuild.sh && ./terbuild.sh")  # Komutları birleştirme
+            
             			
 	if help_input == "13":
 		os.system("python3 +90wifitools.py")
