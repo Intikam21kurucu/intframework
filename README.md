@@ -70,7 +70,7 @@ chmod +x terbuild.sh
 
 # YouTube
 
-[![Kanalınızın veya videonuzun adı](https://lens.google.com/uploadbyurl#lns=W251bGwsbnVsbCxudWxsLG51bGwsbnVsbCxudWxsLG51bGwsIkVrY0tKREpqTWpaaU1HVTVMVEJsWWpZdE5ESXdaUzFpTnpZeUxXWmtZMk14WVdSbVlXRXdZaElmT0RneWFEbENaVzgxYTFGWWIwUk1aa3hPVEZCZlpWQkxNRFJ1VVRsNFp3PT0iXQ==)](https://youtube.com/@intikam21cyberteam?si=4vuJq8ZqmURQqyQT)
+[![İntikam21 Cyber Team Youtube](https://lens.google.com/uploadbyurl#lns=W251bGwsbnVsbCxudWxsLG51bGwsbnVsbCxudWxsLG51bGwsIkVrY0tKREpqTWpaaU1HVTVMVEJsWWpZdE5ESXdaUzFpTnpZeUxXWmtZMk14WVdSbVlXRXdZaElmT0RneWFEbENaVzgxYTFGWWIwUk1aa3hPVEZCZlpWQkxNRFJ1VVRsNFp3PT0iXQ==)](https://youtube.com/@intikam21cyberteam?si=4vuJq8ZqmURQqyQT)
 
 
 
