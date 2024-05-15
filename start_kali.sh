@@ -1,18 +1,21 @@
 #!/bin/bash
 
-# Bu script, Termux'ta Kali Linux ortamında 'intconsole' komutu için bir alias oluşturur.
+# Bu script, Kali Linux'ta 'intconsole' komutu için bir alias oluşturur ve .bashrc dosyasına ekler.
 
-# Kali Linux shell'ini başlatmak için bir fonksiyon tanımlayın.
-start_kali() {
-    # Kali Linux shell'ini başlatın.
-    ./start-kali.sh
-}
+chmod +x start_kali.sh
+
+# İlk çalıştırma için bir kontrol dosyası oluşturun.
+if [ ! -f "$HOME/intframework/.install_done" ]; then
+    python3 "$HOME/intframework/installintconsole.py"
+    touch "$HOME/intframework/.install_done"
+fi
 
 # 'intconsole' komutunu tanımlayın.
-echo "alias intconsole='cd ~/intframework && python3 installintconsole.py && python3 intconsoleV2.py'" >> ~/.bashrc
+echo "alias intconsole='cd ~/intframework && python3 intconsoleV2.py && source ~/.bashrc'" >> ~/.bashrc
 
 # .bashrc dosyasını yeniden yükleyin.
 source ~/.bashrc
 
 # Kullanıcıya scriptin başarıyla eklendiğini bildirin.
-echo "Kali Linux ortamında 'intconsole' komutu '.bashrc' dosyanıza başarıyla eklendi ve hazır."
+echo "Kali Linux'ta 'intconsole' komutu '.bashrc' dosyanıza başarıyla eklendi ve hazır."
+
