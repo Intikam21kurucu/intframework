@@ -70,7 +70,7 @@ chmod +x terbuild.sh
 
 # YouTube
 
-[![Intikam21 Cyber Team](https://youtube.com/@intikam21cyberteam?si=1rzHE4j-8Y2eLxEe "Intikam21 Cyber Team")
+![İntikam21 photos:](https://github.com/Intikam21kurucu/intframework/blob/Intikam21kurucu-patch-1/IMG_20240504_183657.jpg)(https://youtube.com/@intikam21cyberteam?si=zuxo9JBJ9aPQ7Cow)
 
 
 
