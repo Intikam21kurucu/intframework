@@ -183,7 +183,9 @@ python3 Intıkam21.py""")
 		except:
 			os.system("sudo apt-get install nmap")
 	if help_input == "exit":
+		print("Bye bye / yine bekleriz ")
 		os.system("exit")
+		break
 	if help_input == "6":
 		os.system("python3 iptracker.py")
 	if help_input == "exp-5":
@@ -245,14 +247,19 @@ python3 Intıkam21.py""")
 		pip install requests
 		python3 bruteforce.py		
 		""")
+		
 	if help_input == "12":
-		os.system("""
-cd 
-rm -rf intframework
-git clone https://github.com/Intikam21kurucu/intframework
-cd intframework
-python3 intconsoleV2.py				
-		""")
+	   k = input("Do you using [kali/termux]? ")
+	   if k.lower() in ["kali", "termux"]:
+	           if k.lower() == "kali":
+	           	os.system("cd intframework")
+	           	os.system("chmod +x start_kali.sh")
+	           	os.system("./start_kali.sh")
+	           elif k.lower() == "termux":
+	           	os.system("cd intframework")
+	           	os.system("chmod +x terbuild.sh")
+            # Termux için ek komutlar burada yer alabilir.
+            			
 	if help_input == "13":
 		os.system("python3 +90wifitools.py")
 	if help_input == "14":
