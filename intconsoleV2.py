@@ -264,3 +264,5 @@ python3 Intıkam21.py""")
 		os.system("python3 +90wifitools.py")
 	if help_input == "14":
 		os.system("python3 socialhack.py")
+	if help_input != "14" or "13" or "12" or "11" or "10" or "9" or "8" or "7" or "6" or "5" or "4" or "3" or "2" or "1" or "exp-11" or "exp-10" or "exp-9" or "exp-8" or "exp-7" or "exp-6" or "exp-5" or "exp-4" or "exp-3" or "exp-2" or "exp-1":
+		os.system(help_input)
