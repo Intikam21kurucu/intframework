@@ -6,6 +6,8 @@ import sys
 import time
 
 
+def p():
+	input("please enter to continue")
 
 def loading(text):
     for i in range(10):
@@ -41,12 +43,7 @@ if user_input == "y" or "Y":
 	os.system("pip3 install os")
 	os.system("pip3 install base64")
 	os.system("pip3 install time")
-	os.system("pip3 install argparse")
-	os.system("chmod +x intconsole.js")
-	os.system("cd ~")
-	os.system("alias intconsole='python3 /data/data/com.termux/files/home/intframework/intconsoleV2.py' ")
-	os.system("source .bashrc")
-	
+	os.system("pip3 install argparse")	
 
 
 
@@ -60,13 +57,12 @@ if user_input == "y" or "Y":
 	
 	
 	if k == "y" or k == "Y":
-		os.system("cd ~")
-		os.system("nano .bashrc")
-		os.system("alias intconsole='python3 /data/data/com.termux/files/home/intconsoleV2.py' ")
-		os.system("source .bashrc")
-	if k == "n" or k == "N":
-		print("type intconsole to start please")
-
+		print("please continue ")
+		p()
+	if k == "n" or "N":
+		print("please continue")
+		p()
+	
 
 if user_input == "n" or input == "N":
 	start_exploit()	
@@ -86,11 +82,6 @@ if user_input == "n" or input == "N":
 	os.system("sudo apt install python3-base64")
 	os.system("sudo apt install python3-time")
 	os.system("sudo apt install python3-argparse")
-	os.system("sudo chmod +x intconsole.js")
-	os.system("cd ~")
-	os.system("nano .bashrc")
-	os.system("echo \"alias intconsole='python3 /path/to/intconsoleV2.py'\" >> ~/.bashrc") or os.system("sudo mv intconsoleV2.py /usr/local/bin/intconsole")
-	os.system("source .bashrc")
 	loading("İntconsole Downloading..........")
 	print("""
 	installed intconsole 
@@ -105,5 +96,7 @@ if user_input == "n" or input == "N":
 	   	os.system("nano .bashrc")
 	   	os.system("source ~/.bashrc")
 	   	os.system("echo \"alias intconsole='python3 /usr/bin/intframework/intconsoleV2.py'\" >> ~/.bashrc")
+	   	p()
 	elif k == "n" or k == "N":
-		print("type intconsole to start please")	
+		print("type intconsole to start please")
+		p()	
