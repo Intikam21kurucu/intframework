@@ -39,7 +39,9 @@ git clone https://github.com/Intikam21kurucu/intframework
 
 cd intframework
 
-python3 installintconsole.py
+chmod +x start_kali.sh
+
+./start_kali.sh
 ````
 
 # EKRAN GÖRÜNTÜSÜ 
@@ -58,7 +60,10 @@ pkg install git
 pip3 install requests
 git clone https://github.com/Intikam21kurucu/intframework
 cd intframework
-python3 installintconsole.py
+
+chmod +x terbuild.sh
+
+./terbuild.sh
 ````
 
 
