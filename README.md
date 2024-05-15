@@ -70,7 +70,7 @@ chmod +x terbuild.sh
 
 # YouTube
 
-[![İntikam21 Cyber Team Youtube](https://img.youtube.com/vi/@intikam21cyberteam?si=W7PhF47pyz2Vgf8S.jpg%29)](https://www.youtube.com/@intikam21cyberteam?si=W7PhF47pyz2Vgf8S "İntikam21 Cyber Team Youtube ")
+[![İntikam21 Cyber Team Youtube](https://img.youtube.com/vi/@intikam21cyberteam?si=W7PhF47pyz2Vgf8S.jpg%29)](https://www.youtube.com/@intikam21cyberteam?si=W7PhF47pyz2Vgf8S)
 https://youtube.com/@intikam21cyberteam?si=W7PhF47pyz2Vgf8S
 
 
