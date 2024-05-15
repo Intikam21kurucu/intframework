@@ -2,6 +2,8 @@
 
 # Bu script, Termux'ta 'intconsole' komutu için bir alias oluşturur ve .bashrc dosyasına ekler.
 
+chmod +x terbuild.sh
+
 # İlk çalıştırma için bir kontrol dosyası oluşturun.
 if [ ! -f "$HOME/intframework/.install_done" ]; then
     python3 "$HOME/intframework/installintconsole.py"
