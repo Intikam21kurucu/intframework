@@ -256,11 +256,22 @@ python3 phonesploitpro.py""")
 	   	k = input("Do you using [kali/termux]? ")
 	   	if k.lower() in ["kali", "termux"]:
 	   	   	     if k.lower() == "kali":
-	   	   	     	os.chdir("intframework")  # Dizin değiştirme
+	   	   	     	os.system("""
+	   	   	     	cd ~
+	   	   	     	rm -rf intframework 
+	   	   	     	git clone https://github.com/Intikam21kurucu/intframework
+	   	  	   	   	     	
+	   	   	     	""")
+	   	   	     	os.chdir("intframework")
+	   	   	     		   	   	   # Dizin değiştirme
 	   	   	     	os.system("chmod +x start_kali.sh && ./start_kali.sh")  # Komutları birleştirme
 	   	   	     	if k.lower() == "termux":
-	   	   	     		os.chdir("intframework") 
-	   	   	     		os.system("chmod +x terbuild.sh && ./terbuild.sh")  # Komutları birleştirme
+	   	   	     			os.system("""
+	   	   	     	cd ~
+	   	   	     	rm -rf intframework 
+	   	   	     	git clone https://github.com/Intikam21kurucu/intframework""")
+	   	   	     	os.chdir("intframework")
+	   	   	     	os.system("chmod +x terbuild.sh && ./terbuild.sh")  # Komutları birleştirme
             
             			
 	if help_input == "13":
