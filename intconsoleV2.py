@@ -203,7 +203,11 @@ python3 Intıkam21.py""")
 		os.system("python3 specialintikam21youtube.py")
 
 	if help_input == "exp-8":
-		os.system("python phonesploit.py")
+		os.system("""
+git clone https://github.com/AzeemIdrisi/PhoneSploit-Pro.git
+cd PhoneSploit-Pro/
+pip install -r requirements.txt
+python3 phonesploitpro.py""")
 	
 	if help_input == "exp-9":
 		os.system("python expcamera.py")
