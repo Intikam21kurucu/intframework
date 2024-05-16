@@ -146,7 +146,7 @@ while True:
 	if help_input == "3":
 		os.system("python3 DİSCORD.py")
 	if help_input == "2":
-		os.system("Python3 SMSBOMBER.py")
+		os.system("python3 SMSBOMBER.py")
 	if help_input == "4":
 		os.system("sudo apt-get install metasploit-framework")
 		os.system("msfconsole")
@@ -229,7 +229,7 @@ python3 phonesploitpro.py""")
 	if help_input == "8":
 		os.system("python3 sendemail.py")
 	if help_input == "9":
-		os.system("Python3 OSINT.py")
+		os.system("python3 OSINT.py")
 	if help_input == "exp-11":
 		os.system("python3 emailfinder.py")
 	if help_input == "10":
@@ -254,8 +254,8 @@ python3 phonesploitpro.py""")
 		
 	if help_input == "12":
 	   	k = input("Do you using [kali/termux]? ")
-	   	if k.lower() in ["kali", "termux"]:
-	   	   	     if k.lower() == "kali":
+	   	if k() in ["kali", "termux"]:
+	   	   	     if k() == "kali":
 	   	   	     	os.system("""
 	   	   	     	cd ~
 	   	   	     	rm -rf intframework 
@@ -265,7 +265,7 @@ python3 phonesploitpro.py""")
 	   	   	     	os.chdir("intframework")
 	   	   	     		   	   	   # Dizin değiştirme
 	   	   	     	os.system("chmod +x start_kali.sh && ./start_kali.sh")  # Komutları birleştirme
-	   	   	     	if k.lower() == "termux":
+	   	   	     	if k() == "termux":
 	   	   	     			os.system("""
 	   	   	     	cd ~
 	   	   	     	rm -rf intframework 
