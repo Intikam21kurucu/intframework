@@ -15,7 +15,7 @@ import sys
 
 # intconsole komutu
     # ASCII sanatı
-ascii_sanat = """⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣠⣤⠶⠶⠶⠶⢦⣄⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+ascii_sanat = """⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣠⣤⠶⠶⠶⠶⢦⣄⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⡾⠛⠁⠀⠀⠀⠀⠀⠀⠈⠙⢷⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣼⠏⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠙⢷⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⡾⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⢿⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
@@ -148,8 +148,18 @@ while True:
 	if help_input == "2":
 		os.system("python3 SMSBOMBER.py")
 	if help_input == "4":
-		os.system("sudo apt-get install metasploit-framework")
-		os.system("msfconsole")
+		time.sleep(1)
+		print("termux [y] kali [n]")
+		k = input("Do you using [termux/kali] ?")
+		if k == "y" or "Y" or "termux" or "Termux" or "TERMUX":
+			os.system("pkg update -y && pkg upgrade -y && apt update -y && apt upgrade -y")
+			os.system("pkg install wget -y")
+			os.system("wget https://github.com/gushmazuko/metasploit_in_termux/raw/master/metasploit.sh")
+			os.system("chmod +x metasploit.sh")
+			os.system("./metasploit.sh")
+		if k == "n" or "N" or "kali" or "Kali" or "KALİ":
+			os.system("sudo apt-get install metasploit-framework")
+			os.system("msfconsole")
 	if help_input == "5":
 		os.system("""apt update & apt upgrade
 sudo apt install git
@@ -253,27 +263,27 @@ python3 phonesploitpro.py""")
 		""")
 		
 	if help_input == "12":
-	   	k = input("Do you using [kali/termux]? ")
-	   	if k() in ["kali", "termux"]:
-	   	   	     if k() == "kali":
-	   	   	     	os.system("""
-	   	   	     	cd ~
-	   	   	     	rm -rf intframework 
-	   	   	     	git clone https://github.com/Intikam21kurucu/intframework
-	   	  	   	   	     	
-	   	   	     	""")
-	   	   	     	os.chdir("intframework")
-	   	   	     		   	   	   # Dizin değiştirme
-	   	   	     	os.system("chmod +x start_kali.sh && ./start_kali.sh")  # Komutları birleştirme
-	   	   	     	if k() == "termux":
-	   	   	     			os.system("""
-	   	   	     	cd ~
-	   	   	     	rm -rf intframework 
-	   	   	     	git clone https://github.com/Intikam21kurucu/intframework""")
-	   	   	     	os.chdir("intframework")
-	   	   	     	os.system("chmod +x terbuild.sh && ./terbuild.sh")  # Komutları birleştirme
-            
-            			
+	    time.sleep(1)
+	    print("Termux=n kali=y")
+	    k = input("Are you using [termux/kali]? ")
+	    if k == "y" or "Y" or "kali" or "Kali" or "KALİ" or "KAli" or "kAli" or "kALİ" or "kalı" or "KALI" or "kalı":
+	        os.system("""
+cd ~
+rm -rf intframework 
+git clone https://github.com/Intikam21kurucu/intframework
+cd intframework
+chmod +x start_kali.sh
+./start_kali.sh
+""")
+	    elif k == "n" or k == "N" or k == "termux" or k == "Termux" or k == "TERMUX" or k == "TermuX" or k == "tERMUX" or k == "tErmux" or k == "tERmux" or k == "terMux" or k == "tErMUX":
+	        os.system("""
+cd ~
+rm -rf intframework
+git clone https://github.com/Intikam21kurucu/intframework
+cd intframework
+chmod +x terbuild.sh
+./terbuild.sh
+	""")
 	if help_input == "13":
 		os.system("python3 +90wifitools.py")
 	if help_input == "14":
