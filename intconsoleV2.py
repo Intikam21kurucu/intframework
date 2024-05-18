@@ -15,9 +15,7 @@ import sys
 
 # intconsole komutu
     # ASCII sanatı
-ascii_sanat = """⠀
-          ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣠⣤⠶⠶⠶⠶⢦⣄⡀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+ascii_sanat = """⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣠⣤⠶⠶⠶⠶⢦⣄⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⡾⠛⠁⠀⠀⠀⠀⠀⠀⠈⠙⢷⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣼⠏⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠙⢷⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⡾⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⢿⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
@@ -49,7 +47,7 @@ os.system("python3 startoolkit.py")
 
      
 
-time.sleep(5)   
+time.sleep(1)   
       
 
 
@@ -64,34 +62,52 @@ os.system("clear")
 
 
 
-ASCI = """      ⣀⣴⣿⣿⠿⠿⠟⠛⠿⠿⣿⣿⣶⣄⠀⠀⠀
-⠀⠀⠀⢀⣾⠟⢀⣾⣿⠟⠋⠀⠀⠀⠀⠀⠀⠀⠀⠉⠻⣿⣷⡄⠹⣷⡀⠀⠀
-⠀⠀⠀⣾⡏⢠⣿⣿⡯⠤⠤⠤⠒⠒⠒⠒⠒⠒⠒⠤⠤⠽⣿⣿⡆⠹⣷⡀⠀
-⠀⠀⢸⣟⣠⡿⠿⠟⠒⣒⣒⣉⣉⣉⣉⣉⣉⣉⣉⣉⣒⣒⡛⠻⠿⢤⣹⣇⠀
-⠀⠀⣾⡭⢤⣤⣠⡞⠉⠁⢀⣀⣀⠀⠀⠀⠀⢀⣀⣀⠀⠈⢹⣦⣤⡤⠴⣿⠀
-⠀⠀⣿⡇⢸⣿⣿⣇⠀⣼⣿⣿⣿⣷⠀⠀⣼⣿⣿⣿⣷⠀⢸⣿⣿⡇⠀⣿⠀
-⠀⠀⢻⡇⠸⣿⣿⣿⡄⢿⣿⣿⣿⡿⠀⠀⢿⣿⣿⣿⡿⢀⣿⣿⣿⡇⢸⣿⠀
-⠀⠀⠸⣿⡀⢿⣿⣿⣿⣆⠉⠛⠋⠀⢴⣶⠀⠉⠛⠉⣠⣿⣿⣿⡿⠀⣾⠇⠀
-⠀⠀⠀⢻⣷⡈⢻⣿⣿⣿⣿⣶⣤⣀⣈⣁⣀⡤⣴⣿⣿⣿⣿⡿⠁⣼⠏⠀⠀
-⠀⠀⠀⢀⣽⣷⣄⠙⢿⣿⣿⡟⢲⠧⡦⠼⠤⢷⢺⣿⣿⡿⠋⣠⣾⢿⣄⠀⠀
-⣰⠟⠛⠛⠁⣨⡿⢷⣤⣈⠙⢿⡙⠒⠓⠒⠒⠚⡹⠛⢁⣤⣾⠿⣧⡀⠙⠋⠙⣆
-⠹⣤⡀⠀⠐⡏⠉⠛⠿⣶⣿⣶⣤⣤⣤⣾⣷⠾⠟⠋⢸⢠⣤
-⠀⠀⠳⢤⠾⠃⠀⠀⠀⠀⠀⠀⠈⠉⠉⠉⠉⠁⠀⠀⠀⠀⠘⠷⠤⠾⠁"""
+ASCI = """     _,.
+     ,` -.)
+    ( _/-\\-._
+   /,|`--._,-^|            ,
+   \_| |`-._/||          ,'|
+     |  `-, / |         /  /
+     |     || |        /  /
+      `r-._||/   __   /  /
+  __,-<_     )`-/  `./  / 
+ '  \   `---'   \   /  /
+     |           |./  /
+     |           //  /
+ \_/  \         |/  /
+  |    |   _,^-'/  /
+  |    , ``  (\/  /_
+   \,.->._    \X-=/^
+   (  /   `-._//^`
+    `Y-.____(__}
+     |     {__)
+           ()
+
+   ██╗███╗   ██╗████████╗██╗██╗  ██╗
+   ██║████╗  ██║╚══██╔══╝██║╚██╗██╔╝
+   ██║██╔██╗ ██║   ██║   ██║ ╚███╔╝ 
+   ██║██║╚██╗██║   ██║   ██║ ██╔██╗ █████╗ ███╗   ███╗
+██╔══██╗████╗ ████║
+███████║██╔████╔██║
+██╔══██║██║╚██╔╝██║
+██║  ██║██║ ╚═╝ ██║
+╚═╝  ╚═╝╚═╝     ╚═╝"""
 # Kullanıcıdan 'help' komutunu girmesini iste
 print(Fore.BLUE + 'başlatmak için help yaz')
-	
-
-
-while True:
-	
-	
-	print(Fore.RED+ASCI)
-	print(Fore.RED + '------------------------------------------------------------')
-	print("""5-)Tools * 1000-)commands * 70-)exploits 
+print("""=[ İntikam21-Framework console v3.4.30-dev-bbf096e                  ]
++ -- --=[ 2433 exploits - 1248 auxiliary - 500 post       ]
++ -- --=[ 1465 payloads - 50 encoders - 11 nops           ]
++ -- --=[ 1 evasion ]
++ -- --=[ 103 Tools]
 """)
-	help_input = input("┌──(intikam21-cyber@root[~]\n└─$ ")
+print(Fore.RED+ASCI)
+print(Fore.RED + '------------------------------------------------------------' + Fore.RESET)
+	
+while True:
+	help_input = input(Fore.RED+'┌──(intikam21-cyber@root[~]\n└─$ ')
+	print(Fore.RESET)
 	if help_input == "help":
-		print("""
+		print(Fore.RED + """
 		5 Tools:
 			1-) DDOS
 			2-) SMSBOMBER
@@ -110,9 +126,9 @@ while True:
 		[12]update
 		+90 tools: [13]
 		[14]social hack
-				""")
+				""" + Fore.RESET)
 		print("exploit usage: exp-number")
-		print("""
+		print(Fore.RED + """
 		Exploits:
 			[1]-Exploit Database 
 			[2]-MSFVENOM
@@ -138,7 +154,7 @@ while True:
 			
 			we are working...
 		
-		""")
+		""" + Fore.RESET)
 		
 		
 		print("command help for using : com-help")
