@@ -1,111 +1,328 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
+from pyfiglet import Figlet
+from colorama import Fore, init
+import threading
 import requests
-from bs4 import BeautifulSoup
-import random
+import time
+import sys
+import os
+import base64
+import time as t
+import argparse
+import sys
+import platform
 
-def get_github_issues():
-    url = "https://github.com/Intikam21kurucu/intframework/issues"
-    response = requests.get(url)
-    if response.status_code != 200:
-        return "GitHub Issues page is not accessible.", "GitHub Issues sayfasına erişilemedi."
-    soup = BeautifulSoup(response.content, 'html.parser')
-    issues = soup.find_all('a', {'data-hovercard-type': 'issue'})
-    issues_list = []
-    for issue in issues:
-        issues_list.append(issue.text.strip())
-    return issues_list
+# intconsole komutu
+    # ASCII sanatı
+ascii_sanat = """⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣠⣤⠶⠶⠶⠶⢦⣄⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⡾⠛⠁⠀⠀⠀⠀⠀⠀⠈⠙⢷⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣼⠏⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠙⢷⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⡾⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⢿⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⡾⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⢿⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣼⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⣷⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⡇⠀⠀⠀⠀⠀⠀⠀⣀⣀⣀⣀⣀⣀⠀⠀⠀⠀⠀⠀⠀⠸⣇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⠀⠀⠀⠀⣠⡴⠞⠛⠉⠉⣩⣍⠉⠉⠛⠳⢦⣄⠀⠀⠀⠀⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⡀⠀⣴⡿⣧⣀⠀⢀⣠⡴⠋⠙⢷⣄⡀⠀⣀⣼⢿⣦⠀⠀⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠸⣧⡾⠋⣷⠈⠉⠉⠉⠉⠀⠀⠀⠀⠉⠉⠋⠉⠁⣼⠙⢷⣼⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢻⣇⠀⢻⡆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⡟⠀⣸⡟⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣹⣆⠀⢻⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⡟⠀⣰⣏⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⣴⠞⠋⠁⠙⢷⣄⠙⢷⣀⠀⠀⠀⠀⠀⠀⢀⡴⠋⢀⡾⠋⠈⠙⠻⢦⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⡾⠋⠀⠀⠀⠀⠀⠀⠹⢦⡀⠙⠳⠶⢤⡤⠶⠞⠋⢀⡴⠟⠀⠀⠀⠀⠀⠀⠙⠻⣆⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⣼⠋⠀⠀⢀⣤⣤⣤⣤⣤⣤⣤⣿⣦⣤⣤⣤⣤⣤⣤⣴⣿⣤⣤⣤⣤⣤⣤⣤⡀⠀⠀⠙⣧⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⣸⠏⠀⠀⠀⢸⡇⠀⠀⠀⠀⠀⠀⠀⢠⣴⠞⠛⠛⠻⢦⡄⠀⠀⠀⠀⠀⠀⠀⢸⡇⠀⠀⠀⠸⣇⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⢠⡟⠀⠀⠀⠀⢸⡇⠀⠀⠀⠀⠀⠀⠀⣿⣿⢶⣄⣠⡶⣦⣿⠀⠀⠀⠀⠀⠀⠀⢸⡇⠀⠀⠀⠀⢻⡄⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⣾⠁⠀⠀⠀⠀⠘⣇⠀⠀⠀⠀⠀⠀⠀⢻⣿⠶⠟⠻⠶⢿⡿⠀⠀⠀⠀⠀⠀⠀⢸⡇⠀⠀⠀⠀⠈⣿⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⢰⡏⠀⠀⠀⠀⠀⠀⣿⠀⠀⠀⠀⠀⠀⢾⣄⣹⣦⣀⣀⣴⢟⣠⡶⠀⠀⠀⠀⠀⠀⣼⠀⠀⠀⠀⠀⠀⢸⡇⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⢸⡇⠀⠀⠀⠀⠀⠀⣿⠀⠀⠀⠀⠀⠀⠀⠈⠛⠿⣭⣭⡿⠛⠁⠀⠀⠀⠀⠀⠀⠀⣿⠀⠀⠀⠀⠀⠀⠘⣧⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⢸⡇⠀⠀⠀⠀⠀⠀⢿⡀⠀⠀⠀⠀⠀⠀⣀⡴⠞⠋⠙⠳⢦⣀⠀⠀⠀⠀⠀⠀⠀⣿⠀⠀⠀⠀⠀⠀⢰⡏⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠈⢿⣄⣀⠀⠀⢀⣤⣼⣧⣤⣤⣤⣤⣤⣿⣭⣤⣤⣤⣤⣤⣤⣭⣿⣤⣤⣤⣤⣤⣼⣿⣤⣄⠀⠀⣀⣠⡾⠁⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠈⠉⠛⠛⠻⢧⠤⠤⠤⠤⠤⠤⠤⠤⠤⠤⠤⠤⠤⠤⠤⠤⠤⠤⠤⠤⠤⠤⠤⠤⠼⠟⠛⠛⠉⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+. ⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶
+⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿ ⣿⣿⣿⣿⣿⣷⣷⣶⣿⣿ """	
+print(ascii_sanat)
+    # 5 saniye boyunca animasyonu çalıştır
+os.system("python3 startoolkit.py")
 
-def analyze_error(error_message):
-    issues = get_github_issues()
-    if isinstance(issues, tuple):
-        return issues  # Return error message if issues cannot be fetched
-    
-    for issue in issues:
-        if error_message.lower() in issue.lower():
-            return (f"A similar issue found: {issue}. Check GitHub Issues page for more info.",
-                    f"Benzer bir sorun bulundu: {issue}. Daha fazla bilgi için GitHub Issues sayfasını kontrol edin.")
-    
-    return suggest_solution(error_message)
+     
 
-def suggest_solution(error_message):
-    solutions_en = {
-        "module not found": "Ensure the module is installed using pip.",
-        "permission denied": "Check file permissions and ensure you have the necessary access rights.",
-        "syntax error": "Check the syntax in your code for any mistakes."
-    }
-    solutions_tr = {
-        "module not found": "Modülün pip ile yüklü olduğundan emin olun.",
-        "permission denied": "Dosya izinlerini kontrol edin ve gerekli erişim haklarına sahip olduğunuzdan emin olun.",
-        "syntax error": "Kodunuzdaki sözdizimini kontrol edin ve hataları düzeltin."
-    }
-    
-    for key in solutions_en:
-        if key in error_message.lower():
-            return solutions_en[key], solutions_tr[key]
-    
-    return ("No solution found. Please check the error message or visit the GitHub Issues page.",
-            "Çözüm bulunamadı. Lütfen hata mesajını kontrol edin veya GitHub Issues sayfasına göz atın.")
+time.sleep(0.1)   
+      
 
-def get_installation_info():
-    messages_en = [
-        "For installation, on Kali Linux, install necessary dependencies and clone the repository using 'git clone'.",
-        "On Termux, install required packages and clone the repository using 'git clone'.",
-        "Ensure all dependencies are installed correctly before using 'git clone' to complete the installation."
-    ]
-    messages_tr = [
-        "Kurulum için Kali Linux'ta gerekli bağımlılıkları yükleyin ve 'git clone' komutuyla intframework'ü indirin.",
-        "Termux üzerinde gerekli paketleri yükledikten sonra 'git clone' komutunu kullanarak intframework'ü indirin.",
-        "Bağımlılıkların eksiksiz kurulduğundan emin olduktan sonra 'git clone' komutunu kullanarak kurulumu tamamlayın."
-    ]
-    return random.choice(messages_en), random.choice(messages_tr)
 
-def get_error_info():
-    messages_en = [
-        "During installation, ensure all dependencies are fully installed.",
-        "For runtime errors, check file permissions and grant necessary permissions.",
-        "Ensure correct versions of dependencies are used and update if necessary."
-    ]
-    messages_tr = [
-        "Kurulum sırasında bağımlılıkların tam olarak yüklendiğinden emin olun.",
-        "Çalıştırma hatalarında dosya izinlerini kontrol edin ve gerekli yetkileri verin.",
-        "Bağımlılıkların doğru sürümlerini kullandığınızdan emin olun ve gerekirse güncelleyin."
-    ]
-    return random.choice(messages_en), random.choice(messages_tr)
 
-def get_usage_info():
-    messages_en = [
-        "To start the tool, use the command 'python3 intframework.py'.",
-        "For usage, first configure necessary settings, then run the tool with 'python3 intframework.py'.",
-        "Run the tool from the command line by typing 'python3 intframework.py'."
-    ]
-    messages_tr = [
-        "Aracı başlatmak için 'python3 intframework.py' komutunu kullanın.",
-        "Kullanım için önce gerekli konfigürasyonları yapın, ardından 'python3 intframework.py' ile aracı çalıştırın.",
-        "Komut satırından 'python3 intframework.py' yazarak aracı çalıştırabilirsiniz."
-    ]
-    return random.choice(messages_en), random.choice(messages_tr)
 
-def provide_info(query, language):
-    if "kurulum" in query or "install" in query:
-        return get_installation_info()[0 if language == 'en' else 1]
-    elif "hata" in query or "error" in query:
-        error_message = input("Please enter the error message / Lütfen aldığınız hata mesajını girin: ").strip()
-        return analyze_error(error_message)[0 if language == 'en' else 1]
-    elif "kullanım" in query or "usage" in query:
-        return get_usage_info()[0 if language == 'en' else 1]
-    else:
-        return ("I can help with installation, error troubleshooting, or usage. Please ask a more specific question.",
-                "Kurulum, hata giderme veya kullanım konularında yardımcı olabilirim. Lütfen daha spesifik bir soru sorun.")[0 if language == 'en' else 1]
+            
+                        
+                                    
+os.system("clear")
 
-def main():
-    print("Merhaba ben intai'yim! / Hello, I am intai!")
-    language = input("Please choose a language (en/tr): ").strip().lower()
-    while True:
-        user_input = input("\nWhat do you need help with? (type 'exit' to quit) / Ne konuda yardıma ihtiyacınız var? (çıkmak için 'exit' yazın): ").strip().lower()
-        if user_input == 'exit':
-            break
-        if user_input:  # Sadece kullanıcı bir şey yazdığında yanıt ver
-            response = provide_info(user_input, language)
-            print(response)
 
-if __name__ == "__main__":
-    main()
+
+
+
+ASCI = """     
+⠀⠀⠀⠀⠀⠀⠀⠀⣀⣤⣴⠶⠾⠿⠛⠛⠻⠿⠶⣶⣤⣀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⢠⣾⠟⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠻⣷⣄⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⢠⡿⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⢿⣆⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⣿⠇⡤⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢰⡈⣿⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⣿⡆⣷⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣸⠁⣿⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠸⣧⢸⡆⢀⣀⣀⣤⡀⠀⠀⢀⣤⣀⣀⡀⠀⡟⣸⡟⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠹⣿⠁⣿⣿⣿⣿⡟⠀⠀⠸⣿⣿⣿⣿⠆⣿⠟⠀⠀⠀⣀⠀
+⠀⢰⡟⢿⣆⠀⠀⣿⠀⠙⢿⣿⠟⠀⣠⣄⠀⠹⣿⣿⠟⠀⢹⠀⠀⣠⡿⢻⠀
+⣠⡾⠃⠈⠻⢷⣦⣽⣄⡀⠀⠀⠀⢸⣿⣿⣧⠀⠀⠀⢀⣠⣿⣤⡶⠟⠁⠘⢿⣆
+⠻⠷⠶⠶⣶⣤⣈⠙⠻⣿⣷⣦⠀⠸⠋⠙⠟⠀⣠⣾⣿⠟⠋⣁⣠⣴⠶⠶⠟
+⠀⠀⠀⠀⠀⠉⠛⠿⣶⣼⠿⣿⣲⡤⡤⡤⢤⢰⣿⡏⣿⣶⠿⠛⠉⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⢀⣠⣴⣿⡄⠻⣹⡟⡟⡟⣻⣻⠽⠁⣿⣦⣄⡀⠀⠀⠀⠀⠀
+⠀⠀⣶⠾⠶⠾⠟⠋⣁⣼⣷⡀⠀⠉⠉⠉⠉⠀⢀⣼⣧⣀⠉⠛⠷⠶⠿⣶⠀
+⠀⠀⠙⣷⡄⢀⣴⠿⠛⠁⠀⠙⠳⠶⠤⠴⠶⠞⠋⠀⠈⠙⠻⣶⡄⠀⣾⠟⠀
+⠀⠀⠀⢸⣷⡿⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⢿⣶⡿⠀⠀⠀
+-----------------------------------------------------------
+
+___ _   _ _____ ___ _  __    _    __  __ ____  _ _ ____
+|_ _| \ | |_   _|_ _| |/ /   / \  |  \/  |___ \/ ( ) ___|
+ | ||  \| | | |  | || ' /   / _ \ | |\/| | __) | |/\___ \
+ | || |\  | | |  | || . \  / ___ \| |  | |/ __/| |  ___) |
+|___|_| \_| |_| |___|_|\_\/_/   \_\_|  |_|_____|_| |____/
+
+ ____  _____ ____  _  _______ ___  ____
+|  _ \| ____/ ___|| |/ /_   _/ _ \|  _ \
+| | | |  _| \___ \| ' /  | || | | | |_) |
+| |_| | |___ ___) | . \  | || |_| |  __/
+|____/|_____|____/|_|\_\ |_| \___/|_|
+             """
+# Kullanıcıdan 'help' komutunu girmesini iste
+
+print(Fore.RED+ASCI)
+
+print(Fore.RED + '------------------------------------------------------------' + Fore.RESET)
+
+print(Fore.BLUE + 'başlatmak için help yaz')
+print("""=[ İntikam21-Framework console v2.7.30-dev-bbf096e                  ]
++ -- --=[ 2433 exploits - 1248 auxiliary - 500 post       ]
++ -- --=[ 1465 payloads - 50 encoders - 11 nops           ]
++ -- --=[ 1 evasion ]
++ -- --=[ 103 Tools]
+If you can't reach anything, then type 
+-->intai 
+into the terminal and chat with ai
+""")
+
+print(Fore.RED + '------------------------------------------------------------' + Fore.RESET)
+	
+while True:
+	help_input = input(Fore.RED+'┌──(intikam21-cyber@root[~]\n└─$ ')
+	print(Fore.RESET) 
+	if help_input == "help":
+		print(Fore.RED + """
+		103 Tools:
+			1-) DDOS
+			2-) SMSBOMBER
+			3-DİSCORD
+			4-)METASPLOİT
+			5-)İNTİKAM21
+			6-)iptracker
+			7-)youtube-hack
+			8-)Send email
+			9-)OSINT Framework
+	SPECİAL:	
+			----------------------------------------------
+			| [10]android-pin-bruteforce |
+			-----------------------------------------------
+		[11] bruteforce 
+		[12]update
+		+90 tools: [13]
+		[14]social hack
+				""" + Fore.RESET)
+		print("exploit usage: exp-number")
+		print(Fore.RED + """
+		Exploits:
+			[1]-Exploit Database 
+			[2]-MSFVENOM
+			[3]-MSFCONSOLE
+			[4]-NMAP
+			[5]-TRAİTOR
+			[6]-facebook-id-collector			
+			
+			SPECİAL:
+			---------------------------------------------
+		   |. [7]-youtube -------- exploit    |
+		   |	[8]-phonesploit	  			|
+		   |	[9]-camera exploit			 |
+		   |	 [10]-camexp2				   |
+			---------------------------------------------	
+			
+			
+			[11] EMAIL FINDER
+			[12]-others command: msfconsole
+			[13]-others command: msfconsole
+			[14]-others command: msfconsole
+			[15]-others command: msfconsole
+			
+			we are working...
+		
+		""" + Fore.RESET)
+		
+		
+		print("command help for using : com-help")
+	
+	if help_input == "1":
+		os.system("python3 DDOS.py")
+	if help_input == "3":
+		os.system("python3 DİSCORD.py")
+	if help_input == "2":
+		os.system("python3 SMSBOMBER.py")
+	if help_input == "4":
+		time.sleep(1)
+		print("termux [y] kali [n]")
+		k = input("Do you using [termux/kali] ?")
+		if k == "y" or "Y" or "termux" or "Termux" or "TERMUX":
+			os.system("pkg update -y && pkg upgrade -y && apt update -y && apt upgrade -y")
+			os.system("pkg install wget -y")
+			os.system("wget https://github.com/gushmazuko/metasploit_in_termux/raw/master/metasploit.sh")
+			os.system("chmod +x metasploit.sh")
+			os.system("./metasploit.sh")
+		if k == "n" or "N" or "kali" or "Kali" or "KALİ":
+			os.system("sudo apt-get install metasploit-framework")
+			os.system("msfconsole")
+	if help_input == "5":
+		os.system("""apt update & apt upgrade
+sudo apt install git
+sudo apt install python3-pyfiglet
+sudo apt install python3 
+sudo apt install python3-base64
+sudo apt install python3-colorama
+sudo apt install python3-requests
+
+git clone https://github.com/Intikam21kurucu/Intikam21
+
+cd Intikam21
+
+python3 Intıkam21.py""")
+	if help_input == "exp-1":
+		print("the exploit is not working ")
+	if help_input == "exp-2":
+		try:
+			os.system("msfconsole")
+		except:
+			os.system("sudo apt-get install metasploit-framework")
+	if help_input == "exp-3":
+		try:
+			os.system("msfvenom")
+		except:
+			os.system("sudo apt-get install metasploit-framework")
+	if help_input == "exp-4":
+		try:
+			os.system("pip install nmap")
+			os.system("nmap")
+		except:
+			os.system("sudo apt-get install nmap")
+	if help_input == "exit":
+		print("Bye bye / yine bekleriz ")
+		os.system("exit")
+		break
+	if help_input == "6":
+		os.system("python3 iptracker.py")
+	if help_input == "exp-5":
+		os.system("""git clone https://github.com/liamg/traitor
+		cd traitor
+		traitor -p -e docker:writable-socket			
+		""")
+	if help_input == "exit":
+		print("exiting console...")
+		time.sleep(2)
+		os.system("exit")
+	if help_input == "exp-6":
+		os.system("python2 id-collector.py")
+	if help_input == "exp-7":
+		os.system("python3 specialintikam21youtube.py")
+
+	if help_input == "exp-8":
+		os.system("""
+git clone https://github.com/AzeemIdrisi/PhoneSploit-Pro.git
+cd PhoneSploit-Pro/
+pip install -r requirements.txt
+python3 phonesploitpro.py""")
+	
+	if help_input == "exp-9":
+		os.system("python expcamera.py")
+	if help_input == "exp-10":
+		s = input ("Do yo want to continue [y/n]")
+		if s == "y":
+			os.system("python3 camexp2.py")
+		if s == "n":
+			print("restarting...")
+			time.sleep(3)
+			os.system("python3 intconsoleV2.py")
+
+	if help_input == "7": 
+		os.system("""
+		git clone https://github.com/in4osecurity/Youtube-Hack
+		cd Youtube-Hack
+		bash kurulum.sh		
+		""")
+	if help_input == "8":
+		os.system("python3 sendemail.py")
+	if help_input == "9":
+		os.system("python3 OSINT.py")
+	if help_input == "exp-11":
+		os.system("python3 emailfinder.py")
+	if help_input == "10":
+		s = input("do you want to continue? [y/n]")
+		if s == "y":
+			os.system("""			
+			git clone https://github.com/urbanadventurer/Android-PIN-Bruteforce
+			cd Android-PIN-Bruteforce
+			./android-pin-bruteforce crack --length 6				""")
+		if s == "n":
+			print("restarting...")
+			time.sleep(3)
+			os.system("python3 intconsoleV2.py")
+	if help_input == "11":
+		os.system("""
+		
+		git clone https://github.com/Antu7/python-bruteForce	
+		cd python-bruteForce
+		pip install requests
+		python3 bruteforce.py		
+		""")
+		
+	if help_input == "12":
+	    time.sleep(1)
+	    print("Termux=n kali=y")
+	    k = input("Are you using [termux/kali]? ")
+	    if k == "y" or "Y" or "kali" or "Kali" or "KALİ" or "KAli" or "kAli" or "kALİ" or "kalı" or "KALI" or "kalı":
+	        os.system("""
+cd ~
+rm -rf intframework 
+git clone https://github.com/Intikam21kurucu/intframework
+cd intframework
+chmod +x start_kali.sh
+./start_kali.sh
+""")
+	    elif k == "n" or k == "N" or k == "termux" or k == "Termux" or k == "TERMUX" or k == "TermuX" or k == "tERMUX" or k == "tErmux" or k == "tERmux" or k == "terMux" or k == "tErMUX":
+	        os.system("""
+cd ~
+rm -rf intframework
+git clone https://github.com/Intikam21kurucu/intframework
+cd intframework
+chmod +x terbuild.sh
+./terbuild.sh
+	""")
+	if help_input == "13":
+		os.system("python3 +90wifitools.py")		
+	if help_input == "14":
+		os.system("python3 socialhack.py")
+		
+	if help_input == "com-help" or "Com-help" or "Com-Help" or "com-HELP" or "COM-help" or "COM-HELP":
+		os.system("help")
+		
+		
+	if help_input != "14" or "13" or "12" or "11" or "10" or "9" or "8" or "7" or "6" or "5" or "4" or "3" or "2" or "1" or "exp-11" or "exp-10" or "exp-9" or "exp-8" or "exp-7" or "exp-6" or "exp-5" or "exp-4" or "exp-3" or "exp-2" or "exp-1" or "neofetch" or "com-help":
+		os.system(help_input)
+	if help_input == "intai" or "İntai" or "İNTAİ" or "İNTai" or "intAİ":
+		os.system("python3 intai.py")
+	if help_input == "neofetch" or help_input == "Neofetch" or help_input == "NEOFETCH":
+		os.system("python3 neofetch.py")
