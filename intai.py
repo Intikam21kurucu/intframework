@@ -103,8 +103,9 @@ def main():
         user_input = input("\nWhat do you need help with? (type 'exit' to quit) / Ne konuda yardıma ihtiyacınız var? (çıkmak için 'exit' yazın): ").strip().lower()
         if user_input == 'exit':
             break
-        response = provide_info(user_input, language)
-        print(response)
+        if user_input:  # Sadece kullanıcı bir şey yazdığında yanıt ver
+            response = provide_info(user_input, language)
+            print(response)
 
 if __name__ == "__main__":
     main()
