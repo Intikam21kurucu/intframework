@@ -106,6 +106,3 @@ def main():
         if user_input:  # Sadece kullanıcı bir şey yazdığında yanıt ver
             response = provide_info(user_input, language)
             print(response)
-
-if __name__ == "__main__":
-    main()
