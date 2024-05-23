@@ -2,48 +2,77 @@ import requests
 from bs4 import BeautifulSoup
 import random
 
-def get_github_issues():
-    url = "https://github.com/Intikam21kurucu/intframework/issues"
-    response = requests.get(url)
-    if response.status_code != 200:
-        return "GitHub Issues page is not accessible.", "GitHub Issues sayfasına erişilemedi."
-    soup = BeautifulSoup(response.content, 'html.parser')
-    issues = soup.find_all('a', {'data-hovercard-type': 'issue'})
-    issues_list = []
-    for issue in issues:
-        issues_list.append(issue.text.strip())
-    return issues_list
+def fetch_page_content(url):
+    try:
+        response = requests.get(url)
+        if response.status_code == 200:
+            return response.text
+    except requests.RequestException as e:
+        print(f"Error fetching {url}: {e}")
+    return None
+
+def extract_relevant_info(error_message, content):
+    if error_message.lower() in content.lower():
+        return True
+    return False
 
 def analyze_error(error_message):
-    issues = get_github_issues()
-    if isinstance(issues, tuple):
-        return issues  # Return error message if issues cannot be fetched
-    
-    for issue in issues:
-        if error_message.lower() in issue.lower():
-            return (f"A similar issue found: {issue}. Check GitHub Issues page for more info.",
-                    f"Benzer bir sorun bulundu: {issue}. Daha fazla bilgi için GitHub Issues sayfasını kontrol edin.")
-    
+    urls = [
+        "https://github.com/Intikam21kurucu/intframework",
+        "https://github.com/Intikam21kurucu/intframework/issues",
+        "https://github.com/Intikam21kurucu/int-formations",
+        "https://github.com/Intikam21kurucu/int-formations/issues",
+        "https://github.com/Intikam21kurucu/Intikam21",
+        "https://github.com/Intikam21kurucu/Intikam21/issues",
+        "https://github.com/nmap/nmap",
+        "https://github.com/nmap/nmap/issues",
+        "https://www.metasploit.com/",
+        "https://rapid7.github.io/metasploit-framework/docs/using-metasploit/getting-started/nightly-installers.html",
+        "https://www.kali.org/",
+        "https://www.kali.org/tools/",
+        "https://www.google.com/"
+    ]
+
+    for url in urls:
+        content = fetch_page_content(url)
+        if content and extract_relevant_info(error_message, content):
+            return (f"A relevant section found in {url}. Please check it for more info.",
+                    f"İlgili bir bölüm {url} adresinde bulundu. Daha fazla bilgi için kontrol edin.")
+
     return suggest_solution(error_message)
 
 def suggest_solution(error_message):
     solutions_en = {
         "module not found": "Ensure the module is installed using pip.",
         "permission denied": "Check file permissions and ensure you have the necessary access rights.",
-        "syntax error": "Check the syntax in your code for any mistakes."
+        "syntax error": "Check the syntax in your code for any mistakes.",
+        "timeout error": "Increase the timeout limit or check your internet connection.",
+        "connection refused": "Check if the server is running and reachable."
     }
     solutions_tr = {
         "module not found": "Modülün pip ile yüklü olduğundan emin olun.",
         "permission denied": "Dosya izinlerini kontrol edin ve gerekli erişim haklarına sahip olduğunuzdan emin olun.",
-        "syntax error": "Kodunuzdaki sözdizimini kontrol edin ve hataları düzeltin."
+        "syntax error": "Kodunuzdaki sözdizimini kontrol edin ve hataları düzeltin.",
+        "timeout error": "Zaman aşımı limitini artırın veya internet bağlantınızı kontrol edin.",
+        "connection refused": "Sunucunun çalışır durumda ve erişilebilir olduğundan emin olun."
     }
     
     for key in solutions_en:
         if key in error_message.lower():
             return solutions_en[key], solutions_tr[key]
     
-    return ("No solution found. Please check the error message or visit the GitHub Issues page.",
-            "Çözüm bulunamadı. Lütfen hata mesajını kontrol edin veya GitHub Issues sayfasına göz atın.")
+    default_responses_en = [
+        "No solution found. Please check the error message or visit the provided links.",
+        "Couldn't find an exact solution. Try searching the provided links for more help.",
+        "The error isn't directly addressed in the resources. Please double-check the links for more info."
+    ]
+    default_responses_tr = [
+        "Çözüm bulunamadı. Lütfen hata mesajını kontrol edin veya verilen linkleri ziyaret edin.",
+        "Tam olarak bir çözüm bulunamadı. Daha fazla yardım için verilen linkleri kontrol edin.",
+        "Hata doğrudan kaynaklarda ele alınmamış. Daha fazla bilgi için linkleri kontrol edin."
+    ]
+    
+    return random.choice(default_responses_en), random.choice(default_responses_tr)
 
 def get_installation_info():
     messages_en = [
@@ -92,9 +121,14 @@ def provide_info(query, language):
         return analyze_error(error_message)[0 if language == 'en' else 1]
     elif "kullanım" in query or "usage" in query:
         return get_usage_info()[0 if language == 'en' else 1]
+    elif "araştırma" in query or "research" in query:
+        research_topic = input("What topic would you like to research? / Hangi konuda araştırma yapmak istiyorsunuz?: ").strip()
+        search_url = f"https://www.google.com/search?q={research_topic.replace(' ', '+')}"
+        return (f"You can start your research here: {search_url}", 
+                f"Araştırmanıza buradan başlayabilirsiniz: {search_url}")
     else:
-        return ("I can help with installation, error troubleshooting, or usage. Please ask a more specific question.",
-                "Kurulum, hata giderme veya kullanım konularında yardımcı olabilirim. Lütfen daha spesifik bir soru sorun.")[0 if language == 'en' else 1]
+        return ("I can help with installation, error troubleshooting, usage, or research. Please ask a more specific question.",
+                "Kurulum, hata giderme, kullanım veya araştırma konularında yardımcı olabilirim. Lütfen daha spesifik bir soru sorun.")[0 if language == 'en' else 1]
 
 def main():
     print("Merhaba ben intai'yim! / Hello, I am intai!")
