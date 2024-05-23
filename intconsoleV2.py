@@ -17,7 +17,7 @@ import platform
 # intconsole komutu
     # ASCII sanatı
 ascii_sanat = """⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣠⣤⠶⠶⠶⠶⢦⣄⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⡾⠛⠁⠀⠀⠀⠀⠀⠀⠈⠙⢷⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⡾⠛⠁⠀⠀⠀⠀⠀⠀⠈⠙⢷⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣼⠏⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠙⢷⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⡾⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⢿⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⡾⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⢿⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
@@ -168,13 +168,13 @@ while True:
 		
 		print("command help for using : com-help")
 	
-	if help_input == "1":
+	elif help_input == "1":
 		os.system("python3 DDOS.py")
-	if help_input == "3":
+	elif help_input == "3":
 		os.system("python3 DİSCORD.py")
-	if help_input == "2":
+	elif help_input == "2":
 		os.system("python3 SMSBOMBER.py")
-	if help_input == "4":
+	elif help_input == "4":
 		time.sleep(1)
 		print("termux [y] kali [n]")
 		k = input("Do you using [termux/kali] ?")
@@ -184,10 +184,10 @@ while True:
 			os.system("wget https://github.com/gushmazuko/metasploit_in_termux/raw/master/metasploit.sh")
 			os.system("chmod +x metasploit.sh")
 			os.system("./metasploit.sh")
-		if k == "n" or "N" or "kali" or "Kali" or "KALİ":
+		elif k == "n" or "N" or "kali" or "Kali" or "KALİ":
 			os.system("sudo apt-get install metasploit-framework")
 			os.system("msfconsole")
-	if help_input == "5":
+	elif help_input == "5":
 		os.system("""apt update & apt upgrade
 sudo apt install git
 sudo apt install python3-pyfiglet
@@ -201,86 +201,86 @@ git clone https://github.com/Intikam21kurucu/Intikam21
 cd Intikam21
 
 python3 Intıkam21.py""")
-	if help_input == "exp-1":
+	elif help_input == "exp-1":
 		print("the exploit is not working ")
-	if help_input == "exp-2":
+	elif help_input == "exp-2":
 		try:
 			os.system("msfconsole")
 		except:
 			os.system("sudo apt-get install metasploit-framework")
-	if help_input == "exp-3":
+	elif help_input == "exp-3":
 		try:
 			os.system("msfvenom")
 		except:
 			os.system("sudo apt-get install metasploit-framework")
-	if help_input == "exp-4":
+	elif help_input == "exp-4":
 		try:
 			os.system("pip install nmap")
 			os.system("nmap")
 		except:
 			os.system("sudo apt-get install nmap")
-	if help_input == "exit":
+	elif help_input == "exit":
 		print("Bye bye / yine bekleriz ")
 		os.system("exit")
 		break
-	if help_input == "6":
+	elif help_input == "6":
 		os.system("python3 iptracker.py")
-	if help_input == "exp-5":
+	elif help_input == "exp-5":
 		os.system("""git clone https://github.com/liamg/traitor
 		cd traitor
 		traitor -p -e docker:writable-socket			
 		""")
-	if help_input == "exit":
+	elif help_input == "exit":
 		print("exiting console...")
 		time.sleep(2)
 		os.system("exit")
-	if help_input == "exp-6":
+	elif help_input == "exp-6":
 		os.system("python2 id-collector.py")
-	if help_input == "exp-7":
+	elif help_input == "exp-7":
 		os.system("python3 specialintikam21youtube.py")
 
-	if help_input == "exp-8":
+	elif help_input == "exp-8":
 		os.system("""
 git clone https://github.com/AzeemIdrisi/PhoneSploit-Pro.git
 cd PhoneSploit-Pro/
 pip install -r requirements.txt
 python3 phonesploitpro.py""")
 	
-	if help_input == "exp-9":
+	elif help_input == "exp-9":
 		os.system("python expcamera.py")
-	if help_input == "exp-10":
+	elif help_input == "exp-10":
 		s = input ("Do yo want to continue [y/n]")
 		if s == "y":
 			os.system("python3 camexp2.py")
-		if s == "n":
+		elif s == "n":
 			print("restarting...")
 			time.sleep(3)
 			os.system("python3 intconsoleV2.py")
 
-	if help_input == "7": 
+	elif help_input == "7": 
 		os.system("""
 		git clone https://github.com/in4osecurity/Youtube-Hack
 		cd Youtube-Hack
 		bash kurulum.sh		
 		""")
-	if help_input == "8":
+	elif help_input == "8":
 		os.system("python3 sendemail.py")
-	if help_input == "9":
+	elif help_input == "9":
 		os.system("python3 OSINT.py")
-	if help_input == "exp-11":
+	elif help_input == "exp-11":
 		os.system("python3 emailfinder.py")
-	if help_input == "10":
+	elif help_input == "10":
 		s = input("do you want to continue? [y/n]")
 		if s == "y":
 			os.system("""			
 			git clone https://github.com/urbanadventurer/Android-PIN-Bruteforce
 			cd Android-PIN-Bruteforce
 			./android-pin-bruteforce crack --length 6				""")
-		if s == "n":
+		elif s == "n":
 			print("restarting...")
 			time.sleep(3)
 			os.system("python3 intconsoleV2.py")
-	if help_input == "11":
+	elif help_input == "11":
 		os.system("""
 		
 		git clone https://github.com/Antu7/python-bruteForce	
@@ -289,7 +289,7 @@ python3 phonesploitpro.py""")
 		python3 bruteforce.py		
 		""")
 		
-	if help_input == "12":
+	elif help_input == "12":
 	    time.sleep(1)
 	    print("Termux=n kali=y")
 	    k = input("Are you using [termux/kali]? ")
@@ -311,18 +311,18 @@ cd intframework
 chmod +x terbuild.sh
 ./terbuild.sh
 	""")
-	if help_input == "13":
+	elif help_input == "13":
 		os.system("python3 +90wifitools.py")		
-	if help_input == "14":
+	elif help_input == "14":
 		os.system("python3 socialhack.py")
 		
-	if help_input == "com-help" or "Com-help" or "Com-Help" or "com-HELP" or "COM-help" or "COM-HELP":
+	elif help_input == "com-help" or "Com-help" or "Com-Help" or "com-HELP" or "COM-help" or "COM-HELP":
 		os.system("help")
 		
 		
-	if help_input != "14" or "13" or "12" or "11" or "10" or "9" or "8" or "7" or "6" or "5" or "4" or "3" or "2" or "1" or "exp-11" or "exp-10" or "exp-9" or "exp-8" or "exp-7" or "exp-6" or "exp-5" or "exp-4" or "exp-3" or "exp-2" or "exp-1" or "neofetch" or "com-help":
+	elif help_input != "14" or "13" or "12" or "11" or "10" or "9" or "8" or "7" or "6" or "5" or "4" or "3" or "2" or "1" or "exp-11" or "exp-10" or "exp-9" or "exp-8" or "exp-7" or "exp-6" or "exp-5" or "exp-4" or "exp-3" or "exp-2" or "exp-1" or "neofetch" or "com-help":
 		os.system(help_input)
-	if help_input == "intai" or help_input == "İntai" or  help_input == "İNTAİ" or help_input "İNTai" or help_input == "intAİ":
+	elif help_input == "intai" or help_input == "İntai" or  help_input == "İNTAİ" or help_input == "İNTai" or help_input == "intAİ":
 		os.system("python3 intai.py")
-	if help_input == "neofetch" or help_input == "Neofetch" or help_input == "NEOFETCH":
+	elif help_input == "neofetch" or help_input == "Neofetch" or help_input == "NEOFETCH":
 		os.system("python3 neofetch.py")
