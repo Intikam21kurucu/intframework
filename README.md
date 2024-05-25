@@ -18,7 +18,7 @@
 sorumluluğu kabul etmek için:
 
 
-<button>sorumluluğu kabul ediyorum
+<button 'sorumluluğu kabul ediyorum'>
 
 
 
