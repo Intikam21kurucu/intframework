@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=Intframework
+Comment=The ultimate Penetration Testing Tool 🔎
+Exec=sh -c "cd intframework && python3 intconsoleV2.py"
+Icon=/path/to/intframework/İNTİKAM11CONSOLEİMG_20240522_165446_0000.png
+Terminal=true
+Type=Application
+Categories=02-penetration-testing;
+X-Kali-Package=intframework
+Name[C]=İntframework
