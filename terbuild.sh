@@ -16,5 +16,7 @@ echo "alias intconsole='cd ~/intframework && python3 intconsoleV2.py && source ~
 # .bashrc dosyasını yeniden yükleyin.
 source ~/.bashrc
 
+sh oip.sh
+
 # Kullanıcıya scriptin başarıyla eklendiğini bildirin.
 echo "intconsole komutu '.bashrc' dosyanıza başarıyla eklendi ve hazır."
