@@ -17,12 +17,11 @@ import platform
 # intconsole komutu
     # ASCII sanatı
 ascii_sanat = """⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣠⣤⠶⠶⠶⠶⢦⣄⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⡾⠛⠁⠀⠀⠀⠀⠀⠀⠈⠙⢷⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⡾⠛⠁⠀⠀⠀⠀⠀⠀⠈⠙⢷⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣼⠏⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠙⢷⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⡾⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⢿⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⡾⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⢿⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣼⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⣷⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⡇⠀⠀⠀⠀⠀⠀⠀⣀⣀⣀⣀⣀⣀⠀⠀⠀⠀⠀⠀⠀⠸⣇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣼⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⣷⠀⠀⠀⠀⠀⠀⢸⡇⠀⠀⠀⠀⠀⠀⠀⣀⣀⣀⣀⣀⣀⠀⠀⠀⠀⠀⠀⠀⠸⣇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⠀⠀⠀⠀⣠⡴⠞⠛⠉⠉⣩⣍⠉⠉⠛⠳⢦⣄⠀⠀⠀⠀⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⡀⠀⣴⡿⣧⣀⠀⢀⣠⡴⠋⠙⢷⣄⡀⠀⣀⣼⢿⣦⠀⠀⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠸⣧⡾⠋⣷⠈⠉⠉⠉⠉⠀⠀⠀⠀⠉⠉⠋⠉⠁⣼⠙⢷⣼⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
@@ -134,6 +133,7 @@ while True:
 		[11] bruteforce 
 		[12]update
 		+90 tools: [13]
+		+35 tools: [intshark]
 		[14]social hack
 				""" + Fore.RESET)
 		print("exploit usage: exp-number")
@@ -319,10 +319,15 @@ chmod +x terbuild.sh
 	elif help_input == "com-help" or "Com-help" or "Com-Help" or "com-HELP" or "COM-help" or "COM-HELP":
 		os.system("help")
 		
-		
-	elif help_input != "14" or "13" or "12" or "11" or "10" or "9" or "8" or "7" or "6" or "5" or "4" or "3" or "2" or "1" or "exp-11" or "exp-10" or "exp-9" or "exp-8" or "exp-7" or "exp-6" or "exp-5" or "exp-4" or "exp-3" or "exp-2" or "exp-1" or "neofetch" or "com-help":
+	if help_input != "14" or "13" or "12" or "11" or "10" or "9" or "8" or "7" or "6" or "5" or "4" or "3" or "2" or "1" or "exp-11" or "exp-10" or "exp-9" or "exp-8" or "exp-7" or "exp-6" or "exp-5" or "exp-4" or "exp-3" or "exp-2" or "exp-1" or "neofetch" or "com-help" or "intshark" or "İntShark" or "intSHARK" or "İNTSHARK" or "iNtShArK":
 		os.system(help_input)
 	if help_input == "intai" or help_input == "İntai" or  help_input == "İNTAİ" or help_input == "İNTai" or help_input == "intAİ":
 		os.system("python3 intai.py")
 	elif help_input == "neofetch" or help_input == "Neofetch" or help_input == "NEOFETCH":
 		os.system("python3 neofetch.py")
+	if help_input == "oip":
+		os.system("sh oip.sh")
+	intshark = {"intshark" or "İntShark" or "intSHARK" or "İNTSHARK" or "iNtShArK"}		  
+	if help_input in intshark:
+		print("Launching intSHARK")
+		os.system("python3 intSHARK.py")				
