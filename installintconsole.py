@@ -43,7 +43,10 @@ if user_input == "y" or "Y":
 	os.system("pip3 install os")
 	os.system("pip3 install base64")
 	os.system("pip3 install time")
-	os.system("pip3 install argparse")	
+	os.system("pip3 install argparse")
+	os.system("pkg install python-cryptography")
+	os.system("pkg install python-bcrypyt")
+	os.system("pip3 install paramiko")	
 
 
 
@@ -82,6 +85,9 @@ if user_input == "n" or input == "N":
 	os.system("sudo apt install python3-base64")
 	os.system("sudo apt install python3-time")
 	os.system("sudo apt install python3-argparse")
+	os.system("sudo apt install python3-cryptograpy")
+	os.system("sudo apt install python3-bcrypt")
+	os.system("sudo apt install python3-paramiko")
 	loading("İntconsole Downloading..........")
 	print("""
 	installed intconsole 
