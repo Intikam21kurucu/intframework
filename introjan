@@ -1,0 +1,104 @@
+import argparse
+import subprocess
+import webbrowser
+import socket
+import paramiko
+
+def execute_local_command(command):
+    try:
+        result = subprocess.run(command, shell=True, check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        print(f"Command output: {result.stdout.decode()}")
+        print(f"Command error (if any): {result.stderr.decode()}")
+    except subprocess.CalledProcessError as e:
+        print(f"An error occurred while executing the command: {e}")
+
+def open_video_url(url):
+    try:
+        webbrowser.open(url)
+        print(f"Opened URL: {url}")
+    except Exception as e:
+        print(f"An error occurred while opening the URL: {e}")
+
+def connect_via_tcp(ip, port, message):
+    try:
+        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+            s.connect((ip, port))
+            print(f"Connected to {ip} on port {port}")
+
+            s.sendall(message.encode())
+            print(f"Sent message: {message}")
+
+            data = s.recv(1024)
+            print(f"Received data: {data.decode()}")
+    except Exception as e:
+        print(f"An error occurred: {e}")
+
+def print_ascii_art():
+    ascii_art = """
+⠀⠀⠀⠀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⢱⠐⠄⠙⠽⡲⣤⡀⠀⠀⠀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⡾⠃⠀⠀⢀⠈⠻⣿⣿⣶⡶⢃⣧⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⡼⣧⣀⣠⡴⠀⢂⠀⠙⣿⣿⣿⣿⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⢸⣅⣩⠟⠁⢰⠀⠸⡄⠀⠐⢻⣿⣿⡿⠂⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠈⠙⠁⠀⠀⢀⠀⠀⡇⠀⠀⠄⠻⠿⢷⣋⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⣸⠀⢠⠇⢀⡜⠀⠀⠐⡄⠀⠀⠈⠈⠐⢤⡀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⢠⡏⠀⢈⡴⠋⠀⠀⠀⠀⡗⠀⠀⠀⠀⠀⠀⢻⣿⣶⣦⣄⠀
+⠀⠀⠀⠀⠀⡾⠀⡄⡎⠀⠀⠀⠀⠀⡰⠃⠀⠀⠀⠀⡠⠀⢀⡇⠙⣿⣿⡷
+⠀⠀⠀⠀⡠⠣⠀⠇⡄⠀⠀⠀⢠⠔⠁⠀⠀⠀⣠⠞⠀⢀⡜⣠⣾⢿⠟⠀
+⠀⠀⢀⡴⠁⣀⠤⠊⠘⡆⠀⣠⠣⢤⠤⠴⢲⠋⠙⠀⣰⠋⠘⡝⠁⠘⠄⠀
+⠀⣰⡿⠖⠉⠀⠀⢀⠊⡀⠚⠁⠀⠈⠀⡰⠁⠀⡆⡜⠁⠀⠀⠁⠀⠀⠀⠀
+⢀⡿⠁⠀⠀⠀⢰⣿⠏⠀⠀⠀⠀⡀⢰⠁⢀⣼⡞⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀İNTROJAN
+⣾⡇⠀⠀⠀⠀⠀⢻⣧⣶⡄⠀⠀⣇⠎⣠⡾⠛⠀⠀⠀⠀⠀⠀TO İNTCONSOLE⠀⠀⠀⠀
+⣿⣷⠀⠀⠀⠀⠀⠀⠉⠉⠁⠀⣼⢏⣴⠟⠁ ⠀⠀FROM İNTİKAM21⠀⠀⠀⠀⠀⠀⠀⠀
+⠙⠋⠀⠀⠀⠀⠀⠀⠀⠀⠀⣼⣿⣾⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⣾⠏⠀⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+    """
+    print(ascii_art)
+
+def main():
+    print_ascii_art()
+    
+    parser = argparse.ArgumentParser(description="introjan")
+    
+    parser.add_argument('-k', '--kablo', action='store_true', help='Use cable for connection')
+    parser.add_argument('-r', '--remote', type=str, choices=["lxde", "cmd"], required=True, help='Type of remote operation: cmd or lxde')
+    parser.add_argument('-d', '--dir', type=str, required=True, help='Directory to show everything on the computer')
+    parser.add_argument('-g', '--video-url', type=str, help='URL of the video to be played locally')
+    parser.add_argument('-c', '--cmd', type=str, help='Command to be executed (only for cmd remote)')
+    parser.add_argument('--ipv4', type=str, help='IPv4 address')
+    parser.add_argument('-port', '--port', type=int, help='Port number (required if -k is used)')
+    parser.add_argument('-s', '--send-message', type=str, metavar='MESSAGE', help='Message to send via TCP socket')
+
+    args = parser.parse_args()
+
+    if args.send_message:
+        if not args.ipv4:
+            parser.error("IPv4 address is required to send a message.")
+        elif not args.port:
+            parser.error("Port number is required to send a message.")
+        else:
+            connect_via_tcp(args.ipv4, args.port, args.send_message)
+
+    if args.kablo:
+        if not args.port:
+            parser.error("Port number is required when using -k option.")
+
+        if args.remote == "lxde" and args.video_url:
+            open_video_url(args.video_url)
+        elif args.remote == "cmd" and args.cmd:
+            execute_local_command(args.cmd)
+        else:
+            parser.error("No appropriate action specified for the given options.")
+    else:
+        if not args.ipv4:
+            parser.error("IPv4 address is required.")
+
+        if args.remote == "lxde" and args.video_url:
+            open_video_url(args.video_url)
+        elif args.remote == "cmd" and args.cmd:
+            execute_local_command(args.cmd)
+        else:
+            parser.error("No appropriate action specified for the given options.")
+
+if __name__ == "__main__":
+    main()
