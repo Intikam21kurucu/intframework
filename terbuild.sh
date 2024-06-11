@@ -16,7 +16,22 @@ echo "alias intconsole='cd ~/intframework && python3 intconsoleV2.py && source ~
 # .bashrc dosyasını yeniden yükleyin.
 source ~/.bashrc
 
-sh oip.sh
+touch ~/.bash_aliases
+nano ~/.bash_aliases
+chmod +x introjan
+mkdir -p ~/bin/
+mv introjan ~/bin/
+echo $PATH
+export PATH=$HOME/bin:$PATH
+alias introjan='python3 introjan'>>~/.bash_aliases
+source ~/.bash_aliases
+introjan -h
 
-# Kullanıcıya scriptin başarıyla eklendiğini bildirin.
-echo "intconsole komutu '.bashrc' dosyanıza başarıyla eklendi ve hazır."
+chmod +x oip
+mkdir -p ~/intmodules
+mv oip ~/intmodules/
+echo 'export PATH=$HOME/intmodules:$PATH' >> ~/.profile
+source ~/.profile
+oip -h
+
+echo "LAUNCEDED INTCONSOLE"
