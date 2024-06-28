@@ -1,4 +1,3 @@
-
 #!/bin/bash
 
 # Bu script, Termux'ta 'intconsole' komutu için bir alias oluşturur ve .bashrc dosyasına ekler.
@@ -19,6 +18,8 @@ echo "alias intweb='python3 /data/data/com.termux/files/home/intframework/intweb
 echo "alias introjan='python3 /data/data/com.termux/files/home/intframework/introjan'" >> ~/.bashrc
 
 echo "alias intvenom='python3 /data/data/com.termux/files/home/intframework/intvenom.py" >> ~/.bashrc
+
+echo "alias intofficial='python3 /data/data/com.termux/files/home/intframework/intcam.py" >> ~/.bashrc
 
 echo "alias intofficial='python3 /data/data/com.termux/files/home/intframework/İNTOFFİCİAL.py" >> ~/.bashrc
 
