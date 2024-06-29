@@ -1,0 +1,1 @@
+Hello, we are the İntikam21 Cyber Team. We made the intconsole tool for young people who want to improve in the field of cyber security. Now I will give you some information about intconsole.
