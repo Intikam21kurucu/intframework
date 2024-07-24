@@ -25,12 +25,12 @@ import sys
 import random
 import urllib.request
 from queue import Queue
-import intmail
-from intmail import EmailRep
-import intcrawler
-import intninja
-import phonesearcher
-import intdc
+from modules import intmail
+from modules.intmail import EmailRep
+from modules import intcrawler
+from modules import intninja
+from modules import phonesearcher
+from modules import intdc
 
 def bind_tcp(lhosts, lports):
 	try:
