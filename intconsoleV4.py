@@ -25,15 +25,15 @@ import sys
 import random
 import urllib.request
 from queue import Queue
-import evasionint
-import usersearcher
-from usersearcher import searchus, banner, outer_func
-from exploit_searcher import search_exploits, download_exploit
-import exploit_searcher
-import expdatabase
-from expdatabase import create_option, create_exploit, show_options, set_option, run_exploit, use_framework, import_framework, initialize_framework
-from expdatabase import import_framework, show_options, set_option, run_exploit, use_framework, create_exploit
-import intmodules
+from modules import evasionint
+from modules import usersearcher
+from modules.usersearcher import searchus, banner, outer_func
+from modules.exploit_searcher import search_exploits, download_exploit
+from modules import exploit_searcher
+from modules import expdatabase
+from modules.expdatabase import create_option, create_exploit, show_options, set_option, run_exploit, use_framework, import_framework, initialize_framework
+from modules.expdatabase import import_framework, show_options, set_option, run_exploit, use_framework, create_exploit
+from modules import intmodules
 
 def check_network():
     try:
@@ -239,7 +239,7 @@ def create_command_pool():
 		pool["consoleV4"] = "intconsole"
 		pool["tools"] = "auxiliary"
 		pool["dork"] = "google"
-		pool["osint"] = "intframework for osint and replit"
+		pool["osint"] = "intframework is a osint and replit tool"
 		pool["replit"] = "repl"
 		pool["api"] = "os"
 		pool["apis"] = "api.intframework"
@@ -477,7 +477,4 @@ ___ _   _ _____ ___ _  __    _    __  __ ____
         |  / SUDO \   _//|| _\   /   İntoNet 1:666/1777   |
         | (________) (_/(_|(____/                         |
         |                  (rm)                           |
-        +-------------------------------------------------+
-   {Fore.RESET} """, 
-    """{Fore.RED}
-                                                  
+        +--------------------------------------------
