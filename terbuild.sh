@@ -33,7 +33,7 @@ intmail -h
 
 chmod +x oip
 mkdir -p ~/intmodules
-mv oip ~/intmodules/
+mv /data/data/com.termux/files/home/intframework/oip ~/intmodules/
 echo 'export PATH=$HOME/intmodules:$PATH' >> ~/.profile
 source ~/.profile
 oip -h
