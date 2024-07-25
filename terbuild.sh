@@ -11,7 +11,7 @@ if [ ! -f "$HOME/intframework/.install_done" ]; then
 fi
 
 # 'intconsole' komutunu tanımlayın.
-echo "alias intconsole='cd ~/intframework && python3 intconsoleV3.py && source ~/.bashrc'" >> ~/.bashrc
+echo "alias intconsole='cd ~/intframework && python3 intconsoleV4.py && source ~/.bashrc'" >> ~/.bashrc
 
 echo "alias intweb='python3 /data/data/com.termux/files/home/intframework/intweb'" >> ~/.bashrc
 
