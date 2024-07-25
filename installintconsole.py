@@ -43,11 +43,12 @@ if user_input == "y" or "Y":
 	os.system("pip3 install os")
 	os.system("pip3 install base64")
 	os.system("pip3 install time")
-	os.system("pip3 install argparse")
+	os.system("pip3 install argparse")	
+	os.system("pkg install bcrypt")
+	os.system("pkg install python-bcrypt")
 	os.system("pkg install python-cryptography")
-	os.system("pkg install python-bcrypyt")
-	os.system("pip3 install paramiko")	
-
+	os.system("pip install paramiko")
+	os.system("pkg install nmap")
 
 
 	loading("İntconsole Downloading..........")
@@ -85,9 +86,6 @@ if user_input == "n" or input == "N":
 	os.system("sudo apt install python3-base64")
 	os.system("sudo apt install python3-time")
 	os.system("sudo apt install python3-argparse")
-	os.system("sudo apt install python3-cryptograpy")
-	os.system("sudo apt install python3-bcrypt")
-	os.system("sudo apt install python3-paramiko")
 	loading("İntconsole Downloading..........")
 	print("""
 	installed intconsole 
@@ -97,12 +95,12 @@ if user_input == "n" or input == "N":
 	k = input("Do you command is working[Y/n]")
 	
 	
-	if k == "y" or k == "Y":
+	if k == "n" or k == "N":
 	   	os.system("cd ~")
 	   	os.system("nano .bashrc")
 	   	os.system("source ~/.bashrc")
-	   	os.system("echo \"alias intconsole='python3 /usr/bin/intframework/intconsoleV2.py'\" >> ~/.bashrc")
+	   	os.system("echo \"alias intconsole='python3 /usr/bin/intframework/intconsoleV4.py'\" >> ~/.bashrc")
 	   	p()
-	elif k == "n" or k == "N":
+	elif k == "y" or k == "Y":
 		print("type intconsole to start please")
 		p()	
