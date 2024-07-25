@@ -59,7 +59,7 @@ print(Fore.RED, "{11}-CONTRIBUTORS")
 print(Fore.RED, "{99}-Back intframework\n", Fore.RESET)
   
 while True :
-	inputr = input("┌──(intikam21-cyber@root[intshark]\n└─$")
+	inputr = input("(intikam21-cyber@root[intshark]) #")
 	if inputr == "1":
 		print(ascii)
 		print(Fore.RED, """
@@ -75,7 +75,7 @@ while True :
 		{10}İnfoGRAM	
 		""", Fore.BLUE)
 
-		s = input("┌──(intikam21-cyber@root[intshark/information-gathering]\n└─$")		
+		s = input("(intikam21-cyber@root[intshark/information-gathering]) #")		
 		print(Fore.RESET)
 		if s == "1":
 			os.system("pkg install nmap")
@@ -166,7 +166,7 @@ $ python3 main.py -h
 {9}--CeWL - The Create Wordlists for Bruteforce
 {10}--Wifite2 - The wifi bruteforce Tool	
 			""")
-			s = input("""┌──(intikam21-cyber@root[intshark/Bruteforce]\n└─$""")
+			s = input("""(intikam21-cyber@root[intshark/Bruteforce]) #""")
 			if s == "1":
 				os.system("""pkg install git
 git clone https://github.com/openwall/john.git
@@ -269,8 +269,7 @@ make install""")
 			║	
 			 ──[intshark/penetration-testing]
 			║ 		
-			└─$
-			""")
+			└─#""")
 			if s == "1":
 				os.system("""
 				pkg update && pkg upgrade
@@ -334,7 +333,7 @@ make install""")
 			║	
 			 ──[intshark/Web-Hacking]
 			║ 		
-			└─$""")
+			└─ #""")
 			if s == "4":
 				os.system("""
 				git clone https://github.com/santatic/web2attack
@@ -390,6 +389,6 @@ make install""")
 	if inputr == "99":
 			os.system("exit")
 			os.system("cd intframework")
-			os.system("python3 intconsoleV2.py")
+			os.system("python3 intconsoleV4.py")
 	if inputr == "11":
 			os.system("python3 intly.py")			
