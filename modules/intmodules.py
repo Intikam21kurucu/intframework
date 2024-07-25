@@ -149,7 +149,7 @@ TARGET      REQUIRED    DESCRIPTION
 def discord(userid):
 	intdc.search(userid)
 	token = intdc.search(userid).stdout
-def discord_option(userid, tok=token):
+def discord_option(userid, tok=None):
 	print(f"""
 	Module       Hosts    Token     İD        Case 
   ---------------    ------------  -----------   ---------   -----------
