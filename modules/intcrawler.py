@@ -120,11 +120,11 @@ options:
 
 def clone(args):
     print("Cloning website locally...")
-    if args.url:
+    if args.root:
         try:
             # Burada isteğe bağlı olarak bir web sitesini indirebilirsiniz.
             # Örneğin:
-            response = requests.get(args.url)
+            response = requests.get(args.root)
             with open('index.html', 'w') as f:
             	f.write(response.text)
             print("Clone completed successfully.")
