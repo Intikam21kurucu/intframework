@@ -1,0 +1,63 @@
+name: CI/CD Pipeline for Intframework
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  schedule:
+    - cron: '0 0 * * *'  # Günlük olarak gece yarısı çalışacak
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Check out the repository
+      uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+    - name: Run tests for Intframework
+      run: |
+        cd intframework
+        pytest
+
+    - name: Build Intframework
+      run: |
+        cd intframework
+        python setup.py build
+
+    - name: Run tests for Intconsole
+      run: |
+        pytest
+
+    - name: Build Intconsole
+      run: |
+        python setup.py build
+
+  notify:
+    needs: [build]
+    runs-on: ubuntu-latest
+    steps:
+    - name: Notify deployment status
+      uses: actions/github-script@v6
+      with:
+        script: |
+          const status = context.job.status;
+          const message = status === 'success' ? 'Build successful' : 'Build failed';
+          await github.issues.createComment({
+            ...context.repo,
+            issue_number: 1,  # Bu numarayı gerçek bir issue numarası ile değiştirin
+            body: message
+          });
