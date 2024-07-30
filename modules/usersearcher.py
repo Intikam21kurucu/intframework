@@ -99,4 +99,4 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     banner()
-    search(args.username)
+    searchus(args.username)
