@@ -1,5 +1,5 @@
-# usr/bin/env python3
+# !/usr/bin/env python3
 from modules.drones import drones
 from modules.drones import dronescan
-from modules.drones import drones
-from modules.drones import drones
+from modules.drones import droneentry
+from modules.drones import dronesignalscan
