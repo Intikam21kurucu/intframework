@@ -103,7 +103,7 @@ general_auto = [
 class osfPrompt(Cmd):
 
     prompt = DIM + 'osf' + RST + '> ' +  RST # Default prompt
-    intro = "OSINTframework Console - Type 'help' for commands" # Intro
+    intro = "OS/INTframework Console - Type 'help' for commands" # Intro
 
     doc_header = 'Core Commands (type help <command>)'
     misc_header = 'Undef'
