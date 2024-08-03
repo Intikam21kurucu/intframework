@@ -8,7 +8,7 @@
 ![Python](https://img.shields.io/badge/Python-3-green.svg)
 ![Exploits](https://img.shields.io/badge/EXPLOIT-2456-red.svg)
 ![Build](https://img.shields.io/badge/BUILD-1079-red.svg)
-![Modules](https://img.shields.io/badge/modules-545-green.svg) 
+![Modules](https://img.shields.io/badge/modules-545-red.svg) 
 
 
 
