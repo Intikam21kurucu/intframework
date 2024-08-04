@@ -15,7 +15,7 @@ cd ~
 pkg install zsh
 
 # 'intconsole' komutunu tanımlayın.
-echo "alias intconsole='cd ~/intframework && python3 intconsoleV3.py && source ~/.bashrc'" >> ~/.bashrc
+echo "alias intconsole='cd ~/intframework && python3 intconsoleV4.py && source ~/.bashrc'" >> ~/.bashrc
 echo "alias intweb='python3 /data/data/com.termux/files/home/intframework/intweb'" >> ~/.bashrc
 echo "alias introjan='python3 /data/data/com.termux/files/home/intframework/introjan'" >> ~/.bashrc
 echo "alias intvenom='python3 /data/data/com.termux/files/home/intframework/intvenom.py'" >> ~/.bashrc
