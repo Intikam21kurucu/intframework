@@ -20,9 +20,9 @@ echo "alias intweb='python3 /data/data/com.termux/files/home/intframework/intweb
 echo "alias introjan='python3 /data/data/com.termux/files/home/intframework/introjan'" >> ~/.bashrc
 echo "alias intvenom='python3 /data/data/com.termux/files/home/intframework/intvenom.py'" >> ~/.bashrc
 echo "alias intofficial='python3 /data/data/com.termux/files/home/intframework/intcam.py'" >> ~/.bashrc
-echo "alias intninja='python3 /data/data/com.termux/files/home/intframework/intninja.py'" >> ~/.bashrc
-echo "alias intmail='python3 /data/data/com.termux/files/home/intframework/intmail.py'" >> ~/.bashrc
-echo "alias intmeterpreter='python3 /data/data/com.termux/files/home/intframework/intmeterpreter.py'" >> ~/.bashrc
+echo "alias intninja='python3 /data/data/com.termux/files/home/intframework/modules/intninja.py'" >> ~/.bashrc
+echo "alias intmail='python3 /data/data/com.termux/files/home/intframework/modules/intmail.py'" >> ~/.bashrc
+echo "alias intmeterpreter='python3 /data/data/com.termux/files/home/intframework/modules/intmeterpreter.py'" >> ~/.bashrc
 echo "alias intai='python3 /data/data/com.termux/files/home/intframework/İntAİV2.py'" >> ~/.bashrc
 
 # .bashrc dosyasını yeniden yükleyin.
