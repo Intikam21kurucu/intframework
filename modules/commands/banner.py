@@ -27,9 +27,9 @@ import urllib.request
 from queue import Queue
 
 def banner():
-	import random
- global banners
-	banners = [
+        import random
+        global banners
+        banners = [
     """{Fore.RED} THİS İS SPARTA! {Fore.RESET}
     
     {Fore.BLUE}
@@ -343,7 +343,7 @@ ___ _   _ _____ ___ _  __    _    __  __ ____
 ⠀⠀⠈⢻⣿⣿⣿⣧⠀⠸⠇⠀⣼⣿⣿⣿⠟⠀⠀⠀
 ⠀⠀⠀⠀⠙⢿⣿⣿⣧⣤⣤⣾⣿⣿⡿⠋⠀author: @ares⠀⠀⠀
 ⠀⠀⠀⠀⠀⠀⠙⠿⣿⣿⣿⣿⠿⠋⠀⠀⠀⠀⠀⠀
-⠀⠀       ⠀⠀⠀⠀⠈⠁	⠀⠀⠀
+⠀⠀       ⠀⠀⠀⠀⠈⠁        ⠀⠀⠀
 {Fore.RESET}⠀⠀⠀⠀⠀
    """,
    """
@@ -366,18 +366,18 @@ ___ _   _ _____ ___ _  __    _    __  __ ____
      | [~] Coder: intikam21                                       |
      | [~] Team: {Fore.RED}İntikam21{Fore.RESET} Cyber Team                              |
      | [~] Designer: İntikam21 Design Team                         |
-     | [~] Supporters: Not			                        |
+     | [~] Supporters: Not                                                |
    +--------------------------------------------------------------+
     """   
     # Daha fazla banner eklenebilir
     ]
     # Rastgele bir banner seçimi yapılıyor
-	chosen_banner = random.choice(banners)
-	# Print the formatted text
-	print(chosen_banner.format(Fore=Fore))
+        chosen_banner = random.choice(banners)
+        # Print the formatted text
+        print(chosen_banner.format(Fore=Fore))
 def menu_banner():
-	print("" + Fore.RESET)
-	print(f"""
+        print("" + Fore.RESET)
+        print(f"""
 =[ {Fore.YELLOW}İntikam21-Framework console v4.0.15-dev-bbf096e{Style.RESET_ALL}                  ]
 + -- --=[ 2456 exploits - 1248 auxiliary - 500 post]
 + -- --=[ 1465 payloads - 50 encoders - 1 nops     ]
