@@ -13,7 +13,7 @@ Panels:
     cloud_index.html
     cloud_copy.html
     cloud_upload.html
-    style.css
+    styles.css
     scripts.js
 
  
