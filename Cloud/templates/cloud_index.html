@@ -1,0 +1,36 @@
+<!doctype html>
+<html>
+<head>
+    <title>{{ _('File Management') }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <script src="{{ url_for('static', filename='scripts.js') }}" defer></script>
+</head>
+<body>
+    <header>
+        <img src="{{ url_for('static', filename='int.png') }}" alt="Intikam21 Cyber Team Logo" class="logo">
+        <h1>{{ _('File Management') }}</h1>
+    </header>
+    
+    <nav>
+        <a href="{{ url_for('upload_file') }}" class="nav-link">{{ _('Upload File') }}</a>
+        <div class="language-select">
+            <button class="lang-button" data-lang="en">{{ _('English') }}</button>
+            <button class="lang-button" data-lang="tr">{{ _('Turkish') }}</button>
+            <button class="lang-button" data-lang="zh">{{ _('Chinese') }}</button>
+        </div>
+    </nav>
+    
+    <main>
+        <h2>{{ _('Files:') }}</h2>
+        <ul class="file-list">
+            {% for file in files %}
+            <li>
+                {{ file }} 
+                <a href="{{ url_for('delete_file', filename=file) }}" class="delete-file">{{ _('Delete') }}</a>
+                <a href="{{ url_for('copy_file', filename=file) }}" class="copy-file">{{ _('Copy') }}</a>
+            </li>
+            {% endfor %}
+        </ul>
+    </main>
+</body>
+</html>
