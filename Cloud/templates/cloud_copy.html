@@ -1,0 +1,17 @@
+<!doctype html>
+<html>
+<head>
+    <title>{{ _('Copy File') }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <script src="{{ url_for('static', filename='scripts.js') }}" defer></script>
+</head>
+<body>
+    <h1>{{ _('Copy File') }}</h1>
+    <form id="copy-form" method="post">
+        <label for="target_folder">{{ _('Target folder path') }}</label>
+        <input type="text" id="target_folder" name="target_folder">
+        <input type="submit" value="{{ _('Copy') }}">
+    </form>
+    <a href="{{ url_for('index') }}">{{ _('Back to Home') }}</a>
+</body>
+</html>
