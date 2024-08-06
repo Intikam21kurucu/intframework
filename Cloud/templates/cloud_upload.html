@@ -1,0 +1,16 @@
+<!doctype html>
+<html>
+<head>
+    <title>{{ _('Upload File') }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <script src="{{ url_for('static', filename='scripts.js') }}" defer></script>
+</head>
+<body>
+    <h1>{{ _('Upload File') }}</h1>
+    <form id="upload-form" method="post" enctype="multipart/form-data">
+        <input type="file" id="file" name="file">
+        <input type="submit" value="{{ _('Upload') }}">
+    </form>
+    <a href="{{ url_for('index') }}">{{ _('Back to Home') }}</a>
+</body>
+</html>
