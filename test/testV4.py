@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from pyfiglet import Figlet
-from colorama import Fore, init
+from colorama import Fore, init, Style
 import threading
 import requests
 import time
@@ -590,5 +590,4 @@ HELLO, WE ARE THE İNTİKAM21 CYBER TEAM, THE REASON WE MADE THIS TOOL IS TO EDU
     	else:
     		LPORTS = Lp
     	user_count(help_input)
-    	print("intbase: LPORT ==> "+LPORTS)
-  
+    	print("intbase: LPORT ==> "+LPO
