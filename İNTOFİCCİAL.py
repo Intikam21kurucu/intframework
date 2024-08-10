@@ -3,9 +3,11 @@ from tkinter import filedialog, messagebox
 from PIL import Image, ImageTk
 import subprocess
 import time
-from tkhtmlview import HTMLLabel
-import requests
-from bs4 import BeautifulSoup
+import os
+import platform
+import psutil
+import socket
+import scapy.all as scapy  # Scapy kütüphanesi
 
 class VirtualPC(tk.Tk):
     def __init__(self):
@@ -14,7 +16,7 @@ class VirtualPC(tk.Tk):
         self.geometry("1024x768")
 
         # Arka plan resmi
-        self.background_image = "/storage/emulated/0/int/int.png"
+        self.background_image = None
         self.background_label = tk.Label(self)
         self.background_label.place(x=0, y=0, relwidth=1, relheight=1)
 
@@ -30,15 +32,22 @@ class VirtualPC(tk.Tk):
         # Açık uygulamalar listesi
         self.open_windows = []
 
+        # Varsayılan arka planı ayarla
+        self.set_default_background()
+
     def create_desktop_icons(self):
         self.create_icon(20, 20, "intOffical", self.open_window, "int.png")
         self.create_icon(200, 20, "İNTCONSOLE", self.open_intconsole, "int.png")
         self.create_icon(480, 20, "Settings", self.open_settings, "dos.png")
         self.create_icon(760, 20, "Chrome", self.open_chrome, "chrome.png")
+        self.create_icon(20, 100, "File Manager", self.open_file_manager, "file_manager.png")
+        self.create_icon(200, 100, "Network Scanner", self.open_network_scanner, "network_scanner.png")
+        self.create_icon(480, 100, "System Info", self.open_system_info, "system_info.png")
+        self.create_icon(760, 100, "Network Status", self.open_network_status, "network_status.png")
 
     def create_icon(self, x, y, text, command, image_file):
         try:
-            icon_image = Image.open(f"/storage/emulated/0/int/{image_file}").resize((64, 64), Image.LANCZOS)
+            icon_image = Image.open(f"~/intframework/int/{image_file}").resize((64, 64), Image.LANCZOS)
             icon_photo = ImageTk.PhotoImage(icon_image)
             icon_button = tk.Button(self, image=icon_photo, command=lambda: command(text), bd=0)
             icon_button.image = icon_photo
@@ -54,7 +63,7 @@ class VirtualPC(tk.Tk):
         taskbar.pack(side=tk.BOTTOM, fill=tk.X)
 
         try:
-            start_image = Image.open("/storage/emulated/0/int/int.png").resize((50, 50), Image.LANCZOS)
+            start_image = Image.open("~/intframework/int/int.png").resize((50, 50), Image.LANCZOS)
             start_photo = ImageTk.PhotoImage(start_image)
             start_button = tk.Button(taskbar, image=start_photo, command=self.show_start_menu, bd=0)
             start_button.image = start_photo
@@ -69,7 +78,7 @@ class VirtualPC(tk.Tk):
         self.clock_label.pack(side=tk.RIGHT, padx=10)
         self.update_clock()
 
-        wifi_image = Image.open("/storage/emulated/0/int/IMG_20240625_202557.jpg").resize((24, 24), Image.LANCZOS)
+        wifi_image = Image.open("~/intframework/int/IMG_20240625_202557.jpg").resize((24, 24), Image.LANCZOS)
         wifi_photo = ImageTk.PhotoImage(wifi_image)
         wifi_label = tk.Label(taskbar, image=wifi_photo, bg="gray")
         wifi_label.image = wifi_photo
@@ -86,7 +95,7 @@ class VirtualPC(tk.Tk):
     def show_start_menu(self):
         if self.start_menu:
             self.start_menu.destroy()
-        
+
         self.start_menu = tk.Toplevel(self)
         self.start_menu.title("Start Menu")
         self.start_menu.geometry("300x400+50+200")
@@ -148,13 +157,13 @@ class VirtualPC(tk.Tk):
 
         text_area = tk.Text(console_frame)
         text_area.pack(side=tk.LEFT, expand=True, fill=tk.BOTH)
-        
+
         scrollbar = tk.Scrollbar(console_frame, command=text_area.yview)
         scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
         text_area.config(yscrollcommand=scrollbar.set)
 
         def start_console():
-            subprocess.run(["python3", "intconsoleV4.py"], stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            subprocess.Popen(["python3", "intconsoleV4.py"], stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
         start_button = tk.Button(new_window, text="Start Console", command=start_console)
         start_button.pack(pady=5)
@@ -194,81 +203,125 @@ class VirtualPC(tk.Tk):
         new_window.title("Settings")
         new_window.geometry("400x300")
 
+        label = tk.Label(new_window, text="Settings")
+        label.pack(pady=20)
+
+        # Arka plan değiştirme
         change_bg_button = tk.Button(new_window, text="Change Background", command=self.change_background)
-        change_bg_button.pack(pady=20)
+        change_bg_button.pack(pady=10)
 
-    def open_chrome(self):
-        new_window = tk.Toplevel(self)
-        new_window.title("Chrome")
-        new_window.geometry("800x600")
-
-        browser_frame = tk.Frame(new_window)
-        browser_frame.pack(expand=True, fill=tk.BOTH)
-
-        html_label = HTMLLabel(browser_frame, html="<h1>Welcome to Chrome!</h1>")
-        html_label.pack(expand=True, fill=tk.BOTH)
-
-    def open_notepad(self):
-        new_window = tk.Toplevel(self)
-        new_window.title("Notepad")
-        new_window.geometry("600x400")
-
-        text_area = tk.Text(new_window)
-        text_area.pack(expand=True, fill=tk.BOTH)
-
-    def open_calculator(self):
-        new_window = tk.Toplevel(self)
-        new_window.title("Calculator")
-        new_window.geometry("300x400")
-
-        display = tk.Entry(new_window, width=28, font=('Arial', 24), borderwidth=2, relief='solid')
-        display.grid(row=0, column=0, columnspan=4)
-
-        buttons = [
-            '7', '8', '9', '/',
-            '4', '5', '6', '*',
-            '1', '2', '3', '-',
-            '0', '.', '=', '+'
-        ]
-
-        row_val = 1
-        col_val = 0
-        for button in buttons:
-            action = lambda x=button: self.click_event(x, display)
-            tk.Button(new_window, text=button, command=action, width=5, height=2).grid(row=row_val, column=col_val)
-            col_val += 1
-            if col_val > 3:
-                col_val = 0
-                row_val += 1
-
-    def click_event(self, button, display):
-        if button == "=":
-            try:
-                result = str(eval(display.get()))
-                display.delete(0, tk.END)
-                display.insert(0, result)
-            except Exception as e:
-                messagebox.showerror("Error", f"An error occurred: {str(e)}")
-        else:
-            current_text = display.get()
-            display.delete(0, tk.END)
-            display.insert(0, current_text + button)
+        # Dosya indirme
+        download_button = tk.Button(new_window, text="Download File", command=self.download_file)
+        download_button.pack(pady=10)
 
     def change_background(self):
-        new_bg = filedialog.askopenfilename(filetypes=[("Image Files", "*.png;*.jpg;*.jpeg")])
-        if new_bg:
-            self.background_image = new_bg
-            img = Image.open(new_bg)
-            img = img.resize((self.winfo_width(), self.winfo_height()), Image.LANCZOS)
-            self.background_label.config(image=ImageTk.PhotoImage(img))
+        file_path = filedialog.askopenfilename(filetypes=[("Image files", "*.jpg;*.png")])
+        if file_path:
+            try:
+                img = Image.open(file_path).resize((self.winfo_width(), self.winfo_height()))
+                self.background_image = ImageTk.PhotoImage(img)
+                self.background_label.config(image=self.background_image)
+            except Exception as e:
+                messagebox.showerror("Error", f"An error occurred while changing background: {str(e)}")
 
-    def open_settings(self):
+    def download_file(self):
+        url = filedialog.askstring("Download File", "Enter the URL of the file to download:")
+        if url:
+            file_name = url.split("/")[-1]
+            save_path = filedialog.asksaveasfilename(initialfile=file_name, defaultextension=".bin")
+            if save_path:
+                try:
+                    response = requests.get(url, stream=True)
+                    response.raise_for_status()
+                    with open(save_path, "wb") as file:
+                        for chunk in response.iter_content(chunk_size=8192):
+                            file.write(chunk)
+                    messagebox.showinfo("Success", "File downloaded successfully.")
+                except requests.RequestException as e:
+                    messagebox.showerror("Error", f"An error occurred while downloading file: {str(e)}")
+
+    def open_file_manager(self):
         new_window = tk.Toplevel(self)
-        new_window.title("Settings")
-        new_window.geometry("400x300")
+        new_window.title("File Manager")
+        new_window.geometry("800x600")
 
-        change_bg_button = tk.Button(new_window, text="Change Background", command=self.change_background)
-        change_bg_button.pack(pady=20)
+        file_listbox = tk.Listbox(new_window)
+        file_listbox.pack(expand=True, fill=tk.BOTH)
+
+        def refresh_files():
+            file_listbox.delete(0, tk.END)
+            for file_name in os.listdir("."):
+                file_listbox.insert(tk.END, file_name)
+
+        refresh_button = tk.Button(new_window, text="Refresh", command=refresh_files)
+        refresh_button.pack(pady=5)
+
+        refresh_files()
+
+    def open_network_scanner(self):
+        new_window = tk.Toplevel(self)
+        new_window.title("Network Scanner")
+        new_window.geometry("800x600")
+
+        scan_result_area = tk.Text(new_window)
+        scan_result_area.pack(expand=True, fill=tk.BOTH)
+
+        def scan_network():
+            scan_result_area.delete('1.0', tk.END)
+            try:
+                arp_request = scapy.ARP(pdst="192.168.1.0/24")  # Ağ aralığını uygun şekilde ayarlayın
+                broadcast = scapy.Ether(dst="ff:ff:ff:ff:ff:ff")
+                arp_request_broadcast = broadcast/arp_request
+                answered_list = scapy.srp(arp_request_broadcast, timeout=1, verbose=False)[0]
+                for element in answered_list:
+                    scan_result_area.insert(tk.END, f"IP: {element[1].psrc}, MAC: {element[1].hwsrc}\n")
+            except Exception as e:
+                messagebox.showerror("Error", f"An error occurred during network scan: {str(e)}")
+
+        scan_button = tk.Button(new_window, text="Scan Network", command=scan_network)
+        scan_button.pack(pady=5)
+
+    def open_system_info(self):
+        new_window = tk.Toplevel(self)
+        new_window.title("System Information")
+        new_window.geometry("800x600")
+
+        system_info_area = tk.Text(new_window)
+        system_info_area.pack(expand=True, fill=tk.BOTH)
+
+        def gather_system_info():
+            system_info_area.delete('1.0', tk.END)
+            uname = platform.uname()
+            system_info_area.insert(tk.END, f"System: {uname.system}\n")
+            system_info_area.insert(tk.END, f"Node Name: {uname.node}\n")
+            system_info_area.insert(tk.END, f"Release: {uname.release}\n")
+            system_info_area.insert(tk.END, f"Version: {uname.version}\n")
+            system_info_area.insert(tk.END, f"Machine: {uname.machine}\n")
+            system_info_area.insert(tk.END, f"Processor: {uname.processor}\n")
+            system_info_area.insert(tk.END, f"CPU Count: {psutil.cpu_count(logical=True)}\n")
+            system_info_area.insert(tk.END, f"Memory: {psutil.virtual_memory().total / (1024 ** 3):.2f} GB\n")
+
+        gather_system_info_button = tk.Button(new_window, text="Gather System Info", command=gather_system_info)
+        gather_system_info_button.pack(pady=5)
+        gather_system_info()
+
+    def open_network_status(self):
+        new_window = tk.Toplevel(self)
+        new_window.title("Network Status")
+        new_window.geometry("800x600")
+
+        network_status_area = tk.Text(new_window)
+        network_status_area.pack(expand=True, fill=tk.BOTH)
+
+        def get_network_status():
+            network_status_area.delete('1.0', tk.END)
+            hostname = socket.gethostname()
+            ip_address = socket.gethostbyname(hostname)
+            network_status_area.insert(tk.END, f"Hostname: {hostname}\n")
+            network_status_area.insert(tk.END, f"IP Address: {ip_address}\n")
+
+        network_status_button = tk.Button(new_window, text="Get Network Status", command=get_network_status)
+        network_status_button.pack(pady=5)
 
 if __name__ == "__main__":
     app = VirtualPC()
