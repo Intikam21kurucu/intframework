@@ -13,7 +13,7 @@ YELLOW = outer_func('\033[93m')
 RED = outer_func('\033[91m')
 
 ''' BANNER '''
-def banner():
+def bannerslk():
     YELLOW(r'''    
     ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣠⣤⣤⣤⣤⣄⡀⠀⠀⠀⠀⢠⣤⣄⠀⣀⠀⠀
 ⠀⠀⠀⠀⠀⠀⠀⣠⣴⠟⠛⠉⠁⠀⠀⠈⠉⠛⠻⣦⣄⠀⢸⡟⠙⣿⡟⣷⡀
@@ -98,5 +98,5 @@ if __name__ == '__main__':
     parser.add_argument('username', type=str, help='Username to search for')
     args = parser.parse_args()
 
-    banner()
+    bannerslk()
     searchus(args.username)
