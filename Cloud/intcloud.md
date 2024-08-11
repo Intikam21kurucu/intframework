@@ -12,6 +12,7 @@ Panels:
 intcloud/
 ├── intcloud.py
 ├── static/
+│   ├── int.png
 │   ├── styles.css
 │   └── scripts.js
 └── templates/
