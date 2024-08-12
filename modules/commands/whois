@@ -1,0 +1,58 @@
+# /usr/bin/env python3
+import requests
+from bs4 import BeautifulSoup
+import whois
+import argparse
+
+def get_domain_info(domain):
+    try:
+        # Alan adı bilgilerini almak için whois sorgulaması yapma
+        domain_info = whois.whois(domain)
+        
+        # Veriyi formatlı şekilde yazdırma
+        print(f"Domain Adı: {domain_info.domain_name}")
+        print(f"Registrar: {domain_info.registrar}")
+        print(f"Whois Sunucusu: {domain_info.whois_server}")
+        print(f"Son Güncelleme: {domain_info.updated_date}")
+        print(f"Yaratılma Tarihi: {domain_info.creation_date}")
+        print(f"Son Kullanma Tarihi: {domain_info.expiration_date}")
+        print(f"İsim Sunucuları: {domain_info.name_servers}")
+        print(f"Durum: {domain_info.status}")
+        print(f"E-posta: {domain_info.emails}")
+        print(f"DNSSEC: {domain_info.dnssec}")
+        print(f"Organizasyon: {domain_info.org}")
+        print(f"Ülke: {domain_info.country}")
+        
+    except Exception as e:
+        print(f"Bir hata oluştu: {e}")
+
+def get_whois_info(domain):
+    url = f"https://www.whois.com/whois/{domain}"
+    
+    try:
+        response = requests.get(url)
+        response.raise_for_status()  # Check for HTTP errors
+        
+        soup = BeautifulSoup(response.text, 'html.parser')
+        # Whois bilgilerini çekme işlemi
+        whois_data = soup.find('pre')
+        
+        if whois_data:
+            print("Whois Data:")
+            print(whois_data.get_text())
+        else:
+            print("Whois data not found.")
+    
+    except requests.exceptions.RequestException as e:
+        print(f"An error occurred: {e}")
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(prog="whois", description="whois [options]")
+    parser.add_argument("ip", help="your target ip", default="192.168.1.1")
+    parser.add_argument("--domain-info", help="using library ip info", dest="dm")
+    parser.add_argument("--whois-info", help="using api ip info", dest="wh")
+    args = parser.parse_args()
+    if args.dm:
+    	get_domain_info(args.ip)
+    if args.wh:
+    	get_whois_info(args.ip)
