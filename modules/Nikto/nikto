@@ -1,0 +1,201 @@
+#!/usr/bin/env python3
+import argparse
+import requests
+import socket
+import dpkt
+import yaml
+from colorama import Fore, Style, init
+import httpx
+import tldextract
+import scapy.all as scapy
+from ping3 import ping
+from pyzabbix import ZabbixAPI
+import whois
+import shodan
+from ipwhois import IPWhois
+import geocoder
+import urlparse3  # urlparse3 kütüphanesini ekleyin
+
+# Initialize colorama
+init(autoreset=True)
+
+def load_config(config_file):
+    with open(config_file, 'r') as file:
+        return yaml.safe_load(file)
+
+def get_ip(domain):
+    try:
+        return socket.gethostbyname(domain)
+    except socket.gaierror:
+        return None
+
+def check_server_header(url):
+    try:
+        response = httpx.get(url)
+        server = response.headers.get('Server')
+        if server:
+            print(f"{Fore.GREEN}[INFO]{Style.RESET_ALL} Target server: {server}")
+        else:
+            print(f"{Fore.YELLOW}[WARNING]{Style.RESET_ALL} Server header is not disclosed.")
+    except httpx.RequestError as e:
+        print(f"{Fore.RED}[ERROR]{Style.RESET_ALL} Failed to send HTTP request: {e}")
+
+def check_directory_listing(url):
+    try:
+        response = httpx.get(url)
+        if "Index of" in response.text:
+            print(f"{Fore.RED}[ALERT]{Style.RESET_ALL} Directory listing is enabled.")
+        else:
+            print(f"{Fore.GREEN}[INFO]{Style.RESET_ALL} Directory listing is not enabled.")
+    except httpx.RequestError as e:
+        print(f"{Fore.RED}[ERROR]{Style.RESET_ALL} Failed to send HTTP request: {e}")
+
+def dpkt_scan(interface):
+    print(f"{Fore.INFO}[INFO]{Style.RESET_ALL} Capturing traffic on {interface}")
+    with open('/path/to/pcapfile.pcap', 'rb') as f:
+        pcap = dpkt.pcap.Reader(f)
+        for timestamp, packet in pcap:
+            eth = dpkt.ethernet.Ethernet(packet)
+            ip = eth.data
+            print(f"{Fore.CYAN}[TRAFFIC]{Style.RESET_ALL} Packet: {ip.src} -> {ip.dst}")
+
+def scan_ports(ip):
+    print(f"{Fore.INFO}[INFO]{Style.RESET_ALL} Scanning ports on {ip}")
+    open_ports = []
+    for port in range(1, 1025):
+        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+            s.settimeout(1)
+            result = s.connect_ex((ip, port))
+            if result == 0:
+                open_ports.append(port)
+    if open_ports:
+        print(f"{Fore.GREEN}[INFO]{Style.RESET_ALL} Open ports: {', '.join(map(str, open_ports))}")
+    else:
+        print(f"{Fore.RED}[INFO]{Style.RESET_ALL} No open ports found.")
+
+def scapy_scan(ip):
+    print(f"{Fore.INFO}[INFO]{Style.RESET_ALL} Performing Scapy scan on {ip}")
+    arp_request = scapy.ARP(pdst=ip)
+    broadcast = scapy.Ether(dst="ff:ff:ff:ff:ff:ff")
+    arp_request_broadcast = broadcast/arp_request
+    answered_list = scapy.srp(arp_request_broadcast, timeout=1, verbose=False)[0]
+    for element in answered_list:
+        print(f"{Fore.GREEN}[INFO]{Style.RESET_ALL} IP: {element[1].psrc} MAC: {element[1].hwsrc}")
+
+def ping_target(ip):
+    response_time = ping(ip)
+    if response_time is None:
+        print(f"{Fore.RED}[ERROR]{Style.RESET_ALL} Target {ip} is not reachable.")
+    else:
+        print(f"{Fore.GREEN}[INFO]{Style.RESET_ALL} Target {ip} is reachable. Response time: {response_time} ms")
+
+def zabbix_monitor(config_file):
+    config = load_config(config_file)
+    zabbix_url = config['zabbix_url']
+    zabbix_user = config['zabbix_user']
+    zabbix_password = config['zabbix_password']
+    
+    zapi = ZabbixAPI(zabbix_url)
+    zapi.login(zabbix_user, zabbix_password)
+    print(f"{Fore.GREEN}[INFO]{Style.RESET_ALL} Connected to Zabbix API.")
+
+def whois_lookup(domain):
+    try:
+        domain_info = whois.whois(domain)
+        print(f"{Fore.GREEN}[INFO]{Style.RESET_ALL} WHOIS Information for {domain}: {domain_info}")
+    except Exception as e:
+        print(f"{Fore.RED}[ERROR]{Style.RESET_ALL} Failed to retrieve WHOIS information: {e}")
+
+def shodan_lookup(ip, api_key):
+    try:
+        api = shodan.Shodan(api_key)
+        results = api.host(ip)
+        print(f"{Fore.GREEN}[INFO]{Style.RESET_ALL} Shodan results for {ip}: {results}")
+    except shodan.APIError as e:
+        print(f"{Fore.RED}[ERROR]{Style.RESET_ALL} Shodan API error: {e}")
+
+def ipwhois_lookup(ip):
+    try:
+        ipwhois_info = IPWhois(ip).lookup_rdap()
+        print(f"{Fore.GREEN}[INFO]{Style.RESET_ALL} IPWhois Information for {ip}: {ipwhois_info}")
+    except Exception as e:
+        print(f"{Fore.RED}[ERROR]{Style.RESET_ALL} Failed to retrieve IPWhois information: {e}")
+
+def geocode_ip(ip):
+    try:
+        g = geocoder.ip(ip)
+        print(f"{Fore.GREEN}[INFO]{Style.RESET_ALL} Geolocation for {ip}: {g.city}, {g.country}")
+    except Exception as e:
+        print(f"{Fore.RED}[ERROR]{Style.RESET_ALL} Failed to retrieve geolocation: {e}")
+
+def analyze_url(url):
+    parsed_url = urlparse3.parse(url)
+    print(f"{Fore.INFO}[INFO]{Style.RESET_ALL} Parsed URL: Scheme: {parsed_url.scheme}, Host: {parsed_url.host}, Path: {parsed_url.path}")
+
+def extract_domain(url):
+    extracted = tldextract.extract(url)
+    print(f"{Fore.INFO}[INFO]{Style.RESET_ALL} Domain Extraction: {extracted.domain}.{extracted.suffix}")
+
+def parse_args():
+    parser = argparse.ArgumentParser(prog="nikto", description='nikto [arguments]')
+    parser.add_argument('url', type=str, help='URL to scan')
+    parser.add_argument('--config', type=str, default='config.yaml', help='Configuration file path')
+    parser.add_argument('--interface', type=str, default='eth0', help='Network interface for traffic analysis')
+    parser.add_argument('--shodan-api-key', type=str, help='Shodan API key for Shodan lookups')
+    return parser.parse_args()
+
+def scan_url(url, config_file, interface, shodan_api_key):
+    config = load_config(config_file)
+    
+    print(f"{Fore.BLUE}[INFO]{Style.RESET_ALL} Starting scan for {url}")
+    
+    ip = get_ip(url)
+    if ip:
+        print(f"{Fore.GREEN}[INFO]{Style.RESET_ALL} Resolved {url} to IP address: {ip}")
+    else:
+        print(f"{Fore.RED}[ERROR]{Style.RESET_ALL} Failed to resolve the domain to an IP address.")
+        return
+
+    print(f"{Fore.BLUE}[INFO]{Style.RESET_ALL} Checking server headers...")
+    check_server_header(url)
+    
+    print(f"{Fore.BLUE}[INFO]{Style.RESET_ALL} Checking for directory listing vulnerability...")
+    check_directory_listing(url)
+
+    print(f"{Fore.BLUE}[INFO]{Style.RESET_ALL} Conducting packet analysis...")
+    dpkt_scan(interface)
+    
+    print(f"{Fore.BLUE}[INFO]{Style.RESET_ALL} Scanning ports...")
+    scan_ports(ip)
+    
+    print(f"{Fore.BLUE}[INFO]{Style.RESET_ALL} Performing Scapy scan...")
+    scapy_scan(ip)
+    
+    print(f"{Fore.BLUE}[INFO]{Style.RESET_ALL} Pinging target...")
+    ping_target(ip)
+    
+    print(f"{Fore.BLUE}[INFO]{Style.RESET_ALL} Analyzing URL...")
+    analyze_url(url)
+    
+    print(f"{Fore.BLUE}[INFO]{Style.RESET_ALL} Extracting domain...")
+    extract_domain(url)
+    
+    print(f"{Fore.BLUE}[INFO]{Style.RESET_ALL} Connecting to Zabbix...")
+    zabbix_monitor(config_file)
+    
+    print(f"{Fore.BLUE}[INFO]{Style.RESET_ALL} Retrieving WHOIS information...")
+    whois_lookup(url)
+    
+    if shodan_api_key:
+        print(f"{Fore.BLUE}[INFO]{Style.RESET_ALL} Performing Shodan lookup...")
+        shodan_lookup(ip, shodan_api_key)
+    
+    print(f"{Fore.BLUE}[INFO]{Style.RESET_ALL} Retrieving IPWhois information...")
+    ipwhois_lookup(ip)
+    
+    print(f"{Fore.BLUE}[INFO]{Style.RESET_ALL} Geocoding IP address...")
+    geocode_ip(ip)
+
+if __name__ == "__main__":
+    args = parse_args()
+    scan_url(args.url, args.config, args.interface, args.shodan_api_key)
