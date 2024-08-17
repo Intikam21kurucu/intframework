@@ -1,4 +1,4 @@
 #!/usr/bin/env python3
 import os
 
-os.system("python3 ~/intframework/intconsoleV4.py")
+os.system("python3 $INTFRAMEWORK_PATH/intframework/intconsoleV4.py")
