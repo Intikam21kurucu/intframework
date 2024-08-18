@@ -26,7 +26,7 @@ echo "alias intframework=$INTFRAMEWORK_PATH"
 echo "alias c='clear'" >> ~/.bashrc or ~/.zshrc
 alias gs='git status' >> ~/.bashrc or ~/.zshrc
 
-echo 'intconsole() { ORIGINAL_DIR=$(pwd); cd $INTDIR; python3 intconsoleV4.py; cd $ORIGINAL_DIR; [ -n "$BASH" ] && source ~/.bashrc || source ~/.zshrc; }; alias intconsole="intconsole"' >> ~/.bashrc && echo 'intconsole() { ORIGINAL_DIR=$(pwd); cd $INTDIR; python3 intconsoleV4.py; cd $ORIGINAL_DIR; [ -n "$BASH" ] && source ~/.bashrc || source ~/.zshrc; }; alias intconsole="intconsole"' >> ~/.zshrc
+echo 'intconsole() { ORIGINAL_DIR=$(pwd); cd $INTFRAMEWORK_PATH; python3 intconsoleV4.py; cd $ORIGINAL_DIR; [ -n "$BASH" ] && source ~/.bashrc || source ~/.zshrc; }; alias intconsole="intconsole"' >> ~/.bashrc && echo 'intconsole() { ORIGINAL_DIR=$(pwd); cd $INTDIR; python3 intconsoleV4.py; cd $ORIGINAL_DIR; [ -n "$BASH" ] && source ~/.bashrc || source ~/.zshrc; }; alias intconsole="intconsole"' >> ~/.zshrc
 
 echo "alias introjan='python3 $INTFRAMEWORK_PATH/introjan'" >> ~/.bashrc or ~/.zshrc
 
