@@ -59,9 +59,9 @@ def main():
     server_host = '0.0.0.0'
     server_port = 5000
     # Remote ayarları
-    remote_host = meterpreter.__RHOST__
-    remote_port = meterpreter.__RPORT__
-    save_to_file = meterpreter.__SVFile__ # Akışı dosyaya kaydetmek istiyorsanız True yapın
+    remote_host = imeterpreter.__RHOST__
+    remote_port = imeterpreter.__RPORT__
+    save_to_file = imeterpreter.__SVFile__ # Akışı dosyaya kaydetmek istiyorsanız True yapın
 
     print(f"Sunucu başlatılıyor: {server_host}:{server_port}")
     threading.Thread(target=start_server, args=(server_host, server_port)).start()
