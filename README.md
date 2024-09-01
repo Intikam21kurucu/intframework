@@ -25,7 +25,6 @@ sorumluluğu kabul etmek için:
 ````
 We apologize, intconsoleV4 is not yet complete, but this will not be that easy because commands have been added to it, traceroute, many modules, exploits, almost everything in the cyber security world, so we kindly ask you to wait patiently, if you want, let's see if you want to download tools to other consoles, and in this 4th console, it has its own modules. and there will be commands, bye bye.
 ````
-==================================
 
 
 -----------------------------------------------
