@@ -14,11 +14,7 @@
 
 
 
-İntikam21 hiçbir sorumluluğu kabul etmez
-sorumluluğu kabul etmek için:
-
-
-<button 'sorumluluğu kabul ediyorum'>
+İntikam21 hiçbir sorumluluğu kabul etmez yaptığınız hersey size ozgudur😀
 
 -----------------------------------------------
 # Note
