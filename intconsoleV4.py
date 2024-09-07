@@ -1,6 +1,21 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-
+global phisherserror
+global clouderror
+import os
+try:
+	os.system("$INTFRAMEWORK_PATH") or os.system("echo $INTFRAMEWORK_PATH")
+except:
+	os.system("export INTFRAMEWORK_PATH=$PREFIX/opt/intframework") or os.system("export INTFRAMEWORK_PATH=usr/opt/intframework")
+cto = 0
+try:
+	if cto != 0:
+		pass
+	else:
+		os.system("echo 'export intmodules_path=$INTFRAMEWORK_PATH/modules' >> ~/.bashrc; echo 'export intmodules_path=$INTFRAMEWORK_PATH/modules' >> ~/.zshrc")
+		cto += 1
+except:
+	pass
 from pyfiglet import Figlet
 from colorama import Fore, init, Style
 import threading
@@ -19,6 +34,7 @@ import socket
 from netaddr import IPNetwork, IPAddress
 import argparse
 import socket
+import re
 import threading
 import time
 import sys
@@ -90,6 +106,54 @@ try:
 except Exception as e:
 	print("[05.intbase] modules.scanners.Crack Not founded please reinstall framework")
 	pass
+try:
+	from modules import login
+except Exception as e:
+	pass
+try:
+	from cloud import intcloud
+	clouderror = False
+except Exception as e:
+	clouderror = True
+	pass
+try:
+	from PHİSHERS import *
+	phisherserror = False
+except Exception as e:
+	phisherserror = True
+	pass
+def manager():
+	import PluginManager
+	manager = PluginManager.PluginManager()
+
+
+
+
+import PluginManager
+pg_manager = PluginManager.PluginManager()
+
+
+
+
+def data():
+	global LHOSTS
+	global LPORTS
+	global RHOSTS
+	global RPORTS
+def False_adresses():
+	adr = "$INTFRAMEWORK_PATH"
+	random = ["a", "b", "c", "d", "e", "f", "g", "ğ", "h", "ı", "i", "j", "k", "l", "m", "n", "o", "ö", "p", "r", "s", "ş", "t", "u", "ü", "v", "y","x", "z"]
+	selecter_num = random.randint(1, 20)
+	selecter = random.select(random, selecter_num)
+	user = help_input
+	special_characters = ["@", "#", "$", "&", "%"  "~"]
+	if user in random and special_characters:
+		if user in random and special_characters and selecter_num:
+			random_super = user
+		else:
+			random_super = user
+	pool = ["{adr}/multi/handler/", "{adr}/modules/enum_{random_super}"]
+	return pool
 def check_network():
     try:
         # Attempt to connect to Google's DNS server
@@ -243,13 +307,13 @@ def reverse_used(used, helper):
 def dev_tools(dir, tool, norm):
 	os.system(f"cd {dir}")
 	if tool.lower() == "imei":
-		os.system("""echo "imei='python /data/data/com.termux/files/home/intframework/imei.py' >> ~/intframework/.bashrc """)
+		os.system("""echo "imei='python /data/data/com.termux/files/home/intframework/imei.py' >> $INTFRAMEWORK_PATH/.bashrc """)
 		used = "used"
 		used(used)
 	if tool.lower() == "sms" or "smsbomber" or "smsbomb":
-		os.system("""echo "alias sms='python /data/data/com.termux/files/home/intframework/sms.py' >> ~/intframework/.bashrc """)
+		os.system("""echo "alias sms='python /data/data/com.termux/files/home/intframework/sms.py' >> $INTFRAMEWORK_PATH/.bashrc """)
 	if tool.lower() == "connectbot":
-		os.system("""echo "alias connectbot='python /data/data/com.termux/files/home/intframework/connectbot.py' >> ~/intframework/.bashrc """)
+		os.system("""echo "alias connectbot='python /data/data/com.termux/files/home/intframework/connectbot.py' >> $INTFRAMEWORK_PATH/.bashrc """)
 	used_dev_tools = "used"
 	os.system("source ~/.bashrc")
 	used(used_dev-tools)
@@ -277,13 +341,13 @@ def listen_p(ip, port):
         client_socket.close()
         print(f"Connection from {addr} closed")
 
-
+def login(username, password):
+	login.register(username, password)
 def bannerss(help_input):
 	global bannerss	
 	bannerss = help_input[12:] or help_input[15:]
 	banner()
-	banners += bannerss
-	
+	banners += bannerss	
 	
 def inputrs(sk):
 	if sk.lower("y" or "yes"):
@@ -382,7 +446,7 @@ def listen(ip):
         add_job(f"Listening {host}")
     except socket.error as msg:
         print('Bind failed. Error Code : ' + str(msg.errno) + ' Message ' + msg.strerror)
-        sys.exit()
+        pass
 def user_count(help_input, repeat_count=2):
 	inputs = []
 	targets = ["set rhosts", "set rports", "set lports", "set lports", "set rhost", "set rport"]
@@ -406,21 +470,59 @@ def get_input(modules=None, modulename=None, cdn=None):
     module_name = modulename if modulename is not None else ""
     cd = cdn if cdn is not None else ""
     prompt = (f"int4 payloads({Fore.RED}{payloads}{Fore.RESET})>{Style.RESET_ALL}" if payloads else
-              f"int4 {module_name}({Fore.RED}{module}{Fore.RESET})" if module and module_name else
+              f"int4 {module_name}({Fore.RED}{module}{Fore.RESET}) >{Style.RESET_ALL}" if module and module_name else
               f"int4 ({Fore.RED}{cd}{Fore.RESET}) >{Style.RESET_ALL}" if cd else
               f"int4 >")
+if login():
+	print(f"""
+                  [{Fore.RED}intbase{Fore.RESET}] LOGİNNER
+        ================================     
+	""")
+	t.sleep(1)
+	username = input("<your username?> >")
+	passw = input("<your password?> >")
+	try:
+		login.login(username, passw)
+	except:
+		print("check your username or password")
+		exit()
+else:
+	pass
 get_input()
 banner()
 menu_banner()
 global help_input
 global valid_commands
 valid_commands = {
-"neofetch", "com-help", "intshark", "oip", "introjan", "intai", "track", "build", "mode-admin", "use", "set", "show", "build", "mode-", "back", "item", "search", "show commands", "int install", "connect", "int", "install", "mode-ninja", "int install mode-ninja", "int install git", "int install aichat", "use", "exploit", "bset", "banner", "py-search", "payload-search", "exp-search", "exploit-search", "jobs", "jobs -k", "dns", "help", "use ", "intcrawler", "searchuser", "mailsearch", "phonesearch", "connectbot", "meterpreter", "shotgun", "imei", "exp-search", "py-search", "run", "show"
+"neofetch", "com-help", "intshark", "oip", "introjan", "intai", "track", "build", "mode-admin", "use", "set", "show", "build", "mode-", "back", "item", "search", "show commands", "int install", "connect", "int", "install", "mode-ninja", "int install mode-ninja", "int install git", "int install aichat", "use", "exploit", "bset", "banner", "py-search", "payload-search", "exp-search", "exploit-search", "jobs", "jobs -k", "dns", "help", "use ", "intcrawler", "searchuser", "mailsearch", "phonesearch", "connectbot", "meterpreter", "shotgun", "imei", "exp-search", "py-search", "run", "show", "whoI"
     }
+command = sys.argv[1]
+if command:
+    file_pth = "intconsoleV4.py"
+    value = command
+    old = "input(prompt)"
     
+    # Dosyayı oku
+    with open(file_pth, 'r') as file:
+        content = file.read()
+    
+    # İlk olarak help_input değişkenini güncelle
+    pattern = r'(help_input\s*=\s*)[^\n]+'
+    replacement = r'\1' + value
+    new_content = re.sub(pattern, replacement, content, count=1)
+    os.system("intconsole")
+    # Daha sonra dosyadaki input(prompt) ifadesini güncelle
+    new_content = new_content.replace(old, value)
+    
+    # Değişiklikleri dosyaya geri yaz
+    with open(file_pth, 'w') as file:
+        file.write(new_content)
+        exit()
+else:
+	pass
+
 while True:
     help_input = input(prompt)
-    print(Fore.RESET)
     if help_input.lower() == "help":
     	print("""
 		|COMMAND|         |Function|
@@ -445,6 +547,11 @@ while True:
 		connect              -connect a ip
 		color				   -Term color
 		run 					 - Run modules
+		monitor              - running web on virtual pc or console (mode-on needed)
+		load_plugins     - usage load_plugins (plugin path)
+		run_plugins       - runing plugins
+		list_plugins       - zaten biliyorsunuz aq eklentileri listeliyor.
+		
 USE COMMANDS
 =================	
 	usage : use {payload} or {exploit} or "evasion", and other modules
@@ -469,9 +576,9 @@ SET COMMANDS
 		payload
 		exploit
 		RHOSTS
-		LHOST
-		RPORTS
-		LPORT
+		LHOSTS
+		RPORTSS
+		LPORTS
 		Banner
 		CPORT
 		CHOST
@@ -550,9 +657,9 @@ HELLO, WE ARE THE İNTİKAM21 CYBER TEAM, THE REASON WE MADE THIS TOOL IS TO EDU
         	rprt = help_input[10:]  # "set rport=" 10 karakter uzunluğunda, 9'dan itibaren dilimlemek gerekiyor
         else:
         	rprt = help_input[10:]
-        global RPORT
-        RPORT = rprt
-        print("intbase: RPORTS ==> " + RPORT)
+        global RPORTS
+        RPORTS = rprt
+        print("intbase: RPORTSS ==> " + RPORTS)
     if help_input.startswith("py-search" or "payload-search") and help_input.endswith("''"):
     	    if help_input.startswith("payload-search '") and help_input.endswith("'"):
     	    	term = user_input[len("payload-search '"):-1]
@@ -564,17 +671,16 @@ HELLO, WE ARE THE İNTİKAM21 CYBER TEAM, THE REASON WE MADE THIS TOOL IS TO EDU
     	    	print_payloads(result) 
     if help_input.lower().startswith("set lhost" or "set lhosts=" or "set lhost="):
     	t.sleep(1)
-    	global LHOST
     	lh = help_input[10:]
     	if help_input.lower().startswith("set lhosts="):
-    		LHOST = help_input[11:]
+    		LHOSTS = help_input[11:]
     	if help_input.lower().startswith("set lhost="):
-    		LHOST = help_input[10:]
+    		LHOSTS = help_input[10:]
     	else:
-    		LHOST = lh   		
+    		LHOSTS = lh   		
     	user_count(help_input)
-    	add_job("LHOSTS:", LHOST)
-    	print("intbase: LHOST ==> "+LHOST)
+    	add_job("LHOSTS:", LHOSTS)
+    	print("intbase: LHOSTS ==> "+LHOSTS)
     if help_input.lower().startswith("set other=" or "set other "):
     	t.sleep(1.2)
     	global other
@@ -590,12 +696,12 @@ HELLO, WE ARE THE İNTİKAM21 CYBER TEAM, THE REASON WE MADE THIS TOOL IS TO EDU
     	else:
     		LPORTS = Lp
     	user_count(help_input)
-    	print("intbase: LPORT ==> "+LPORTS)
+    	print("intbase: LPORTS ==> "+LPORTS)
     elif help_input.startswith("set payload" or "exploit"):
     	global ac80
     	ac80 = help_input[10:]
     	if used_payload == "YES":
-    		os.system("intvenom -p "+ac80+"LHOST="+Lhost+"LPORT="+LPORT)
+    		os.system("intvenom -p "+ac80+"LHOSTS="+Lhost+"LPORTS="+LPORTS)
     	elif used_payload == None:
     		os.system("intvenom -e "+ach80)
     elif help_input.startswith("use"):
@@ -657,6 +763,7 @@ HELLO, WE ARE THE İNTİKAM21 CYBER TEAM, THE REASON WE MADE THIS TOOL IS TO EDU
     			PAYLOAD = payloads
     		else:
     			print(f"[{Fore.RED}iNtBaSe{Fore.RESET}] {payloads} not found")
+    			pass
     		get_input(modules=PAYLOAD, modulename="payload")
     	if use_h.startswith("evasions/"):
     		PATH = use_h[9:]
@@ -709,7 +816,7 @@ HELLO, WE ARE THE İNTİKAM21 CYBER TEAM, THE REASON WE MADE THIS TOOL IS TO EDU
     			get_input(modules="CVE-2006", modulename="exploit")
     		# CVE2018-10561 gpon_rce.py
     		else:
-    			continue
+    			pass
     	if use_h.lower() == "shodan":
     		get_input(cdn="shodan")
     	if use_h.lower() == "attack":
@@ -724,6 +831,25 @@ HELLO, WE ARE THE İNTİKAM21 CYBER TEAM, THE REASON WE MADE THIS TOOL IS TO EDU
     		get_input(cdn="osint&int")
     else:
     	pass
+    if help_input.startswith("monitor"):
+    	md = help_input[8:]
+    	if md == "mode-on":
+    		print("starting...")
+    		os.system("python3 webstarter.py")
+    	if md == "mode-off":
+    		s = input("mode-off needed restart console do you want to? [y/n]")
+    		if s.lower() == "y":
+    			sys.exit()
+    			os.system("python3 intconsoleV4.py")
+    			print("restarted console!")
+    		if s.lower() == "n":
+    			pass
+    		else:
+    			print("invalid input!")
+    			pass
+    	else:
+    		print("you are want to mode-on or mode-off ? passing...")
+    		pass
     if help_input.startswith("set auxiliary"):
         h = help_input[14:]
         termux_path = "/data/data/com.termux/files/home/"
@@ -874,7 +1000,7 @@ Examples:
     	global evasion_h
     	evasion_h = help_input[13:]
     	strvasion = help_input.split("LHOSTS=")[1].split(":")[0]
-    	strvas = help_input[help_input.find("LPORTS="):help_input.find(":", help_input.find("LPORTS="))][:-2 if help_input[help_input.find("LPORTS="):help_input.find(":", help_input.find("LPORT="))].endswith("6535") else -4]
+    	strvas = help_input[help_input.find("LPORTS="):help_input.find(":", help_input.find("LPORTS="))][:-2 if help_input[help_input.find("LPORTS="):help_input.find(":", help_input.find("LPORTS="))].endswith("6535") else -4]
     	output_file = help_input[help_input.find("--output ")+len("--output "):].split()[0] if "--output " in help_input else (help_input[help_input.find("-o ")+len("-o "):].split()[0] if "-o " in help_input else None)
     	code_sp = help_input.split("-c")[1].strip() if "-c" in help_input else None
     	use_us = help_input[help_input.find("-u "):]
@@ -937,6 +1063,21 @@ Examples:
     	if "-k" in help_input:
     		job_id = help_input[help_input.find("-k "):]
     		kill_job(job_id)
+    if help_input == "use bots":
+    	print("""
+    	   BOT   NAME          Language        platform
+    	----------------------------    ----------------        ------------
+    	smsbomber/bot1   turkish/Türkiye termux
+    	mailinputter/bot1   english/US          whattsapp
+    	  genius_ip/bot1      turkish/Türkiye   telegram  
+    	""")
+    	setter = input(f"{Fore.RED + Style.BRIGHT} int4 (bot selecter) >")
+    	if setter == "smsbomber/bot1":
+    		get_input(modulename="bots", modules="smsbomber-bot")
+    	if setter == "mailinputter/bot1":
+    		get_input(modulename="bots", modules="mailinputter-bot")
+    	if setter == "genius_ip/bot1":
+    		get_input(modulename="bots", modules="genius_ip-bot")
     if help_input.startswith("dns"):
     	if "-f" in help_input:
     		format_chef = help_input[help_input.find("-f "):]
@@ -971,10 +1112,10 @@ Examples:
     	try:
     	   framework['exploits'][exploit_name] = create_exploit(
             name=exploit_name,
-            lhost=LHOST,
+            lhost=LHOSTS,
             lport=LPORTS,
             rhost=RHOSTS,
-            rport=RPORT,
+            rport=RPORTS,
             payload=payload_nama
             )
     	except:
@@ -983,6 +1124,103 @@ Examples:
     		pass
     	use_framework(framework, exploit_name)
     	show_options(framework['current_exploit'])
+    if help_input.startswith("use nmap" or "use Nmap"):
+    	get_input(cdn="nmap")
+    if help_input.startswith("use scanners"):
+    	scn = help_input[help_input.find("use scanners /intframework/modules/scanners/"):]
+    	if scn == "portscanner":
+    		print("starting...")
+    		os.system("python3 $INTFRAMEWORK_PATH/modules/scanners/portscanner.py {LHOSTS if LHOSTS else None} {LPORTS if LPORTS else None}")
+    		get_input(modulename="scanners", modules="portscanner")
+    	else:
+    		pass
+    	if scn == "networkscan":
+    		os.system("python3 $INTFRAMEWORK_PATH/modules/scanners/networkscan.py {LHOSTS if LHOSTS else None}")
+    		get_input(modulename="scanners", modules="networkscan")
+    	else:
+    		pass
+    	if scn == "vulnscan" or "vulnerability_scanner":
+    		os.system("python3 $INTFRAMEWORK_PATH/modules/scanners/vulnerability_scanner.py {RHOSTS if RHOSTS else None}")
+    		get_input(modulename="scanners", modules="vulnerability_scanner")
+    	else:
+    		pass
+    	if scn == "service_scanner":
+    		os.system("python3 $INTFRAMEWORK_PATH/modules/scanners/service_scanner.py {RHOSTS if RHOSTS else None}")
+    		get_input(modulename="scanners", modules="service_scanner")
+    	else:
+    		pass
+    	if scn == "wlanscanner":
+    		os.system("python3 $INTFRAMEWORK_PATH/modules/scanners/wlanscanner.py wlan0")
+    		get_input(modulename="scanners", modules="wlanscanner")
+    	if scn == "bluetooth_scanner":
+    		os.system("python3 $INTFRAMEWORK_PATH/modules/scanners/bluetooth_scanner.py")
+    		get_input(modulename="scanners", modules="bluetooth_scanner")
+    	if scn == "userscan":
+    		os.system("python3 $INTFRAMEWORK_PATH/modules/scanners/userscan.py {other if other else ' '} --lang en")
+    		get_input(modulename="scanners", modules="userscan")
+    	if scn == "dirscanner":
+    		os.system("python3 $INTFRAMEWORK_PATH/modules/scanners/dirscanner.py {RHOSTS if RHOSTS else None} {other if other else None}")
+    		get_input(modulename="scanners", modules="dirscanner")
+    if help_input == "exploit":
+    	if not get_input(modulename="exploit"):
+    		print("please use exploits")
+    		pass
+    	if not LHOSTS:
+    		print("please set LHOSTS")
+    		print("For Example:")
+    		print("   set LHOSTS=192.168.1.1")
+    		pass
+    	
+    if help_input == "scanner":
+    	if get_input(modulename="scanners", modules="portscan"):
+    		print("""
+ TARGET      MODULE    DESCRİPTİON
+========  ========= ============°
+                    portscanner  scanning ports
+ {LHOSTS if LHOSTS else ' '}
+    		""")
+    	if get_input(modulename="scanners", modules=""):
+    		print("""
+ TARGET      MODULE    DESCRİPTİON
+========  ========= ============°
+                    portscanner  scanning ports
+ {LHOSTS if LHOSTS else ' '}
+    		""")
+    	if get_input(modulename="scanners", modules=""):
+    		print("""
+ TARGET      MODULE    DESCRİPTİON
+========  ========= ============°
+                    portscanner  scanning ports
+ {LHOSTS if LHOSTS else ' '}
+    		""")
+    	if get_input(modulename="scanners", modules=""):
+    		print("""
+ TARGET      MODULE    DESCRİPTİON
+========  ========= ============°
+                    portscanner  scanning ports
+ {LHOSTS if LHOSTS else ' '}
+    		""")
+    	if get_input(modulename="scanners", modules=""):
+    		print("""
+ TARGET      MODULE    DESCRİPTİON
+========  ========= ============°
+                    portscanner  scanning ports
+ {LHOSTS if LHOSTS else ' '}
+    		""")
+    	if get_input(modulename="scanners", modules=""):
+    		print("""
+ TARGET      MODULE    DESCRİPTİON
+========  ========= ============°
+                    portscanner  scanning ports
+ {LHOSTS if LHOSTS else ' '}
+    		""")
+    	if get_input(modulename="scanners", modules=""):
+    		print("""
+ TARGET      MODULE    DESCRİPTİON
+========  ========= ============°
+                    portscanner  scanning ports
+ {LHOSTS if LHOSTS else ' '}
+    		""")
     if help_input.startswith("use modules"):
     	module_name = help_input.split("> ", 1)[-1].strip()
     	payload = help_input[help_input.find(">"):]
@@ -1027,7 +1265,29 @@ Examples:
     	else:
     		pass
     else:
-    	continue
+    	pass
+    if help_input.startswith("use"):
+    	usr = help_input[4:]
+    	if not usr == "/intconsole/modules/" or "/intframework/modules/":
+    		print("intbase: your path is Not using")
+    	else:
+    		pass
+    	if usr.lower() == "/intconsole/modules/exploits/android/bloofoxcms":
+    		get_input(modulename="exploit", modules="/android/bloofoxcms/")
+    	if usr.lower() == "/intconsole/modules/exploits/android/aslr-bypass":
+    		get_input(modulename="exploit", modules="android/Aslr-Bypass")
+    	if usr.lower() == "/intconsole/modules/exploits/android/tcping":
+    		get_input(modulename="exploit", modules="android/tcping")
+    	if usr.lower() == "/intconsole/modules/exploits/android/synology":
+    		get_input(modulename="exploit", modules="android/synology")
+    	if usr.lower() == "/intconsole/modules/exploits/android/symantec":
+    		get_input(modulename="exploit", modules="android/symantec")
+    	if usr.lower() == "/intconsole/modules/exploits/android/cve-2010-4804":
+    		get_input(modulename="exploit", modules="android/CVE-2010-4804")
+    	if usr.lower() == "/intconsole/modules/exploits/android/gom":
+    		get_input(modulename="exploit", modules="android/Gom")
+    	if usr.lower() == "intframework/sqlmap":
+    		get_input(modulename="modules", modules="sqlmap")
     if help_input.startswith("show options"):
     	framework = import_framework()
     	if use_framework(framework, exploit_name):
@@ -1035,124 +1295,119 @@ Examples:
     		value = None
     		set_option(framework['current_exploit'], option, value)
     	else:
-    		continue
+    		pass
     	if get_input(cdn="osint&int"):
     		print(f"""
  Module       Hosts      Required     Description
 --------------    ------------   ------------------ ----------------------
- OSİNT        {LHOST if LHOST else None}   No    Osint tools
+ OSİNT        {LHOSTS if LHOSTS else None}   No    Osint tools
                    {LPORTS if LPORTS else None}
     		""")
     	else:
-    		continue
+    		pass
     	if get_input(modulename="exploit", modules="/multi/handler"):
     		handlerunner.multi_handler.options(LHOSTS if LHOSTS else None)
     	else:
-    		continue
+    		pass
     	if intmodules.intmail(other) or get_input(modules="intmail", modulename="intmodules"):
     		try:
     			intmodules.mail_options(other, required=None)
     		except NameError:
-    			continue
+    			pass
     	else:
-    		continue
+    		pass
     	if intmodules.crawl(other) or get_input(modules="intcrawler", modulename="intmodules"):
     		try:
     			intmodules.crawl_option(other, required=None)
     		except NameError:
-    			continue
+    			pass
     	else:
-    		continue
+    		pass
     	if intmodules.imeicheck(other) or get_input(modules="imeichecker", modulename="intmodules"):
     		try:
     			intmodules.imeicheck_option(other)
     		except NameError:
-    			continue
+    			pass
     	else:
-    		continue
+    		pass
     	if intmodules.phonesearch(other) or get_input(modules="phonesearcher", modulename="intmodules"):
     		try:
     			intmodules.phonesearch_options(other)
     		except NameError:
-    			continue
+    			pass
     	else:
     		pass
     	if intmodules.discord(other) or get_input(modules="intdiscord", modulename="intmodules"):
     		try:
     			intmodules.discord_option(other)
     		except NameError:
-    			continue
+    			pass
     	else:
-    		continue
+    		pass
     	if get_input(cdn=None, modules=None, modulename=None) or get_input():
-    		print("""
+    		print(f"""
   MODULE      HOSTS    REQUIRED     DESCRİPTİON
  -----------------   -------------- -------------------  -----------------------                
-    None         {LHOST if LHOST else None}  None      normal console
+    None         {LHOSTS if LHOSTS else None}  None      normal console
                       {LPORTS if LPORTS else None}
                           		""")
     	else:
     		continue
     else:
-    	print("""
-  MODULE      HOSTS    REQUIRED     DESCRİPTİON
- -----------------   -------------- -------------------  -----------------------                
-    None         {LHOST if LHOST else None}  None      normal console
-                      {LPORTS if LPORTS else None}
-                          		""")
+    	pass
     if help_input.lower().startswith("intninja"):
     	hel = help_input[9:]
     	s = os.getcwd()
-    	os.system("cd ~ && cd intframework && cd modules")
+    	os.system("cd $INTFRAMEWORK_PATH && cd modules")
     	os.system("python3 intninja.py "+hel)
     	os.system(f"cd {s}")
     if help_input.lower().startswith("intvenom"):
     	hel = help_input[9:]
     	s = os.getcwd()
-    	os.system("cd ~ && cd intframework && cd modules")
+    	os.system("cd $INTFRAMEWORK_PATH && cd modules")
     	os.system("python3 intvenom.py "+hel)
     	os.system(f"cd {s}")
     if help_input.lower().startswith("intweb"):
     	hel = help_input[7:]
     	s = os.getcwd()
-    	os.system("cd ~ && cd intframework && cd modules")
+    	os.system("cd $INTFRAMEWORK_PATH && cd modules")
     	os.system("python3 intweb "+hel)
     	os.system(f"cd {s}")
     if help_input.lower().startswith("introjan"):
     	hel = help_input[9:]
     	s = os.getcwd()
-    	os.system("cd ~ && cd intframework && cd modules")
+    	os.system("cd $INTFRAMEWORK_PATH && cd modules")
     	os.system("python3 introjan.py "+hel)
     	os.system(f"cd {s}")
     if help_input.lower().startswith("intcam"):
     	hel = help_input[7]
     	s = os.getcwd()
-    	os.system("cd ~ && cd intframework && cd modules")
+    	os.system("$INTFRAMEWORK_PATH && cd modules")
     	os.system("python3 intcam.py "+hel)
     	os.system(f"cd {s}")
     if help_input.lower().startswith("oip"):
     	hel = help_input[4:]
     	s = os.getcwd()
-    	os.system("cd ~ && cd intframework && cd modules")
+    	os.system("cd $INTFRAMEWORK_PATH && cd modules")
     	os.system("pyhon3 oip "+hel)
     	os.system(f"cd {s}")
     if help_input.lower().startswith("intmail"):
     	hel = help_input[8:]
     	s = os.getcwd()
-    	os.system("cd ~ && cd intframework && cd modules")
+    	os.system("cd $INTFRAMEWORK_PATH && cd modules")
     	os.system("python3 intmail.py "+hel)
     	os.system(f"cd {s}")
     if help_input.lower().startswith("intmeterpreter"):
     	hel = help_input[15:]
     	s = os.getcwd()
-    	os.system("cd ~ && cd intframework && cd modules")
+    	os.system("cd $INTFRAMEWORK_PATH && cd modules")
     	os.system("python3 intmeterpreter.py "+hel)
     	os.system(f"cd {s}")
     if help_input.lower().startswith("imei"):
     	if get_input(cdn="osint&int"):
     		hel = help_input[5:]
     		s = os.getcwd()
-    		os.system("cd ~ && cd intframework && cd modules")
+    		os.system("cd $INTFRAMEWORK_PATH && cd modules")
     		os.system("python3 imei.py "+hel)
     		os.system(f"cd {s}")
     	else:
@@ -1161,28 +1416,28 @@ Examples:
     	if get_input(cdn="osint&int"):
     		hel = help_input[help_input.find("mailsearcher"):]
     		s = os.getcwd()
-    		os.system("cd ~ && cd intframework && cd modules")
+    		os.system("cd $INTFRAMEWORK_PATH && cd modules")
     		os.system("python3 mailsearcher.py"+hel)
     		os.system(f"cd {s}")
     if help_input.startswith("usersearcher"):
     	if get_input(cdn="osint&int"):
     		hel = help_input[help_input.find("usersearcher"):]
     		s = os.getcwd()
-    		os.system("cd ~ && cd intframework && cd modules")
+    		os.system("cd $INTFRAMEWORK_PATH && cd modules")
     		os.system("python3 usersearcher.py"+hel)
     		os.system(f"cd {s}")
     if help_input.startswith("shotgun"):
     	if get_input(cdn="osint&int"):
     		hel = help_input[help_input.find("shotgun "):]
     		s = os.getcwd()
-    		os.system("cd ~ && cd intframework && cd modules")
+    		os.system("cd $INTFRAMEWORK_PATH && cd modules")
     		os.system(f"python3 shotgun.py {hel}" if hel else "python3 shotgun.py")
     		os.system(f"cd {s}")
     if help_input.startswith("intcrawler"):
     	if get_input(cdn="osint&int"):
     		hel = help_input[help_input.find("intcrawler "):]
     		s = os.getcwd()
-    		os.system("cd ~ && cd intframework && cd modules")
+    		os.system("cd $INTFRAMEWORK_PATH && cd modules")
     		os.system("python3 intcrawler.py {hel}" if hel else "python3 intcrawler.py.")
     		os.system(f"cd {s}")
     if help_input.lower().startswith("run"):
@@ -1191,63 +1446,63 @@ Examples:
     		framework = import_framework()
     		run_exploit(framework['current_exploit'])
     	else:
-    		continue
+    		pass
     	if get_input(cdn="shodan") or get_input(modulename="shodan") or get_run == "shodan":
     		stripting = help_input[help_input.lower().find("bset domain=") + len("bset domain="):].lower().strip() if "Domain" in help_input else ""
     		api = help_input[help_input.lower().find("bset api=") + len("bset api="):].lower().strip() if "bset api=" in help_input else ""
     		try:
     			s = os.getcwd()
-    			os.system("cd ~ && cd intframework && cd modules")
+    			os.system("cd $INTFRAMEWORK_PATH && cd modules")
     			os.system(f"python3 shodan.py api_key "+api+" --query"+stripting)
     			os.system(f"cd {s}")
     		except:
     			print("Seems like you're hitting a wrong API or not routing your IP properly. Make sure your endpoints are legit and your IP config is on point.")
-    			continue
+    			pass
     	else:
-    		continue
+    		pass
     	get = help_input[10:]
     	if get_input(cdn="auxiliary" or cdn.startswith("auxiliary/")):
     		get = help_input[10:]
     		if get_input(cdn).startswith("auxiliary/"):
     		    get = help_input[11:]
     	else:
-    		continue
+    		pass
     	if get_input(modulename="exploit", modules="/multi/handler"):
     		print(f"""
  TARGET      REQUIRED     DESCRİPTİON
 ========    =========   =============
-  {LHOST if LHOST else None} No  creating viruses
+  {LHOSTS if LHOSTS else None} No  creating viruses
   {LPORTS if LPORTS else None}
     		""")
     		print("[*] creating...")
     		os.system("python3 inthandler.py")
     		print("[*] Sending...")
     		try:
-    			os.system(f"python3 intvenom.py LHOST={LHOST if LHOST else None} LPORT={LPORTS if LPORTS else None} --original-apk intframework-virus.apk --output-apk virus.apk")
+    			os.system(f"python3 intvenom.py LHOSTS={LHOSTS if LHOSTS else None} LPORTS={LPORTS if LPORTS else None} --original-apk intframework-virus.apk --output-apk virus.apk")
     			print("[+] Sended and created")
     		except Exception as e:
     			print("[-] {e}")
-    			continue # .pass to continue
+    			pass # .pass to pass
     	else:
-    		continue
+    		pass
     	if get_input(modulename="exploit", modules="DiamondFox"):
     		print(f"""
  TARGET      REQUIRED     DESCRİPTİON
 ========    =========   =============
-  {LHOST if LHOST else None} Yes    Exploit
+  {LHOSTS if LHOSTS else None} Yes    Exploit
   {LPORTS if LPORTS else None}
     		""")
     		print("[*] getting path...")
     		s = os.getcwd()
     		print("[*] entering...")
-    		os.system("cd ~ && cd intframework && cd modules && cd exploits && cd DiamondFox")
+    		os.system("cd $INTFRAMEWORK_PATH && cd modules && cd exploits && cd DiamondFox")
     		print("[*] running")
     		os.system("python3 diamondpwn.py {LHOSTS}")
     		print("[+] runned!")
     		os.system(f"cd {s}")
-    		continue
+    		pass
     	else:
-    		continue
+    		pass
     	if get_input(modules="MS17-010", modulename="exploit"):
     		print(f"""
  TARGET      REQUİRED    DESCRİPTİON
@@ -1255,11 +1510,11 @@ Examples:
 {LHOSTS if LHOSTS else None}    No     REMOTİNG
     		""")
     		s = os.getcwd()
-    		os.system("cd ~ && cd intframework && cd modules && cd exploits && cd MS17-010")
+    		os.system("cd $INTFRAMEWORK_PATH && cd modules && cd exploits && cd MS17-010")
     		os.system("python3 eternalblue.py")
     		os.system(f"cd {s}")
     	else:
-    		continue
+    		pass
     	if get_input(modulename="exploit", modules="MS14-068"):
     		print(f"""
  TARGET      REQUİRED    DESCRİPTİON
@@ -1267,10 +1522,10 @@ Examples:
 {LHOSTS if LHOSTS else None}    No    Leak
     		""")
     		s = os.getcwd()
-    		os.system("cd ~ && cd intframework && cd modules && cd exploits && cd MS14-068")
+    		os.system("cd $INTFRAMEWORK_PATH && cd modules && cd exploits && cd MS14-068")
     		os.system("python ms14068.py")
     	else:
-    		continue
+    		pass
     	if get_input(modulename="exploit", modules="ac68.py"):
     		s = os.getcwd()
     		print(f"""
@@ -1278,22 +1533,21 @@ Examples:
 ========   =========  =============
 {LHOSTS if LHOSTS else None}    No    hacking
     		""")    		
-    		os.system("cd ~ && cd intframework && cd modules && python ac68.py {LHOST if LHOST else None} {LPORTS if LPORTS else None} && cd {s}")
+    		os.system("cd $INTFRAMEWORK_PATH && cd modules && python ac68.py {LHOSTS if LHOSTS else None} {LPORTS if LPORTS else None} && cd {s}")
     	else:
-    		continue
+    		pass
     	if get.lower() == "dos":
     		stripting = help_input[help_input.find("select") + len("select"):].strip() if "select" in help_input else ""
     		if stripting == "dos.py":
     			os.system("python3 DDOS.py")
     		if stripting.lower() == "doshack":
     			os.system("""
-    			cd ~
-    			cd intframework
+    			cd $INTFRAMEWORK_PATH
     			cd DoShAcK
     			python Doshack.py
     			""")
     	else:
-    		continue
+    		pass
     	if get.lower() == "social-enginering":
     		if get_input(cdn="auxiliary/social-enginering"):
     			get1 = get_input[get_input().find("auxoliary/social-enginering"):]
@@ -1302,7 +1556,7 @@ Examples:
     				os.system("python3 DISCORD.py")
     	else:
     		t.sleep(0.2)
-    		continue
+    		pass
     elif help_input.lower().startswith("back"):
     	get_input()
     elif help_input.lower().startswith("info" or "get-help"):
@@ -1379,12 +1633,12 @@ Examples:
     	try:
     		pass
     	except:
-    		continue
+    		pass
     if help_input.startswith("searchuser"):
     	if get_input(cdn="osint&int"):
     		hel = help_input[help_input.find("searchuser "):]
     		s = os.getcwd()
-    		os.system("cd ~ && cd intframework && cd modules")
+    		os.system("cd $INTFRAMEWORK_PATH && cd modules")
     		os.system("python3 searchuser.py "+hel if hel else "python3 searchuser.py")
     		os.system(f"cd {s}")
     	else:
@@ -1393,18 +1647,26 @@ Examples:
     	if "--autoupdate" in help_input:
     		os.system("python3 update.py")
     	if "shot" in help_input:
-    		os.system(f"python3 shotgun.py LHOST={LHOST if LHOST else None} LPORT={LPORTS if LPORTS else None} bytes=200000")
+    		os.system(f"python3 shotgun.py LHOSTS={LHOSTS if LHOSTS else None} LPORTS={LPORTS if LPORTS else None} bytes=200000")
     elif help_input == "banner":
     	banner()
     	menu_banner()
     elif help_input.startswith("vp"):
     	if '-' not in help_input:
     		print("please arguments")
+    	if '-w' or '--start-web' in help_input:
+    		os.system("python3 webstarter.py")
+    	else:
+    		pass
     	if '-a' or '--add' in help_input:
     		global add_add
     		add_add = "ADDED"
+    	else:
+    		pass
     	if '-a' or '--add' not in help_input:
     		add_add = None
+    	else:
+    		pass
     	if '-b' or '--build' in help_input:
     		if add_add == None:
     			print("please use vp add command first")
@@ -1421,14 +1683,18 @@ Examples:
     			add_slan = "YES"
     		elif add_slan == "YES" and add_add == "ADDED":
     			print("builded you are must use -all")
+    	else:
+    		pass
     	if '-all' in help_input:
     		os.system("""
-			python3 intofficial.py
+			python3 İNTOFİCCİAL.py
 			""")
+    	else:
+    		pass
     elif help_input == "anim-exit":
     	s = os.getcwd()
     	try:
-    		os.system("cd ~ && cd intframework && cd modules")
+    		os.system("cd $INTFRAMEWORK_PATH && cd modules")
     	except:
     		pass
     	os.system("python3 intly.py")
@@ -1436,6 +1702,50 @@ Examples:
     	exit() 
     else:
     	exit()
+    if help_input == "login":
+    	try:
+    		login.main()
+    	except:
+    		pass
+    if help_input == "show scanners":
+    	print("""
++------------------------------------------------------------------------+
+|                         SCANNERS                                   |
++====================================+
+| /intframework/modules/scanners/portscan |
+| /intframework/modules/scanners/bluetooth_scanners.py|
+| /intframework/modules/scanners/dirscanner|
+| /intframework/modules/scanners/emailscan|
+| /intframework/modules/scanners/userscan |
+| /intframework/modules/scanners/wlanscanner|
+| /intframework/modules/scanners/adminfinder |
+| /intframework/modules/scanners/service_scanner|
+| /intframework/modules/scanners/vulnerability_scanner|
+| /intframework/modules/scanners/dns_scanner|
+| /intframework/modules/scanners/ping_scan|
+| /intframework/modules/scanners/network_scan|
+| /intframework/modules/scanners/Crack/wificracker|
++------------------------------------------------------------------------+    	
+    	""")
+    if help_input.startswith("load_plugins"):
+    	arg = help_input[13:]
+    	try:
+    		pg_manager.load_plugin(arg)
+    	except:
+    		print("")
+    else:
+    if help_input == "list_plugins":
+    	pg_manager.list_plugins()
+    else:
+    	print("plugins not founded")
+    if help_input == "run_plugins":
+    	hpl_list = help_input.split()
+    	command = hpl_list[2]
+    	args = hpl_list[3]
+    	manager.run_command(command, *args)
+    if help_input.lower() == "whoi" or "whoı":
+    	us = login.main().current_user
+    	print(us)
     if help_input == "neofetch":
     	os.system("python3 neofetch.py")
     	add_job("neofetch")
@@ -1445,13 +1755,11 @@ Examples:
     	username = getpass.getuser()
     	# Sistemin platform bilgisini alma
     	platform_info = platform.system()
-    	print("ami:: " + Fore.GREEN + username)
+    	print(Fore.GREEN + username)
     help = {"com-help" or "Com-help" or "Com-Help" or "com-HELP" or "COM-help" or "COM-HELP"}
     if help_input in help:
     	os.system("help")
-    if help_input in valid_commands or any(help_input.startswith(cmd) for cmd in valid_commands):
-    	continue
-    else:
+    if not any(help_input.startswith(command) for command in valid_commands):
     	t.sleep(0.75)
     	self_dir = os.getcwd()
     	os.system("cd ~")
