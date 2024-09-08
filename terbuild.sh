@@ -10,6 +10,8 @@ if [ ! -f "$HOME/intframework/.install_done" ]; then
     touch "$HOME/intframework/.install_done"
 fi
 
+pip3 install -r requirements.txt
+
 cd ~
 
 chmod +x ~/intframework/intconsole
