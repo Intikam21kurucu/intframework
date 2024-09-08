@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!python
 # -*- coding: utf-8 -*-
 global phisherserror
 global clouderror
@@ -460,9 +460,39 @@ def user_count(help_input, repeat_count=2):
 			print("""you are used rhosts you are must use ("del lhosts") or ("del lhost")  """)
 		if targets == "set rhosts" or "set rhost":
 			print("""you are used rhosts you are must use ("del lports") or ("del lport")  """)
-			
+import pywifi
+from pywifi import *
+from pywifi import PyWiFi, const, Profile
+try:
+	from scapy.all import sniff, Dot11, Dot11Beacon
+except:
+	pass
+def is_root():
+	return os.getuid() == 0
+def scan_wifispy():
+	if not is_root():
+	   wifi = PyWiFi()
+	   iface = wifi.interfaces()[0]  # Kullanmak istediğiniz WiFi arayüzünü seçin.
+	   iface.scan()
+	   iface.scan_results()
+	   results = iface.scan_results()
+	   for network in results:
+	   	print(f"SSID: {network.ssid}, BSSID: {network.bssid}, Signal Level: {network.signal}")
+	else:
+		print("wifi not found")
+		pass
+	if is_root():
+	       if packet.haslayer(Dot11Beacon):
+	       	ssid = packet[Dot11].info.decode()
+	       	bssid = packet[Dot11].addr3
+	       	level = packet.dBm_AntSignal
+	       	print(f"SSID: {ssid}, BSSID: {bssid}, Signal Level: {level}")
+	else:
+		print("wifi not found")
+		pass
+
 from colorama import Fore, Style, init			
-init()			
+init()		
 def get_input(modules=None, modulename=None, cdn=None):
     global prompt
     get_meterpreter()
@@ -473,21 +503,6 @@ def get_input(modules=None, modulename=None, cdn=None):
               f"int4 {module_name}({Fore.RED}{module}{Fore.RESET}) >{Style.RESET_ALL}" if module and module_name else
               f"int4 ({Fore.RED}{cd}{Fore.RESET}) >{Style.RESET_ALL}" if cd else
               f"int4 >")
-if login():
-	print(f"""
-                  [{Fore.RED}intbase{Fore.RESET}] LOGİNNER
-        ================================     
-	""")
-	t.sleep(1)
-	username = input("<your username?> >")
-	passw = input("<your password?> >")
-	try:
-		login.login(username, passw)
-	except:
-		print("check your username or password")
-		exit()
-else:
-	pass
 get_input()
 banner()
 menu_banner()
@@ -496,30 +511,6 @@ global valid_commands
 valid_commands = {
 "neofetch", "com-help", "intshark", "oip", "introjan", "intai", "track", "build", "mode-admin", "use", "set", "show", "build", "mode-", "back", "item", "search", "show commands", "int install", "connect", "int", "install", "mode-ninja", "int install mode-ninja", "int install git", "int install aichat", "use", "exploit", "bset", "banner", "py-search", "payload-search", "exp-search", "exploit-search", "jobs", "jobs -k", "dns", "help", "use ", "intcrawler", "searchuser", "mailsearch", "phonesearch", "connectbot", "meterpreter", "shotgun", "imei", "exp-search", "py-search", "run", "show", "whoI"
     }
-command = sys.argv[1]
-if command:
-    file_pth = "intconsoleV4.py"
-    value = command
-    old = "input(prompt)"
-    
-    # Dosyayı oku
-    with open(file_pth, 'r') as file:
-        content = file.read()
-    
-    # İlk olarak help_input değişkenini güncelle
-    pattern = r'(help_input\s*=\s*)[^\n]+'
-    replacement = r'\1' + value
-    new_content = re.sub(pattern, replacement, content, count=1)
-    os.system("intconsole")
-    # Daha sonra dosyadaki input(prompt) ifadesini güncelle
-    new_content = new_content.replace(old, value)
-    
-    # Değişiklikleri dosyaya geri yaz
-    with open(file_pth, 'w') as file:
-        file.write(new_content)
-        exit()
-else:
-	pass
 
 while True:
     help_input = input(prompt)
@@ -1702,11 +1693,7 @@ Examples:
     	exit() 
     else:
     	exit()
-    if help_input == "login":
-    	try:
-    		login.main()
-    	except:
-    		pass
+
     if help_input == "show scanners":
     	print("""
 +------------------------------------------------------------------------+
@@ -1733,19 +1720,18 @@ Examples:
     		pg_manager.load_plugin(arg)
     	except:
     		print("")
+    		pass
     else:
+    	pass
     if help_input == "list_plugins":
     	pg_manager.list_plugins()
     else:
-    	print("plugins not founded")
+    	pass
     if help_input == "run_plugins":
     	hpl_list = help_input.split()
     	command = hpl_list[2]
     	args = hpl_list[3]
     	manager.run_command(command, *args)
-    if help_input.lower() == "whoi" or "whoı":
-    	us = login.main().current_user
-    	print(us)
     if help_input == "neofetch":
     	os.system("python3 neofetch.py")
     	add_job("neofetch")
