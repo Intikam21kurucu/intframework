@@ -27,7 +27,26 @@ import urllib.request
 from queue import Queue
 
 init()
+from colorama import *
 
+# Renkleri tanımla
+s2 = Fore.RESET
+s3 = Fore.GREEN
+s4 = Fore.RED
+s0 = Fore.RESET
+
+# ASCII sanatını oluştur
+rtbn = f"""
+{s3}  ⢠⡾⠃⠀⠀⠀⠀  ⠀⠰⣶⡀⠀{s0}
+{s3}⢠⡿⠁⣴⠇⠀⠀⠀     ⠸⣦⠈⢿  {s0}
+{s3} ⣾⡇⢸⡏⢰⡇⠀   ⠀  ⢸⡆⢸⡆⢸ {s0}    {s4}intframework{s0}
+{s3}⢹⡇⠘⣧⡈⠃{s0}  ⢰⡆{s2} {s3}  ⠘⢁⣼⠁⣸⠀{s0}
+{s3}⠈⢿⣄⠘⠃{s0} {s2}  ⢸⡇{s3}⠀   ⠘⠁⣰⡟{s0}  by root{s4}@{s0}{s3}int{s0}
+  {s3}⠙⠃    {s0}{s2}⢸⡇{s0}{s3}   ⠘⠋
+⠀ ⠀{s2}⠀⠀⠀⠀ ⢸⡇⠀⠀⠀⠀⠀⠀
+⠀ ⠀{s2}⠀⠀⠀⠀ ⢸⡇⠀⠀⠀⠀⠀⠀
+⠀ ⠀{s2}⠀⠀⠀⠀ ⠘⠃⠀⠀{s0}⠀⠀⠀⠀
+"""
 def banner():
         import random
         global banners
@@ -315,7 +334,6 @@ ___ _   _ _____ ___ _  __    _    __  __ ____
 
    """,
    """
-   {Fore.BLACK}
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣴⣿⣿⣿⢆⣴⣿⣿⣿⣦⡀⠀⠀⠀⠀⠀⠀⠀⠀
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠀⠀⠀⠀⠀⠀⠀⠀
 ⠀⠀⠀⠀⠀⠀⣀⣤⡄⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠠⣤⣀⠀⠀⠀⠀⠀
@@ -370,7 +388,8 @@ ___ _   _ _____ ___ _  __    _    __  __ ____
      | [~] Designer: İntikam21 Design Team                         |
      | [~] Supporters: Not                                                |
    +--------------------------------------------------------------+
-    """   
+    """,
+    f"{rtbn}"
     # Daha fazla banner eklenebilir
     ]
     # Rastgele bir banner seçimi yapılıyor
