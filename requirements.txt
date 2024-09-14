@@ -56,3 +56,4 @@ sysinfo
 urlparse3
 urllib3
 websockets
+sqlite3
