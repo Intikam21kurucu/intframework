@@ -3,10 +3,6 @@
 
 
 İntikam21 hiçbir sorumluluğu kabul etmez
-sorumluluğu kabul etmek için:
-
-
-<button>sorumluluğu kabul ediyorum
 
 
 
