@@ -59,6 +59,6 @@ jobs:
           const message = status === 'success' ? 'Build successful' : 'Build failed';
           await github.issues.createComment({
             ...context.repo,
-            issue_number: 1,  # Bu numarayı gerçek bir issue numarası ile değiştirin
+            issue_number: 0,  # Bu numarayı gerçek bir issue numarası ile değiştirin
             body: message
           });
