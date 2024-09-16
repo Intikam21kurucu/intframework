@@ -19,6 +19,7 @@ cd ~
 chmod +x ~/intframework/intconsole
 
 # intframework dizinini $PREFIX/opt/ dizinine taşı
+chmod +x ~/intframework/intconsole
 mv ~/intframework/intconsole $PREFIX/bin/
 mv ~/intframework $PREFIX/opt/
 
