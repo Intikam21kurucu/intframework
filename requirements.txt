@@ -57,3 +57,7 @@ urlparse3
 urllib3
 websockets
 sqlite3
+ping3
+netifaces
+ipaddress
+concurrent.futures
