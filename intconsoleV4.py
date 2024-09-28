@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!python
 # -*- coding: utf-8 -*-
 global phisherserror
 global clouderror
@@ -41,8 +41,6 @@ import sys
 import random
 import urllib.request
 from queue import Queue
-import sqlite3
-
 from modules.commands.banner import *
 from modules.commands.dns_lookup import *
 try:
@@ -123,15 +121,6 @@ try:
 	phisherserror = False
 except Exception as e:
 	phisherserror = True
-	pass
-try:
-	from modules import *
-except Exception as e:
-	pass
-try:
-	from modules import network_scan
-	
-except Exception as e:
 	pass
 def manager():
 	import PluginManager
@@ -378,22 +367,6 @@ def parse_input(input_str):
             raise ValueError("Geçersiz giriş formatı. Port sayısı geçerli bir tamsayı olmalıdır.")
     else:
         raise ValueError("Geçersiz giriş formatı. IP adresi/domain ve opsiyonel olarak port giriniz.")
-def db_connect():
-    # Veritabanına bağlan (örneğin, SQLite kullanıyorsanız)
-    connection = sqlite3.connect('database.db')
-    cursor = connection.cursor()
-    return connection, cursor
-
-def db_list(connection=sqlite3.connect('database.db'), cursor="connection.cursor()"):
-    # Komutları listeleyin (örneğin, veritabanındaki tabloları listeleme)
-    cursor.execute("SELECT name FROM sqlite_master WHERE type='table';")
-    tables = cursor.fetchall()
-    for table in tables:
-        print(f"Tablo adı: {table[0]}")
-
-def db_disconnect(connection=sqlite3.connect('database.db')):
-    # Bağlantıyı kapat
-    connection.close()
 
 def search(modules, query):
     results = {}
@@ -519,24 +492,7 @@ def scan_wifispy():
 		pass
 
 from colorama import Fore, Style, init			
-init()
-def scan5115(interface):
-    from wifi import Cell, Scheme
-    import scapy.all as scapy
-    try:
-    	networks = Cell.all(interface)
-    except FileNotFoundError:
-    	print("iwlist not found")
-    if os.getuid() == 0:
-    	print("[intbase] device is not rooted!")
-    	
-    print(f"{len(networks)} adet kablosuz ağ bulundu:")
-    for network in networks:
-        print(f"SSID: {network.ssid}")
-        print(f"BSSID (MAC): {network.address}")
-        print(f"Sinyal Gücü: {network.signal} dBm")
-        print(f"Şifreleme: {network.encryption_type}\n")
-
+init()		
 def get_input(modules=None, modulename=None, cdn=None):
     global prompt
     get_meterpreter()
@@ -560,8 +516,6 @@ while True:
     help_input = input(prompt)
     if help_input.lower() == "help":
     	print("""
-General
-==========
 		|COMMAND|         |Function|
 		---------------------		 -----------------
 		mode-{mode-name}	-switches to that mode
@@ -589,43 +543,89 @@ General
 		run_plugins       - runing plugins
 		list_plugins       - zaten biliyorsunuz aq eklentileri listeliyor.
 		
-USING COMMANDS
-==================
-        |Command|         |Function|
-        ------------------          ---------------
-          use                    -using modules
-          bset                   -your special settings
-          set                     -for modularity settings
-          show                 -showing modules
-          exploit               -run exploits
-          run                     -running modules
+USE COMMANDS
+=================	
+	usage : use {payload} or {exploit} or "evasion", and other modules
+					
+					
+BSET COMMANDS
+=================
+	usage: bset -a , set -e  or set {Framework name}
+		if mode-admin:
+			usage: set -a admin${COMMANDS}
+			set -a          - add 
+			set -e         -exit
+		bset -a 			-add
+		bset -e             -exit
+			
+			
+SET COMMANDS
+====================	
+	usage: set {name}
+	names:
+		evasion
+		payload
+		exploit
+		RHOSTS
+		LHOSTS
+		RPORTSS
+		LPORTS
+		Banner
+		CPORT
+		CHOST
+		other
+İTEM USAGE
+============	
+	item 'name.(caller_name)'
+			
+SEARCH USAGE
+=================
+  search 'com-name'
+		
+	
+İNTROJAN COMMANDS
+=====================
+	-ip or -ipv4            -İp adress of the target
+	-k   						-connect a cable
+	-r or --remote       -remote to lxde or cmd
+	-d or --dir			  -directory show on computer
+	-g   {video url}    -open video url on computer	
+	-p    					-port
+	-s or --send-message  -send ip or cable to computer
+	
+			
+OİP COMMANDS
+================
+	-h --help		-help
+	-ip				- target ip or domain	
+	-p -port		-target port
+	-t 				-turbo mode on
+	-time           -time
+	-oip 			-Name or email to search
+	-th				- Number of sites to search
 
-DB COMMANDS
-==============
-      |Command|        |Function|
-      -------------------        ----------------
-      db_connect      - connecting database
-      db_list               - listing db
-      db_disconnect  - disconnecting database
-      
-SEARCHING
-===========
-    |Command|       |Function|
-    -------------------       ---------------
-    search                 -searching commands
-    py-search            - searching payloads
-	exp-search         - searching exploits
-	show                   - showing your want module
-	info                     - infos for your module
+	
+		
 
-PLUGIN COMMANDS
-==================
-    |Command|        |Function|
-    ------------------         ----------------
-    load_plugins        - add path and loading plugin
-    list_plugins          - listing plugins
-    run_plugins         - running plugins
+			
+									
+SHOW USAGE		
+===============
+				
+	- show (your want to info module)
 
+	
+		
+			
+				
+					
+CONNECT COMMANDS	
+======================
+			
+	-p				-ping
+	-l				-listen
+	-r				-HOSTS
+	-port		-port
 			
 			
 HELLO, WE ARE THE İNTİKAM21 CYBER TEAM, THE REASON WE MADE THIS TOOL IS TO EDUCATE PEOPLE WHO LEARN HACKING, ONLY MALWARE BEHAVIOR BY THE USER OR INFECTION OF A SYSTEM IS NOT UNDER OUR RESPONSIBILITY, GOOD WORK🙋
@@ -1584,24 +1584,6 @@ Examples:
     		   CHOST               connecting target host
     		   CPORT               connecting target port
     			""")
-    		if info_get.lower() == "introjan":
-    			print("""
-İNTROJAN COMMANDS
-=====================
-    |Command|           |Function|
-    ------------------            ----------------
-	 -ip or -ipv4           -İp adress of the target
-	 -k   					   -connect a cable
-	 -r or --remote      -remote to lxde or cmd
-	 -d or --dir			 -directory show on computer
-	 -g   {video url}     -open video url on computer	
-	 -p    				  	-port
-	 -s or --send-message  -send ip or cable to computer
-    			""")
-    		if info_get.lower() == "oip":
-    			print("""
-    			
-    			""")
     		if info_get.lower() == "vp":
     			print("""
     			Commands      Function
@@ -1732,29 +1714,6 @@ Examples:
 | /intframework/modules/scanners/Crack/wificracker|
 +------------------------------------------------------------------------+    	
     	""")
-    if help_input == "network-device_scan" or "network_scan":
-    	network_scan.scan_network()
-    if help_input.startswith("wardriving"):
-    	setdbs = help_input[11:]
-    	if setdbs == "start":
-    		set_wlan = help_input[17:]
-    		scan5115(set_wlan)
-    	if setdbs == "end" or "exit" or "break":
-    		break
-    		continue
-    else:
-    	pass
-    if help_input == "wifi_scan":
-    	scan_wifispy()
-    else:
-    	print("not rooted")
-    global st
-    if help_input == "db_connect":
-    	st = "started"
-    if help_input == "db_list":
-    	db_list()
-    if help_input  == "db_disconnect":
-    	db_disconnect()
     if help_input.startswith("load_plugins"):
     	arg = help_input[13:]
     	try:
@@ -1773,8 +1732,6 @@ Examples:
     	command = hpl_list[2]
     	args = hpl_list[3]
     	manager.run_command(command, *args)
-    else:
-    	pass
     if help_input == "neofetch":
     	os.system("python3 neofetch.py")
     	add_job("neofetch")
@@ -1795,9 +1752,3 @@ Examples:
     	os.system(help_input)
     	add_job(help_input)
     	os.system(f"cd {self_dir}")
-    else:
-    	pass
-    if st == "started":
-    	db_connect()
-    else:
-    	pass
