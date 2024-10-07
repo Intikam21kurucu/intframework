@@ -1,11 +1,9 @@
 pyfiglet
 colorama
 requests
-time
 argparse
 socket
 getpass
-subprocess
 re
 random
 queue
