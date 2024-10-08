@@ -59,7 +59,7 @@ chmod +x start_kali.sh
 # EKRAN GÖRÜNTÜSÜ 
 
 system photos:
-![İntikam21 photos:](https://github.com/Intikam21kurucu/intframework/blob/%C4%B0ntframeworkV4/Photos%2FIMG_20241008_184826.jpg) 😄 
+![İntikam21 photos:](https://github.com/Intikam21kurucu/intframework/blob/d5cb19b49875d0eb9a949c379202999d5c609e22/Photos/IMG_20241008_184826.jpg) 
 
 
 
