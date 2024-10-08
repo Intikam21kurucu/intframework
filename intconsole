@@ -1,4 +1,64 @@
 #!/usr/bin/env python3
 import os
+import argparse
+import inttable
+import requests
 
-os.system("python3 $INTFRAMEWORK_PATH/intframework/intconsoleV4.py")
+def fetch_data_from_url(url):
+    try:
+        response = requests.get(url)
+        response.raise_for_status()  # Hata durumunda bir exception fırlatır
+        return response.text  # Sayfanın içeriğini döndürür
+    except requests.exceptions.RequestException as e:
+        print(f"Hata: {e}")
+        return None
+
+url = "https://raw.githubusercontent.com/Intikam21kurucu/intframework/refs/heads/%C4%B0ntframeworkV4/version.md"
+data = fetch_data_from_url(url)
+
+inttable.core.activate("root")
+# execute command from file
+def ecff(file_path):
+    try:
+        with open(file_path, 'r') as file:
+            commands = file.readlines()
+            for command in commands:
+                command = command.strip()
+                if command:
+                    inttable.console.run(command)
+    except FileNotFoundError:
+        print("File Not Found")
+    
+    if not file_path.endswith((".int4", ".int")):
+        print("Please use a .int4 or .int file")
+
+s = __file__
+if "bin" not in s:
+    os.chmod(__file__, 0o755)  # Dosya izinlerini ayarla
+    os.system(f"mv {__file__} $PREFIX/bin")
+
+parser = argparse.ArgumentParser(description="Console Starter")
+parser.add_argument("-x", help="Command to execute with intconsole")
+parser.add_argument("-i", "--int", help=".int file to read commands from")
+parser.add_argument("-q", help="Start intconsole in quiet mode")
+parser.add_argument("-v", "--version", help="Show version information")
+
+args = parser.parse_args()
+
+if args.x:
+    inttable.console.run(args.x)
+
+if args.int:
+    ecff(args.int)
+
+if args.q:
+    os.system("python3 $INTFRAMEWORK_PATH/intconsoleV4_quited.py")
+
+if args.version and data:
+    print(data)  # Veriyi yazdır
+
+if not any(vars(args).values()):
+    try:
+    	os.system("python3 $INTFRAMEWORK_PATH/intconsoleV4.py" and "python3 intconsoleV4.py")
+    except:
+    	os.system("python3 intconsoleV4.py")
