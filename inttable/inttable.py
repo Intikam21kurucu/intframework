@@ -33,7 +33,7 @@ LHOSTS = None
 global LPORTS
 LPORTS = None
 def load_console_module():
-    spec = importlib.util.spec_from_file_location("intconsole_module", "intconsoleV4.py")
+    spec = importlib.util.spec_from_file_location("intconsole_module", "$INTFRAMEWORK_PATH/intconsoleV4.py")
     console_module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(console_module)
     return console_module
