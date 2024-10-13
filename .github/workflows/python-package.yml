@@ -3,10 +3,10 @@ name: CI/CD Pipeline for Intframework
 on:
   push:
     branches:
-      - main
+      - İntframeworkV4
   pull_request:
     branches:
-      - main
+      - İntframeworkV4
   schedule:
     - cron: '0 0 * * *'  # Günlük olarak gece yarısı çalışacak
 
