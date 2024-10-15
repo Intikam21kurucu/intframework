@@ -8,7 +8,7 @@ on:
     branches:
       - İntframeworkV4
   schedule:
-    - cron: '0 0 * * *'  # Günlük olarak gece yarısı çalışacak
+    - cron: '0 0 * * *'
 
 jobs:
   build:
