@@ -44,11 +44,4 @@ jobs:
     - name: Notify deployment status
       uses: actions/github-script@v6
       with:
-        script: |
-          const status = context.job.status;
-          const message = status === 'success' ? 'Build successful' : 'Build failed';
-          await github.issues.createComment({
-            ...context.repo,
-            issue_number: 0,  # Bu numarayı gerçek bir issue numarası ile değiştirin
-            body: message
-          });
+        python-version: '3.10'
