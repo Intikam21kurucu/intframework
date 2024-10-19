@@ -31,12 +31,10 @@ jobs:
 
     - name: Run tests for Intframework
       run: |
-        cd intframework
         ls -la
 
     - name: Build Intframework
       run: |
-        cd intframework
         python setup.py build
 
     - name: Inttable
