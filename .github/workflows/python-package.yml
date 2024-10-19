@@ -34,7 +34,8 @@ jobs:
         ls -la
 
     - name: Build Intframework
-      run: |
+      run:
+        cd ~
         python setup.py build
 
     - name: Inttable
