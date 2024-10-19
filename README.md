@@ -163,8 +163,6 @@ Referer: android-app://com.google.android.googlequicksearchbox/
 Accept-Encoding: gzip, deflate
 
 
-help
-
 İntShell >
 ```
 
