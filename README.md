@@ -135,7 +135,38 @@ IP Address    | Device Name        | Status
 192.168.5.23    | Unknown Device       | Inactive
 192.168.5.24    | Unknown Device       | Inactive
 ```
+**using inthandler**
+```
+int4 (exploiter) > use multi/handler
+Exploit 'multi/handler' selected.
+int4 exploit(multi/handler) > run
+python: can't open file '/storage/emulated/0/intframework/modules/exploits/multi.handler': [Errno 2] No such file or directory
+int4 exploit(multi/handler) > back
+int4 exploit(multi/handler) > reset
+Options for multi/handler reset to default.
+int4 exploit(multi/handler) > run
+Exploit file is not defined for this exploit.
+int4 exploit(multi/handler) > set FILENAME multi/handler/inthandler.py
+FILENAME set to multi/handler/inthandler.py.
+int4 exploit(multi/handler) > run
+Listening on 0.0.0.0:4444
+Connection from ('127.0.0.1', 34170)
+İntShell > Connection from ('127.0.0.1', 34172)
+h
+İntShell > GET / HTTP/1.1
+Host: 0.0.0.0:4444
+Connection: keep-alive
+Accept-Language: ******
+Upgrade-Insecure-Requests: 1
+User-Agent: anonymous
+Referer: android-app://com.google.android.googlequicksearchbox/
+Accept-Encoding: gzip, deflate
 
+
+help
+
+İntShell >
+```
 
 
 
