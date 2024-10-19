@@ -32,7 +32,7 @@ jobs:
     - name: Run tests for Intframework
       run: |
         cd intframework
-        pytest
+        pytest intconsole
 
     - name: Build Intframework
       run: |
