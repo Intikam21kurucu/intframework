@@ -44,4 +44,5 @@ jobs:
     - name: Notify deployment status
       uses: actions/github-script@v6
       with:
-        python-version: '3.10'
+        script: |
+          console.log('Deployment status: success')
