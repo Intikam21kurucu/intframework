@@ -90,3 +90,52 @@ Youtube için Tıklayınız...
 
 
 
+
+
+
+# Examples
+
+```
+int4 (modular) > use network_scan
+[*] Module selected: network_scan
+int4 module(network_scan) > show optiosn
+[-] Invalid command. Type 'help' for available commands.
+int4 module(network_scan) > show options
+[*] Available options for module: network_scan
+fs: None
+timeout: None
+int4 module(network_scan) > set timeout 0.1
+[*] timeout = 0.1
+int4 module(network_scan) > run
+Network Scanner
+IP Address    | Device Name        | Status
+---------------------------------------------
+192.168.5.1     | Network Scan       | Port Active, Ping Active, Subprocess Ping Successful, HTTP Active
+192.168.5.3     | Unknown Device       | Inactive
+192.168.5.5     | Unknown Device       | Inactive
+192.168.5.6     | Unknown Device       | Inactive
+192.168.5.8     | Unknown Device       | Inactive
+192.168.5.4     | Unknown Device       | Inactive
+192.168.5.7     | Unknown Device       | Inactive
+192.168.5.11    | Unknown Device       | Inactive
+192.168.5.10    | Unknown Device       | Inactive
+192.168.5.2     | Unknown Device       | Inactive
+192.168.5.9     | Unknown Device       | Inactive
+192.168.5.12    | Unknown Device       | Inactive
+192.168.5.13    | Unknown Device       | Inactive
+192.168.5.14    | Unknown Device       | Inactive
+192.168.5.15    | Unknown Device       | Inactive
+192.168.5.16    | Unknown Device       | Inactive
+192.168.5.17    | Unknown Device       | Inactive
+192.168.5.18    | Unknown Device       | Inactive
+192.168.5.19    | Unknown Device       | Inactive
+192.168.5.20    | Unknown Device       | Inactive
+192.168.5.21    | Unknown Device       | Inactive
+192.168.5.22    | Unknown Device       | Inactive
+192.168.5.23    | Unknown Device       | Inactive
+192.168.5.24    | Unknown Device       | Inactive
+```
+
+
+
+
