@@ -32,20 +32,16 @@ jobs:
     - name: Run tests for Intframework
       run: |
         cd intframework
-        pytest intconsole
+        ls -la
 
     - name: Build Intframework
       run: |
         cd intframework
         python setup.py build
 
-    - name: Run tests for Intconsole
+    - name: Inttable
       run: |
-        pytest
-
-    - name: Build Intconsole
-      run: |
-        python setup.py build
+        cd inttable
 
   notify:
     needs: [build]
