@@ -1403,9 +1403,7 @@ Examples:
     		os.system("python3 exploiter.py")
     if help_input == "exploiter":
     	print("new exploiter session created")
-    	while True:
-    		from exploiter import *
-    		sploiter()
+    	os.system("python3 exploiter.py")
     if help_input == "modular":
     	os.system("python3 modular.py")
     if help_input == "list_plugins":
