@@ -1,6 +1,7 @@
 import requests
 
 def admin_finder(target_url):
+    """[Find admin panels on a target website]"""
     admin_paths = [
         "/admin",
         "/admin/login",
@@ -21,14 +22,14 @@ def admin_finder(target_url):
         response = requests.get(url)
 
         if response.status_code == 200:
-            print(f"Bulundu: {url}")
+            print(f"Found: {url}")
             found_admins.append(url)
     
     if not found_admins:
-        print("Yönetici paneli bulunamadı.")
+        print("No admin panel found.")
     
     return found_admins
 
-# Kullanım örneği
-target_url = "http://example.com"
+# User input
+target_url = input("\033[91mint4 [Enter the Target URL] > \033[0m")
 admin_finder(target_url)
