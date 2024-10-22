@@ -44,7 +44,7 @@ parser.add_argument("-q", help="Start intconsole in quiet mode")
 parser.add_argument("-v", "--version", help="Show version information")
 
 args = parser.parse_args()
-
+os.system("cd $INTFRAMEWORK_PATH")
 if args.x:
     inttable.console.run(args.x)
 
