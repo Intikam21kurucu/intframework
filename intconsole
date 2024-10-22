@@ -59,6 +59,6 @@ if args.version and data:
 
 if not any(vars(args).values()):
     try:
-    	os.system("python3 $INTFRAMEWORK_PATH/intconsoleV4.py" and "python3 intconsoleV4.py")
+    	os.system("python3 $INTFRAMEWORK_PATH/intconsoleV4.py")
     except:
     	os.system("python3 intconsoleV4.py")
