@@ -29,7 +29,7 @@ We apologize, intconsoleV4 is not yet complete, but this will not be that easy b
 
 -----------------------------------------------
 
- #Instructions
+ # Instructions
 
 *** Please do the following before running the program: ***
 
