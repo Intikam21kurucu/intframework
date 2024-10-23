@@ -29,7 +29,41 @@ We apologize, intconsoleV4 is not yet complete, but this will not be that easy b
 
 -----------------------------------------------
 
- 
+ Instructions
+
+Please do the following before running the program:
+
+1. After terbuild.sh is finished:
+
+````
+source ~/.bashrc
+````
+
+2. If intframework has been added to /usr/opt/intframework /usr/opt, then:
+
+````
+cd $PREFIX/opt/
+mkdir -p intframework
+mv $PREFIX/opt/* $PREFIX/opt/intframework
+````
+
+3. Before running intconsole:
+
+````
+cd $INTFRAMEWORK_PATH
+mv inttable/inttable $PREFIX/lib/python3.12/
+````
+
+4. If you want to use inttable:
+
+````
+import inttable.inttable as inttable
+
+inttable.core.activate("root")
+inttable.console.run("command")
+````
+
+
 
   
  
