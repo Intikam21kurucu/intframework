@@ -31,7 +31,7 @@ We apologize, intconsoleV4 is not yet complete, but this will not be that easy b
 
  # Instructions
 
-***Please do the following before running the program: ***
+*** Please do the following before running the program: ***
 
 ** 1. After terbuild.sh is finished: **
 
