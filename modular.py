@@ -43,7 +43,7 @@ class IntFrameworkConsole:
         if not self.module:
             self._print_error("You must select a module first.")
             return
-        
+
         # Komut satırı argümanlarını oluştur
         args = ' '.join(f"--{arg} {value}" for arg, value in self.module_args.items() if value is not None)
         os.system(f"python3 modules/{self.module_name}.py {args}")  # Modül ismini burada kullanıyoruz.
