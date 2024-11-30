@@ -80,14 +80,6 @@ We are working on adding intframework to Kali Linux; we're almost there!
 sudo apt-get install intframework
 ````
 
-# EKRAN GÖRÜNTÜSÜ 
-
-system photos:
-![İntikam21 photos:](https://github.com/Intikam21kurucu/intframework/blob/d5cb19b49875d0eb9a949c379202999d5c609e22/Photos/IMG_20241008_184826.jpg) 
-
-![Photo2](https://github.com/Intikam21kurucu/intframework/blob/%C4%B0ntframeworkV4/IMG_20241027_122034.jpg)
-![Github Badge](https://github.com/Intikam21kurucu/intframework/blob/%C4%B0ntframeworkV4/IMG_20240916_191945.jpg)
-
 # İNSTALL TERMUX
 ````apt update && apt upgrade
 pkg update && pkg upgrade
@@ -101,6 +93,15 @@ chmod +x terbuild.sh
 
 ./terbuild.sh
 ````
+
+# EKRAN GÖRÜNTÜSÜ 
+
+system photos:
+![İntikam21 photos:](https://github.com/Intikam21kurucu/intframework/blob/d5cb19b49875d0eb9a949c379202999d5c609e22/Photos/IMG_20241008_184826.jpg) 
+
+![Photo2](https://github.com/Intikam21kurucu/intframework/blob/%C4%B0ntframeworkV4/IMG_20241027_122034.jpg)
+![Github Badge](https://github.com/Intikam21kurucu/intframework/blob/%C4%B0ntframeworkV4/IMG_20240916_191945.jpg)
+
 
 
 
