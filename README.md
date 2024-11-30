@@ -79,7 +79,13 @@ We are working on adding intframework to Kali Linux; we're almost there!
 ````
 sudo apt-get install intframework
 ````
-
+or
+````
+sudo git clone https://github.com/Intikam21kurucu/intframework
+cd intframework
+sudo pip3 install requirements.txt
+sudo pip3 install scapy requests flask pyfiglet pywifi
+````
 # İNSTALL TERMUX
 ````apt update && apt upgrade
 pkg update && pkg upgrade
