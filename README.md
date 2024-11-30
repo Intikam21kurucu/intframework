@@ -87,9 +87,11 @@ mv intframework /usr/opt/
 sudo pip3 install requirements.txt
 sudo pip3 install scapy requests flask pyfiglet pywifi
 python intconsole
-```` if you are writed intconsole but erorred :
+```` 
+if you are writed intconsole but erorred :
 ````
 echo "export INTFRAMEWORK_PATH=/usr/opt/intframework"
+````
 # İNSTALL TERMUX
 ````apt update && apt upgrade
 pkg update && pkg upgrade
