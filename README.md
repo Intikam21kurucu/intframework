@@ -116,7 +116,10 @@ system photos:
 
 
 
-
+# İnstall Python
+````
+pip install intframework-pro
+````
 
 
 
