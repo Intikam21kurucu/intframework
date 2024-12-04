@@ -90,7 +90,7 @@ python intconsole
 ```` 
 if you are writed intconsole but erorred :
 ````
-echo "export INTFRAMEWORK_PATH=/usr/opt/intframework"
+echo "export INTFRAMEWORK_PATH=/usr/opt/intframework" > .bashrc  or .zshrc
 ````
 # İNSTALL TERMUX
 ````apt update && apt upgrade
