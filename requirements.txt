@@ -32,3 +32,4 @@ sysinfo
 websockets
 netifaces
 geopy
+folium
