@@ -31,3 +31,4 @@ tqdm
 sysinfo
 websockets
 netifaces
+geopy
