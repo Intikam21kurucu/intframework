@@ -72,7 +72,7 @@ inttable.console.run("command")
 
 # intframework
 
-[![Github Badge](https://github.com/Intikam21kurucu/intframework/blob/intframeworkV4/%5BOrijinal%20boyut%5D%20Renkli%20Modern%20Yuvarlak%20Okul%20Logo_20240423_141004_0000.png?style=quare&labelColor=000&logo=Github&logoColor=white&link=link)](link) 
+[![Github Badge](https://github.com/Intikam21kurucu/intframework/blob/%C4%B0ntframeworkV4/%20%C4%B0NT%C4%B0KAM11CONSOLE%C4%B0MG_20240522_165446_0000.png?style=quare&labelColor=000&logo=Github&logoColor=white&link=link)](link) 
 
 # İNSTALL KALİ:
 We are working on adding intframework to Kali Linux; we're almost there!
