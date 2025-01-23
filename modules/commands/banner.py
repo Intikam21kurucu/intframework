@@ -106,7 +106,7 @@ def banner():
     |/  /_____  |  |   \/   | \|         //    \\   \/   /   \  (_____  |   |
                 |                                \                      |    
 
-                   İ   N   T   İ   K   A   M   2   1 
+                   İ   N   T   S   P   L   O   İ   T 
 
 
                                       cDc
@@ -132,7 +132,7 @@ def banner():
        +-------------------------------------------------+
         |               _                                 |
         |              /  \                               |
-        |             /|oo \        İ N T İ K A M 2 1|
+        |             /|oo \        İ N T S P L O İ T|
         |            (_|  /_)                             |
         |             _`@/_ \    _    F R A M E W O R K |
         |            |     | \   \\                       |
@@ -153,7 +153,7 @@ def banner():
 ░▓  ░ ▒░   ▒ ▒   ▒ ░░   
  ▒ ░░ ░░   ░ ▒░    ░    
  ▒ ░   ░   ░ ░   ░      
- ░           ░          @intikam21
+ ░           ░          @intsploit
                         
                                                                                                                                                                                         {Fore.RESET}        """, 
         """ {Fore.RED}
@@ -167,7 +167,7 @@ def banner():
                                     dMc               :OO;          
                                     0M.                 .:o.       
                                     ;Wd                            
-                                     ;XO,                         \033[93mCreated By @intikam21 \033[34m                         
+                                     ;XO,                         \033[93mCreated By @intsploit \033[34m                         
                                        ,d0Odlc;,..                 
                                            ..',;:cdOOd::,.        
                                                     .:d;.':;.     
