@@ -32,7 +32,7 @@ list = """⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀�
 
 
 # Animasyon metni ve dönme karakterleri
-animasyon_metni = "STARTİNG İNTİKAM21 CONSOLE"
+animasyon_metni = "STARTİNG İNTSPLOİT FRAMEWORK CONSOLE"
 donme_karakterleri = ['/', '-', '\\', '|']
 
 # Animasyon süresi

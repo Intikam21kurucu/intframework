@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import requests
 
 def sensitive_file_scanner(target_url):

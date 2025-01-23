@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import requests
 
 def admin_finder(target_url):

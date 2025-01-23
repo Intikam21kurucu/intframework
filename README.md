@@ -1,62 +1,54 @@
 
-# İntikam21 Framework
+# intSpLoiT Framework
 
-![Gitter chat](https://github.com/Intikam21kurucu/TestReadme.md/blob/main/%C4%B0ntikam21_20240525_100218_0000.png)
+<p align="center">
+  <img src="https://github.com/Intikam21kurucu/intmages/blob/main/lv_0_20250104175232.gif" alt="Gitter chat">
+</p>
+
+ 
 ![Supported OS](https://img.shields.io/badge/Supported%20OS-Linux-yellow.svg)
 ![License](https://img.shields.io/badge/license-BSL--1.0-blue.svg)
-![FRAMEWORK SÜRÜMÜ](https://img.shields.io/badge/FRAMEWORK%20SÜRÜMÜ-İntikam21--Framework%20console%20v4.1.09--dev--bbf096e-green.svg)
+![FRAMEWORK SÜRÜMÜ](https://img.shields.io/badge/FRAMEWORK%20SÜRÜMÜ-intSpLoiT--Framework%20console%20v4.2.89--dev--bbf096e-green.svg)
+ 
 ![Python](https://img.shields.io/badge/Python-3-green.svg)
 ![Exploits](https://img.shields.io/badge/EXPLOIT-2456-red.svg)
-![Build](https://img.shields.io/badge/BUILD-1079-red.svg)
-![Modules](https://img.shields.io/badge/modules-547-red.svg) 
+![Build](https://img.shields.io/badge/BUILD-1103-red.svg)
+![Modules](https://img.shields.io/badge/modules-589-red.svg) 
 
-**İf this repo 10 stars i share intpro for free!**
+**We are editing this repo!**
 
 
 
 İntikam21 hiçbir sorumluluğu kabul etmez yaptığınız hersey size ozgudur😀
 
 -----------------------------------------------
-# Note
-```
-We apologize, intconsoleV4 is not yet complete,
- but this will not be that easy because commands have been added to it, traceroute, many modules, exploits, almost everything in the cyber security world, so we kindly ask you to wait patiently, if you want, let's see if you want to download tools to other consoles, and in this 4th console, it has its own modules. and there will be commands, bye bye.
-```
-
-# OLD GİF
-
------------------------------------------------
-
-![](https://github.com/Intikam21kurucu/intmages/blob/main/Start.gif)
-
------------------------------------------------
 
  # Instructions
 
-*** Please do the following before running the program: ***
+**Please do the following before running the program:**
 
-** 1. After terbuild.sh is finished: **
+**1.After terbuild.sh is finished:**
 
 ````
 source ~/.bashrc
 ````
 
-*** 2. If intframework has been added to /usr/opt/intframework /usr/opt, then: ***
+**2. If intframework has been added to /usr/opt/intframework /usr/opt, then:**
 
 ````
 cd $PREFIX/opt/
-mkdir -p intframework
-mv $PREFIX/opt/* $PREFIX/opt/intframework
+mkdir -p intframework-termux
+mv $PREFIX/opt/* $PREFIX/opt/intframework-termux
 ````
 
-*** 3. Before running intconsole: ***
+**3. Before running intconsole:**
 
 ````
 cd $INTFRAMEWORK_PATH
 mv inttable/inttable $PREFIX/lib/python3.12/
 ````
 
-*** 4. If you want to use inttable: ***
+**4. If you want to use inttable:**
 
 ````
 import inttable.inttable as inttable
@@ -70,56 +62,33 @@ inttable.console.run("command")
   
  
 
-# intframework
+ 
 
-[![Github Badge](https://github.com/Intikam21kurucu/intframework/blob/%C4%B0ntframeworkV4/%20%C4%B0NT%C4%B0KAM11CONSOLE%C4%B0MG_20240522_165446_0000.png?style=quare&labelColor=000&logo=Github&logoColor=white&link=link)](link) 
 
-# İNSTALL KALİ:
-We are working on adding intframework to Kali Linux; we're almost there!
-````
-sudo apt-get install intframework
-````
-or
-````
-sudo git clone https://github.com/Intikam21kurucu/intframework
-cd intframework
-mv intframework /usr/opt/
-sudo pip3 install requirements.txt
-sudo pip3 install scapy requests flask pyfiglet pywifi
-python intconsole
-```` 
-if you are writed intconsole but erorred :
-````
-echo "export INTFRAMEWORK_PATH=/usr/opt/intframework" > .bashrc  or .zshrc
-````
+# EKRAN GÖRÜNTÜSÜ 
+
+system photos:
+![İntikam21 photos:](https://github.com/Intikam21kurucu/intframework/blob/d5cb19b49875d0eb9a949c379202999d5c609e22/Photos/IMG_20241008_184826.jpg) 
+
+![Photo2](https://github.com/Intikam21kurucu/intframework/blob/%C4%B0ntframeworkV4/IMG_20241027_122034.jpg)
+![Github Badge](https://github.com/Intikam21kurucu/intframework/blob/%C4%B0ntframeworkV4/IMG_20240916_191945.jpg)
+
 # İNSTALL TERMUX
 ````apt update && apt upgrade
 pkg update && pkg upgrade
 pkg install python3
 pkg install git
 pip3 install requests
-git clone https://github.com/Intikam21kurucu/intframework
-cd intframework
+git clone https://github.com/intSpLoiT/intframework-termux
+cd intframework-termux 
 
 chmod +x terbuild.sh
 
 ./terbuild.sh
 ````
 
-# EKRAN GÖRÜNTÜSÜ 
-
-system photos:
-![İntikam21 photos:](https://github.com/Intikam21kurucu/intframework/blob/%C4%B0ntframeworkV4/Photos/IMG_20241008_184826.jpg) 
-
-![Photo2](https://github.com/Intikam21kurucu/intframework/blob/%C4%B0ntframeworkV4/IMG_20241027_122034.jpg)
-![Github Badge](https://github.com/Intikam21kurucu/intframework/blob/%C4%B0ntframeworkV4/IMG_20240916_191945.jpg)
 
 
-
-# İnstall Python
-````
-pip install intframework-pro
-````
 
 
 

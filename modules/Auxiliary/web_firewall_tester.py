@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import requests
 
 def waf_bypass_tester(target_url):

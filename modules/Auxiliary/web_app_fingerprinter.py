@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import requests
 
 def web_app_fingerprinter(target_url):

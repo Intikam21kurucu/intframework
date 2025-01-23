@@ -1,0 +1,65 @@
+[tool.poetry]
+name = "intframework"
+version = "4.0.0"
+description = "Intikam21 Framework - An advanced cybersecurity and penetration testing tool."
+authors = ["Intikam21 Team <intapp21@gmail.com>"]
+license = "GPL-3.0-or-later"
+repository = "https://gitlab.com/intapp21/intframework/-/tree/%C4%B0ntframeworkV4"
+keywords = ["pentest", "cybersecurity", "framework", "intframework"]
+
+[tool.poetry.dependencies]
+python = "^3.5"
+colorama = "^0.4.6"
+requests = "^2.31.0"
+argparse = "^1.4.0"
+paramiko = "^3.1.0"
+http.client = "*"
+dnspython = "^2.2.1"
+retrying = "^1.3.3"
+bs4 = "^0.0.1"
+stem = "^1.8.0"
+python-whois = "^0.7.3"
+datetime = "*"
+ipaddress = "*"
+configparser = "^5.0.0"
+pillow = "^9.5.0"
+wave = "*"
+typing = "*"
+netaddr = "^0.7.19"
+aiohttp = "^3.8.4"
+aiosignal = "^1.3.0"
+flask = "^3.0.0"
+googlesearch-python = "^1.1.0"
+ping3 = "^4.0.0"
+pyshark = "^0.4.2"
+pysocks = "^1.7.1"
+python-nmap = "^0.7.1"
+pytraceroute = "^0.0.2"
+pywhois = "^1.1.0"
+scapy = "^2.5.0"
+tqdm = "^4.65.0"
+sysinfo = "^1.0.0"
+websockets = "^11.0.1"
+netifaces = "^0.11.0"
+pywifi = "^1.0.2"
+pyfiglet = "^0.8"
+
+[tool.poetry.dev-dependencies]
+pytest = "^7.5.0"
+black = "^23.7.0"
+mypy = "^1.6.0"
+isort = "^5.12.0"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.black]
+line-length = 88
+target-version = ['py39', 'py310', 'py311']
+
+[tool.isort]
+profile = "black"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

@@ -52,7 +52,7 @@ if args.int:
     ecff(args.int)
 
 if args.q:
-    os.system("python3 $INTFRAMEWORK_PATH/intconsoleV4_quited.py")
+    os.system("python3 $INTFRAMEWORK_PATH/quited.py")
 
 if args.version and data:
     print(data)  # Veriyi yazdır

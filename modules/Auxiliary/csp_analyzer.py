@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import requests
 
 def csp_analyzer(target_url):

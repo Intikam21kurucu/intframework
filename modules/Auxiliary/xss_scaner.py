@@ -1,3 +1,4 @@
+#!/usr/bin/env python3 
 import requests
 
 def xss_tester(target_url):

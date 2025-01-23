@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import requests, random
 import urllib
 import colorama
@@ -9,7 +10,7 @@ print("""
  _--        sms        --__  
 <          bomber         >)
 |      developed by:  | 
- \._ARESCYBERTEAM _./  
+ \._?????????????? _./  
     ```--. . , ; .--'''       
           | |   |             
        .-=||  | |=-.   

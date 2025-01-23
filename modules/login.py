@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import hashlib
 
 # Save user information to a file

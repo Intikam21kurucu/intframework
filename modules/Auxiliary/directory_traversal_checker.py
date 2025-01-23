@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import requests
 
 def directory_traversal_checker(target_url):

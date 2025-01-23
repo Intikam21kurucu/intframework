@@ -1,3 +1,10 @@
+"""
+Examples:
+        inttable.core.activate("dev") or inttable.core.activate("root") If you don't do this, you won't be able to use the console.
+        inttable.exploit.run("intframework/modules/exploits/dropleganger", "dropleganger.py", args=None)
+        inttable.console.run("load_plugins (plugin path) ")
+        inttable.console.write("exploit") 
+"""
 import importlib.util
 import json
 import os

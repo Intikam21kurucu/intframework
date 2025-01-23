@@ -30,8 +30,6 @@ if [ "$choice" == "e" ]; then
     pkg install zsh
 fi
 
-pkg install android-tools
-
 # .bashrc dosyasına alias ekleyin
 SHELLRC="$HOME/.bashrc"
 

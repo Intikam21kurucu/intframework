@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import requests
 
 def open_redirect_checker(target_url):

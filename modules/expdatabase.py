@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 # exploit_framework.py
 
 def create_option(name, description, default):

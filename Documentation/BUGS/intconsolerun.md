@@ -12,7 +12,7 @@
         <pre>
 export INTFRAMEWORK_PATH="WRITE PATH HERE"
 source ~/.bashrc
-python intconsole.py
+python intconsole
         </pre>
         <li>If it still does not work, use this alternative command:</li>
         <pre>

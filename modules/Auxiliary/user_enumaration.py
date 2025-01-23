@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import requests
 
 def user_enumeration(target_url):

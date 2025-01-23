@@ -18,12 +18,12 @@ def extract_relevant_info(error_message, content):
 
 def analyze_error(error_message):
     urls = [
-        "https://github.com/Intikam21kurucu/intframework",
-        "https://github.com/Intikam21kurucu/intframework/issues",
-        "https://github.com/Intikam21kurucu/int-formations",
-        "https://github.com/Intikam21kurucu/int-formations/issues",
-        "https://github.com/Intikam21kurucu/Intikam21",
-        "https://github.com/Intikam21kurucu/Intikam21/issues",
+        "https://github.com/intSpLoiT/intframework",
+        "https://github.com/intSpLoiT/intframework/issues",
+        "https://github.com/intSpLoiT/int-formations",
+        "https://github.com/intSpLoiT/int-formations/issues",
+        "https://github.com/intSpLoiT/intframework-termux",
+        "https://github.com/intSpLoiT/intframework-termux/issues",
         "https://github.com/nmap/nmap",
         "https://github.com/nmap/nmap/issues",
         "https://www.metasploit.com/",
@@ -102,15 +102,15 @@ def get_error_info():
 
 def get_usage_info():
     messages_en = [
-        "To start the tool, use the command 'python3 intframework.py'.",
-        "For usage, first configure necessary settings, then run the tool with 'python3 intframework.py'.",
-        "Run the tool from the command line by typing 'python3 intframework.py'."
+        "To start the tool, use the command 'python3 intconsole'.",
+        "For usage, first configure necessary settings, then run the tool with 'python3 intconsole'.",
+        "Run the tool from the command line by typing 'python3 intconsole'."
     ]
     messages_tr = [
-        "Aracı başlatmak için 'python3 intframework.py' komutunu kullanın.",
-        "Kullanım için önce gerekli konfigürasyonları yapın, ardından 'python3 intframework.py' ile aracı çalıştırın.",
-        "Komut satırından 'python3 intframework.py' yazarak aracı çalıştırabilirsiniz."
-    ]
+        "Aracı başlatmak için 'python3 intconsole' komutunu kullanın.",
+        "Kullanım için önce gerekli konfigürasyonları yapın, ardından 'python3 intconsole' ile aracı çalıştırın.",
+        "Komut satırından 'python3 intconsole' yazarak aracı çalıştırabilirsiniz."
+]
     return random.choice(messages_en), random.choice(messages_tr)
 
 def provide_info(query, language):

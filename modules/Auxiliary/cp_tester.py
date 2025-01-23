@@ -1,3 +1,4 @@
+#!/usr/bin/env python3 
 import requests
 
 def cache_poisoning_tester(target_url):

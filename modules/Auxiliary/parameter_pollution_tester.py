@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import requests
 
 def parameter_pollution_tester(target_url):

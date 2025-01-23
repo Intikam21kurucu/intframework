@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import requests
 
 def http_analyzer(target_url):

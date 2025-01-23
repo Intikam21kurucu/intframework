@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import requests
 
 def session_fixation_tester(target_url):

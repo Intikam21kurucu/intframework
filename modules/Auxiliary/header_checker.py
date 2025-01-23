@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import requests
 
 def header_analyzer(target_url):

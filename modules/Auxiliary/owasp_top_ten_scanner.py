@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import requests
 
 def owasp_top_ten_scanner(target_url):

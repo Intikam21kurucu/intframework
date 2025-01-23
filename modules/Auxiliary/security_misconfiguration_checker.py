@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import requests
 
 def security_misconfiguration_checker(target_url):

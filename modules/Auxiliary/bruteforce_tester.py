@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import requests
 
 def brute_force_login(url, username, password_file):

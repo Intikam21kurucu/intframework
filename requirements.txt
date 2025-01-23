@@ -29,7 +29,6 @@ pywhois
 scapy
 tqdm
 sysinfo
+smbmap
 websockets
 netifaces
-geopy
-folium

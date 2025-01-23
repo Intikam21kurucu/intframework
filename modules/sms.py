@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 from argparse import ArgumentParser
 from urllib3 import PoolManager
 from json import dumps

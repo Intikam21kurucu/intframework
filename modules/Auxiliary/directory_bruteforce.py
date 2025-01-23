@@ -1,3 +1,4 @@
+#!/usr/bin/env python3 
 import requests
 
 def directory_bruteforce(target_url, wordlist):

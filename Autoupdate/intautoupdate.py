@@ -4,13 +4,13 @@ import json
 import shutil
 import platform
 
-tool_link = "https://github.com/Intikam21kurucu/intframework"
+tool_link = "https://github.com/intSpLoiT/intframework-termux"
 
 def check_for_updates():
     try:
         print("Checking for updates...")
         # GitHub API'sini kullanarak deposundaki dosyaların listesini al
-        api_url = f"https://api.github.com/repos/Intikam21kurucu/intframework/contents"
+        api_url = f"https://api.github.com/repos/Intikam21kurucu/intframework-termux/contents"
         response = requests.get(api_url)
         contents = json.loads(response.content)
 
