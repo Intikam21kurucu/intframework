@@ -287,6 +287,6 @@ def menu_banner():
 + --=[ Osint Framework      - 2 shodan          - 90 network     ]=
 + --=[ 2 pro plugins        - intbash           - int4 reader    ]=
 
-İntikam21 Documentation:{Style.RESET_ALL} https://sites.google.com/view/intilam21-cyber-team/kay%C4%B1t
+intikam21blog: editing 
 """ + Fore.RESET)
 
