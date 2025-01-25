@@ -1668,6 +1668,7 @@ Examples:
     	add_job(help_input)
     else:
     	pass
+    break
     try:
     	if st == "started":
     		db_connect()
