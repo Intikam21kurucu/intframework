@@ -19,7 +19,7 @@
 
 
 
-intSpLoiT and other developers disclaim any responsibility or liability😀
+- intSpLoiT and other developers disclaim any responsibility or liability😀
 
 -----------------------------------------------
 
