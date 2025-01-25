@@ -18,10 +18,27 @@
 **We are editing this repo!**
 
 
-
+ 
 - intSpLoiT and other developers disclaim any responsibility or liability😀
 
 -----------------------------------------------
+ 
+ 
+# A SMALL HELP AND Report the errors
+
+- 1~) open issues
+- 2~) select the template
+- 3~) write your issue
+
+
+# Package Requesting 
+ 
+- 1~) open issues
+- 2~) select exploit request or auxiliary request (if for other tools select package request)
+- 3~) write your package link and package screenshot (please not request encoded code format)
+
+-----------------------------------------------
+ 
 
  # Instructions
 
