@@ -19,7 +19,7 @@
 
 
 
-İntikam21 hiçbir sorumluluğu kabul etmez yaptığınız hersey size ozgudur😀
+intSpLoiT and other developers disclaim any responsibility or liability😀
 
 -----------------------------------------------
 
