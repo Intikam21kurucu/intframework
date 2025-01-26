@@ -54,8 +54,8 @@ source ~/.bashrc
 
 ````
 cd $PREFIX/opt/
-mkdir -p intframework-termux
-mv $PREFIX/opt/* $PREFIX/opt/intframework-termux
+mkdir -p intframework
+mv $PREFIX/opt/* $PREFIX/opt/intframework
 ````
 
 **3. Before running intconsole:**
@@ -96,8 +96,8 @@ pkg update && pkg upgrade
 pkg install python3
 pkg install git
 pip3 install requests
-git clone https://github.com/intSpLoiT/intframework-termux
-cd intframework-termux 
+git clone https://github.com/intSpLoiT/intframework
+cd intframework 
 
 chmod +x terbuild.sh
 
