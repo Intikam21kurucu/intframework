@@ -51,6 +51,7 @@ import pathlib
 import subprocess
 import colorama
 from colorama import Fore, Back, Style
+import inttable
 from modules.commands.banner import *
 from modules.commands.dns_lookup import *
 
@@ -93,27 +94,19 @@ try:
 except:
 	pass
 try:
-	from modules.intattack import *
+	from modules.Auxiliary import *
 except Exception as e:
+	print("[01.intbase] modules.Auxiliary Not founded please reinstall framework")
 	pass
 try:
-	import handlerunner
+	from modules.exploits import *
 except Exception as e:
+	print("[02.intbase] modules.exploit Not founded please reinstall framework")
 	pass
 try:
 	from modules.exploits import *
 except Exception as e:
 	print("[03.intbase] modules.exploit Not founded please reinstall framework")
-	pass
-try:
-	from modules.scanners import adminfinder, dirscanner, dns_scanner, emailscan, networkscan, ping_scan, portscan, service_scanner, userscan, vulnerability_scanner, wlanscanner
-except Exception as e:
-	print("[04.intbase] modules.scanners Not founded please reinstall framework")
-	pass
-try:
-	from modules.scanners.Crack import *
-except Exception as e:
-	print("[05.intbase] modules.scanners.Crack Not founded please reinstall framework")
 	pass
 try:
 	from modules import login
@@ -268,6 +261,21 @@ class NmapScanner:
             print(f"Scan results for {target} saved to database.")
         except Exception as e:
             print(f"An error occurred while saving results to DB: {e}")
+def execute_allowed_commands(command):
+    # Komutları '&&' veya ';' ile kontrol et ve sırayla çalıştır
+    if "&&" in command:
+        commands = command.split("&&")  # '&&' ile ayır
+    elif ";" in command:
+        commands = command.split(";")  # ';' ile ayır
+    else:
+        commands = [command]  # Tek bir komut varsa
+
+    for cmd in commands:
+        cmd = cmd.strip()  # Gereksiz boşlukları kaldır
+        try:
+            os.system(f"intconsole -x {cmd}")  # Komutu çalıştır
+        except Exception as e:
+            print(f"Errored: {cmd} is doesnt working. {e}")
 
 def data():
 	global LHOSTS
@@ -296,7 +304,9 @@ def check_network():
     except OSError:
         return False
         print("You are int-py mode")
- 
+# intconsole komutu
+    # ASCII sanatı
+
 
 init()      
 global jobs
@@ -336,37 +346,131 @@ options = {
     'PAYLOAD': 'intframework/payloads/reverse_shell.py'
 }
 
-def set_option(option, value):
-    """Set a specific option if it exists and update the options dictionary."""
-    if option in options:
-        options[option] = value
-        print(f"[+] {option} set to {value}")
-    else:
-        print(f"[-] Invalid option: {option}")
+global_variables = {}  # Global değişkenler
+local_variables = {}  # Yerel değişkenler
 
-def show_options(required_options, filename):
-    """Show only the required options for the given script and execute external script."""
-    import subprocess
-    # Komutu çalıştır
-    global modules
+# Set edilen değişkenlerin kaydedileceği dosya (Python formatında)
+intframework_path = os.getenv("INTFRAMEWORK_PATH")
+
+if intframework_path is None:
+    print("Error: INTFRAMEWORK_PATH environment variable is not set.")
+else:
+    db_path = os.path.join(intframework_path, "lib", "intpro", ".conf")
+
+# setdb fonksiyonu, değişkenleri .conf dosyasına kaydeder
+def setdb(variable, value):
     try:
-    	response = subprocess.check_output(f"python3 {modules} --opts", shell=True, stderr=subprocess.STDOUT)
-    	# Eğer komut bir çıktı üretirse, response içeriğini kontrol edebilirsin
-    	print(response.decode())  # Çıktıyı yazdır
-    except subprocess.CalledProcessError as e:
-    	# Eğer komut çalışmazsa, hatayı yakala ve belirtilen mesajı yazdır
-    	print("""
-    NAME                     Current Setting                Required    Description
-    ------------------       ------------------------     ----------   ---------------------
-    """)
+        # INTFRAMEWORK_PATH ortam değişkeni kontrol ediliyor
+        intframework_path = os.getenv("INTFRAMEWORK_PATH")
+        if not intframework_path:
+            raise ValueError("INTFRAMEWORK_PATH not set in environment variables.")
+
+        # Dosyanın var olup olmadığını kontrol et
+        if not os.path.exists(db_path):
+            # Eğer dosya yoksa, oluştur
+            with open(db_path, "w") as f:
+                f.write("# Configuration file for set variables\n")
+
+        # Python formatında değişkeni dosyaya yaz
+        with open(db_path, "a") as db_file:
+            db_file.write(f"{variable} = '{value}'\n")
+
+        print(f"{Fore.GREEN}[+] Variable '{variable}' set to '{value}' and saved to {db_path}.{Style.RESET_ALL}")
+
+    except Exception as e:
+        print(f"{Fore.RED}[-] Error in setdb: {e}{Style.RESET_ALL}")
+
+# set fonksiyonu, kullanıcı tarafından belirtilen değişkeni global veya yerel olarak ayarlar
+def set_variable(variable, value, global_scope=False):
+    try:
+        if global_scope:
+            global_variables[variable] = value
+        else:
+            local_variables[variable] = value
+        print(f"{Fore.GREEN}[+] Set variable '{variable}' to '{value}'{Style.RESET_ALL}")
+    except Exception as e:
+        print(f"{Fore.RED}[-] Error setting variable: {e}{Style.RESET_ALL}")
+
+# Global değişkenler için set fonksiyonu (setg)
+def setg(variable, value):
+    set_variable(variable, value, global_scope=True)
+
+# set fonksiyonu (yerel değişkenler için)
+def set(variable, value):
+    set_variable(variable, value, global_scope=False)
+
+
+
+# Modülün tüm seçeneklerini göster
+def show_options():
+    if modules == "":
+        print(f"{Fore.RED}[-] No module loaded.{Style.RESET_ALL}")
+        return
+
+    print(f"{Fore.YELLOW}[*] Showing options for module: {Fore.CYAN}{modulename}{Style.RESET_ALL}")
     
-def exit():
-	os.system("exit")
+    try:
+        # Yüklenen modülün Python dosyasını dinamik olarak import ediyoruz
+        module = importlib.import_module(modules)
+
+        # Modülün options kısmı var mı kontrol edelim
+        if not hasattr(module, 'options'):
+            print(f"{Fore.RED}[-] No options found for the module.{Style.RESET_ALL}")
+            return
+
+        options = module.options
+        
+        if not options:
+            print(f"{Fore.RED}[-] No options available for this module.{Style.RESET_ALL}")
+            return
+        
+        # Her bir seçeneği kullanıcıya detaylı bir şekilde sunalım
+        for option, details in options.items():
+            print(f"{Fore.YELLOW}[*] Option: {Fore.CYAN}{option}{Style.RESET_ALL}")
+            print(f"  {Fore.GREEN}Description:{Style.RESET_ALL} {details.get('description', 'No description available.')}")
+            print(f"  {Fore.GREEN}Type:{Style.RESET_ALL} {details.get('type', 'Unknown')}")
+            print(f"  {Fore.GREEN}Default Value:{Style.RESET_ALL} {details.get('default', 'None')}")
+            print(f"  {Fore.YELLOW}[*] Usage Example:{Style.RESET_ALL} {details.get('example', 'None')}")
+            print("")
+
+    except Exception as e:
+        print(f"{Fore.RED}[!] Error while fetching options for module: {e}{Style.RESET_ALL}")
+
+# run fonksiyonu, set edilen değerlerle çalıştırır
+def srun():
+    try:
+        if not modules:
+            raise ValueError("No module loaded. Use the 'use' command first.")
+        
+        # Modülün yolunu ve adını yazdır
+        print(f"{Fore.CYAN}[*] Running module: {modules}{Style.RESET_ALL}")
+        print(f"{Fore.YELLOW}[+] Using the following variables:{Style.RESET_ALL}")
+
+        # Tüm değişkenleri göster
+        all_variables = {**global_variables, **local_variables}
+        for var, val in all_variables.items():
+            print(f"  {Fore.GREEN}{var}{Style.RESET_ALL}: {val}")
+
+        # Modülü çalıştırmak için komut oluştur
+        command = f"python3 {modules}"
+
+        # Komutu çalıştır
+        print(f"{Fore.YELLOW}[*] Executing: {command}{Style.RESET_ALL}")
+        os.system(command)
+
+        print(f"{Fore.GREEN}[+] Module '{modulename}' executed successfully with variables!{Style.RESET_ALL}")
+    except Exception as e:
+        print(f"{Fore.RED}[-] Error in run: {e}{Style.RESET_ALL}")
+    
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     
-
-
+os.system("clear")
+if check_network():
+	print("")
+	add_job("network")
+else:
+	print("you are offline")
 def bind_tcp(lhosts, lports):
 	try:
 		s.bind(lhosts, lports)
@@ -526,26 +630,6 @@ def search(modules, query):
     
     return results
 
-# Example modules dictionary:
-modulestr = {
-    "introjan": "the best trojan horse tool",
-    "oip": "the #3 information Gathering Tools",
-    "intshark": "If you can't find anything, type intshark and find additional tools that we don't make or don't recognize.",
-    "use": "use modules",
-    "mode-admin": "use admin mode",
-    "set": "set command, add and adjust settings",
-    "bset": "bset sets a adjuet settings",
-    "star": "chmodding tools",
-    "search": "search tools",
-    "item": "Call it with the item command without using callers like Python",
-    "show": "show tools or exploits",
-    "back": "back to term",
-    "jobs": "see a jobs",
-    "connect": "listen ip",
-    "intweb": "Web hacking Tool",
-    "intcam": "Cam Hack For intikam21 users",
-    "intmeterpreter": "payload using and creating"
-}
 payloads = None
 prompt = None
 def get_meterpreter():
@@ -608,13 +692,6 @@ def user_count(help_input, repeat_count=2):
 			print("""you are used rhosts you are must use ("del lhosts") or ("del lhost")  """)
 		if targets == "set rhosts" or "set rhost":
 			print("""you are used rhosts you are must use ("del lports") or ("del lport")  """)
-import pywifi
-from pywifi import *
-from pywifi import PyWiFi, const, Profile
-try:
-	from scapy.all import sniff, Dot11, Dot11Beacon
-except:
-	pass
 def is_root():
 	return os.getuid() == 0
 def scan_wifispy():
@@ -642,22 +719,23 @@ def scan_wifispy():
 from colorama import Fore, Style, init			
 init()
 def scan5115(interface):
+    import pywifi
     from wifi import Cell, Scheme
     import scapy.all as scapy
     try:
     	networks = Cell.all(interface)
+    	inttable.write("network_scanned!")
     except FileNotFoundError:
     	print("iwlist not found")
     if os.getuid() == 0:
     	print("[intbase] device is not rooted!")
-    	
+    	inttable.write("Device is not Rooted!")
     print(f"{len(networks)} adet kablosuz ağ bulundu:")
     for network in networks:
         print(f"SSID: {network.ssid}")
         print(f"BSSID (MAC): {network.address}")
         print(f"Sinyal Gücü: {network.signal} dBm")
         print(f"Şifreleme: {network.encryption_type}\n")
-        
 def use_module(command):
     global modules, modulename
     try:
@@ -670,6 +748,7 @@ def use_module(command):
 
             # Modül bilgilerini kullanıcıya göster
             get_input(modules=module_path, modulename=modulename)
+            inttable.write(f"[>] use module: {modules}")
             print(f"\n{Fore.YELLOW}[*] Loading module: {Fore.CYAN}{module_path}{Style.RESET_ALL}")
             print(f"{Fore.YELLOW}[*] Module: {Fore.GREEN}{modulename}{Style.RESET_ALL}")
             print(f"{Fore.YELLOW}[*] Successfully loaded.{Style.RESET_ALL}\n")
@@ -692,6 +771,11 @@ def check_if_argparse_used(module_path):
 # Directories to search
 dirs_int = ["intPRO", "modules", "PHİSHERS", "tools"]
 
+inttablecore = inttable.core()
+try:
+	inttablecore.activate("root")
+except:
+	pass
 def list_all_files(directories):
     """
     List all files in the specified directories
@@ -784,7 +868,6 @@ def us_search(search_term):
     # Display the search results
     display_search_results(results)
 
-
 def detect_interpreter(module_path):
     """
     Detect the appropriate interpreter for a given file based on its extension, 
@@ -873,8 +956,6 @@ def detect_interpreter(module_path):
 
 def run_module(skar3792=None, payload=None, lhost=None, lport=None):
     global modules
-    int_output = False
-    has_no_payload = False
 
     if not modules:
         print(f"{Fore.RED}[!] No module loaded. Use 'use intframework/path/to/module_name' to load one.{Style.RESET_ALL}")
@@ -888,35 +969,29 @@ def run_module(skar3792=None, payload=None, lhost=None, lport=None):
         if not interpreter:
             print(f"{Fore.RED}[!] Error: Could not detect the interpreter for the module.{Style.RESET_ALL}")
             return
-        
-        with open(modules, 'r') as f:
-            content = f.read().lower()
-        
-        if all(x in content for x in ["lhost", "lport", "payload"]):
-            int_output = True
-        elif all(x in content for x in ["lhost", "lport"]):
-            has_no_payload = True
 
         print(f"{Fore.GREEN}[+] Module inspection complete.{Style.RESET_ALL}")
     except Exception as e:
         print(f"{Fore.RED}[!] Error during module inspection: {e}{Style.RESET_ALL}")
-        return
+        pass
 
     try:
         # Modülü çalıştır
         print(f"{Fore.YELLOW}[*] Running module: {Fore.CYAN}{modules}{Style.RESET_ALL}")
-        if int_output:
-            command = f"{interpreter} {modules} {lhost} {lport} {payload}"
-        elif has_no_payload:
-            command = f"{interpreter} {modules} {lhost} {lport}"
-        else:
-            command = f"{interpreter} {modules} {skar3792}"
+
+        # None olmayan argümanları al
+        args = [str(arg) for arg in [modules, lhost, lport, payload, skar3792] if arg]
+
+        # Komut oluştur
+        command = f"{interpreter} {' '.join(args)}"
 
         print(f"{Fore.MAGENTA}[>] Command: {Fore.WHITE}{command}{Style.RESET_ALL}")
         os.system(command)
+        inttable.write(f"[>] running module: {modules}")
         print(f"{Fore.GREEN}[+] Module executed successfully.{Style.RESET_ALL}")
     except Exception as e:
         print(f"{Fore.RED}[!] Error during module execution: {e}{Style.RESET_ALL}")
+
 
 def monitor_process(proc):
     """Çalışan modülü izler"""
@@ -945,17 +1020,16 @@ valid_commands = {
     }
 global st
 from uuid_manager import *
-
-def sessions():
-	load_sessions()
-	create_session("intrpc", "root@int")
+# load_sessions()
+# create_session("intrpc", "root@int")
+# print(" ")
 global running_pid
 running_pid = None        
 while True:
     help_input = sys.argv[1]
     if help_input.lower() == "help":
     	print("""
-IntFramework Help Menu
+IntSpLoiT Framework Help Menu
 ==============================
 
 General Commands  
@@ -970,12 +1044,16 @@ use                - Select a module to use
 show               - Display available commands, tools, or exploits  
 info               - Get detailed information about the selected module  
 run                - Execute the selected module  
+srun               - Set and run a module with specified parameters  
 jobs               - View and manage active jobs  
 kill               - Terminate a specific job  
 db_connect         - Connect to a database  
 db_list            - List all available databases  
 db_disconnect      - Disconnect from the current database  
 db_nmap            - Perform database-integrated Nmap scanning  
+set                - Set a specific parameter for a module  
+setg               - Set a global parameter for all modules  
+setdb              - Set or change the database connection for modules  
 route              - Add or view routing for specific IPs  
 portfwd            - Set up port forwarding rules  
 tunnel             - Configure and manage routing tunnels  
@@ -988,9 +1066,9 @@ dragon             - Launch the Dragon brute-force tool
 introjan           - Build and deploy advanced Trojan Horses  
 oip                - Search open ports on a target system  
 intcrawler         - Crawl and gather data from websites  
-usersearcher       - Search for information about specific users
-mailsearcher       - Search for email addresses linked to targets
-intweb             - Perform web application scanning and analysis
+usersearcher       - Search for information about specific users  
+mailsearcher       - Search for email addresses linked to targets  
+intweb             - Perform web application scanning and analysis  
 intninja           - Access Ninja tools for stealth operations  
 intmail            - Search for email-related vulnerabilities  
 intcam             - A camera hacking tool for Intikam21 users  
@@ -998,11 +1076,12 @@ intcam             - A camera hacking tool for Intikam21 users
 Module Commands  
 ----------------  
 Command            - Function
-============================
+=============================
 use                - Select a module to use  
 show               - Display available commands, tools, or exploits  
 info               - Get detailed information about the selected module  
 run                - Execute the selected module  
+srun               - Set and run a module with specified parameters  
 
 Database Commands  
 ------------------  
@@ -1012,6 +1091,7 @@ db_connect         - Connect to a database
 db_list            - List all available databases  
 db_disconnect      - Disconnect from the current database  
 db_nmap            - Perform database-integrated Nmap scanning  
+setdb              - Set or change the database connection for modules  
 
 Networking Commands  
 --------------------  
@@ -1055,7 +1135,6 @@ intweb             - Perform web application scanning and analysis
 intninja           - Access Ninja tools for stealth operations  
 intmail            - Search for email-related vulnerabilities  
 intcam             - A camera hacking tool for Intikam21 users  
-
 
 HELLO, WE ARE THE İNTİKAM21 CYBER TEAM!  
 The reason we made this tool is to educate people interested in hacking.  
@@ -1525,7 +1604,7 @@ Examples:
     	if setdbs == "start":
     		set_wlan = help_input[17:]
     		scan5115(set_wlan)
-    	if setdbs == "end" or "exit" or "break":
+    	if setdbs == "end" or "exit" or "break" or "stop":
     		break
     		continue
     else:
@@ -1603,8 +1682,35 @@ Examples:
         run_module(skar3792=extracted_text)
     if help_input == "run":
         run_module()
+    if help_input == "srun":
+    	srun()
     if help_input == "osint":
     	print("https://osintframework.com/")
+    if help_input.startswith("set"):
+        # "set " kısmından sonrasını al (4. indexten itibaren)
+        command_parts = help_input[4:].split(" ", 1)  # Burada bir boşlukla ayırıyoruz
+        
+        if len(command_parts) == 2:
+            variable, value = command_parts
+            set(variable, value)  # set fonksiyonunu çağır
+        else:
+            print("[-] Invalid input. Please provide both variable and value.")
+    if help_input.startswith("setg"):
+        # "set " kısmından sonrasını al (4. indexten itibaren)
+        command_parts = help_input[5:].split(" ", 1)  # Burada bir boşlukla ayırıyoruz
+        
+        if len(command_parts) == 2:
+            variable, value = command_parts
+            setg(variable, value)  # set fonksiyonunu çağır
+        else:
+            print("[-] Invalid input. Please provide both variable and value.")
+    if help_input.startswith("setdb"):
+    	command_parts = help_input[6:].split(" ", 1)
+    	if len(command_parts) == 2:
+    		variable, value = command_parts
+    		setdb(variable, value)
+    	else:
+    		print("[-] Invalid input. Please provide both variable and value.")
     if help_input.startswith("search"):
     	termof_search = help_input[7:]
     	if termof_search:
@@ -1659,7 +1765,7 @@ Examples:
     		os.system(help_input)
     		add_job(help_input)
     		continue
-    	if help_input.startswith("int"):
+    	if help_input.startswith("int"): 
     		os.system(help_input)
     		add_job(help_input)
     		continue
@@ -1668,9 +1774,9 @@ Examples:
     	add_job(help_input)
     else:
     	pass
-    break
     try:
     	if st == "started":
     		db_connect()
     except:
     	pass
+    break
