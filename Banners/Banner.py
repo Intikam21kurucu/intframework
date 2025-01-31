@@ -1,1 +1,0 @@
-#3 Move ../modules/commands/banner.py
