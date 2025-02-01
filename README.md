@@ -12,6 +12,7 @@
 - **Hacker-Themed Aesthetics**: Classic green/black color palette with smooth animations.
 - **Quick Access**: Fast access to frequently used commands and modules via interactive buttons.
 - **Mobile & Desktop Friendly**: Responsive design that works seamlessly across all devices.
+- **Other hacking tools(osint)**: added simple osint tools for users
 
 ---
 
