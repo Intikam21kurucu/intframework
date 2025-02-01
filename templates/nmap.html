@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IP Scan - Nmap Online</title>
+    <title>IP Scan - HackerTarget Online</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -54,7 +54,7 @@
 <body>
 
 <div class="container">
-    <h1>IP Scan - Nmap Online</h1>
+    <h1>IP Scan - HackerTarget Online</h1>
     <input type="text" id="ip" placeholder="Enter IP Address (e.g., 192.168.1.1)" />
     <button onclick="scanIP()">Start Scan</button>
     <div id="scanResult" class="result"></div>
@@ -68,13 +68,21 @@
             return;
         }
 
-        const url = `https://nmap.online/api/v1/scan?target=${ip}`;
+        const url = `https://api.hackertarget.com/nmap/?q=${ip}`; // Hackertarget API URL
         try {
             const response = await fetch(url);
-            const data = await response.json();
-            document.getElementById("scanResult").textContent = JSON.stringify(data, null, 2);
+            
+            // Ensure response is OK
+            if (!response.ok) {
+                throw new Error("HTTP error " + response.status);
+            }
+
+            const data = await response.text(); // Hackertarget might return data in plain text
+
+            // Display results, this will display plain text response
+            document.getElementById("scanResult").textContent = data;
         } catch (error) {
-            document.getElementById("scanResult").textContent = "Error fetching scan data.";
+            document.getElementById("scanResult").textContent = `Error fetching scan data: ${error.message}`;
         }
     }
 </script>

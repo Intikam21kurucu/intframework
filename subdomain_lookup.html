@@ -3,24 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Subdomain Lookup</title>
+    <title>IntSpLoiT Subdomain Lookup</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #1e1e1e;
-            color: white;
+            font-family: 'Courier New', Courier, monospace;
+            background-color: #121212;
+            color: #00FF00;
             margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+        header {
+            background-color: #1a1a1a;
             padding: 20px;
+            text-align: center;
+            border-bottom: 3px solid #00FF00;
+        }
+        header h1 {
+            color: #00FF00;
+            font-size: 40px;
+            letter-spacing: 4px;
+            margin: 0;
         }
         .container {
             max-width: 600px;
-            margin: 0 auto;
-            background-color: #333;
+            margin: 40px auto;
+            background-color: #1e1e1e;
             padding: 20px;
             border-radius: 8px;
+            border: 2px solid #00FF00;
         }
         h1 {
             text-align: center;
+            margin-bottom: 20px;
         }
         input[type="text"] {
             width: 100%;
@@ -30,51 +45,96 @@
             border: 1px solid #555;
             color: #fff;
             background-color: #444;
+            font-size: 16px;
         }
         button {
             width: 100%;
             padding: 10px;
-            background-color: #4CAF50;
+            background-color: #00FF00;
             border: none;
             border-radius: 4px;
-            color: white;
+            color: black;
+            font-size: 16px;
             cursor: pointer;
+            transition: all 0.3s ease;
         }
         button:hover {
-            background-color: #45a049;
+            background-color: #00CC00;
+            box-shadow: 0 5px 15px rgba(0, 255, 0, 0.5);
         }
         .result {
-            background-color: #444;
-            padding: 10px;
-            margin-top: 10px;
+            background-color: #333;
+            padding: 15px;
+            margin-top: 20px;
             border-radius: 4px;
+            color: #00FF00;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 14px;
+            word-wrap: break-word;
+            white-space: pre-wrap;
+        }
+        footer {
+            background-color: #1a1a1a;
+            color: #00FF00;
+            text-align: center;
+            padding: 20px;
+            border-top: 3px solid #00FF00;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
         }
     </style>
 </head>
 <body>
 
+<header>
+    <h1>IntSpLoiT Subdomain Lookup</h1>
+</header>
+
 <div class="container">
-    <h1>Subdomain Lookup</h1>
     <input type="text" id="subdomain" placeholder="Enter Domain (e.g., example.com)" />
     <button onclick="lookupSubdomain()">Lookup Subdomains</button>
     <div id="subdomainResult" class="result"></div>
 </div>
 
+<footer>
+    <p>&copy; 2025 IntSpLoiT Framework. All rights reserved.</p>
+</footer>
+
 <script>
     async function lookupSubdomain() {
         const domain = document.getElementById("subdomain").value;
+        const resultContainer = document.getElementById("subdomainResult");
+
+        // Check if the domain is entered
         if (domain === "") {
-            alert("Please enter a domain.");
+            resultContainer.textContent = "Please enter a domain.";
             return;
         }
 
         const url = `https://osint.sh/subdomain/?target=${domain}`;
+        resultContainer.textContent = "Fetching subdomain data...";
+
         try {
             const response = await fetch(url);
+
+            // Check if response is okay
+            if (!response.ok) {
+                throw new Error(`HTTP Error: ${response.status}`);
+            }
+
             const data = await response.json();
-            document.getElementById("subdomainResult").textContent = JSON.stringify(data, null, 2);
+
+            // Check if there is data
+            if (data && Object.keys(data).length > 0) {
+                resultContainer.textContent = JSON.stringify(data, null, 2);
+            } else {
+                resultContainer.textContent = "No subdomains found or unexpected response format.";
+            }
+
         } catch (error) {
-            document.getElementById("subdomainResult").textContent = "Error fetching subdomain data.";
+            // Handle network errors or any other issues
+            resultContainer.textContent = `Error: ${error.message}`;
         }
     }
 </script>

@@ -3,69 +3,112 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IntSpLoiT Framework Web GUI</title>
+    <title>IntSpLoiT Framework - Download</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #222;
+            font-family: 'Courier New', Courier, monospace;
+            background-color: #121212;
+            color: #00FF00;
             margin: 0;
             padding: 0;
-            color: #fff;
+            line-height: 1.6;
         }
         header {
-            background-color: #333;
-            padding: 20px;
+            background-color: #1a1a1a;
+            padding: 40px;
             text-align: center;
+            border-bottom: 3px solid #00FF00;
         }
         header h1 {
-            color: #fff;
+            color: #00FF00;
+            font-size: 56px;
+            letter-spacing: 4px;
             margin: 0;
-            font-size: 40px;
         }
-        .logo {
+        header img {
             width: 200px;
+            height: 200px;
             margin-top: 20px;
+            border-radius: 50%;
+            border: 4px solid #00FF00;
+            box-shadow: 0 0 15px rgba(0, 255, 0, 0.8);
         }
-        .download-section {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 80vh;
+        .main-content {
+            padding: 40px;
+            text-align: center;
         }
         .download-btn {
-            background-color: #4CAF50;
-            color: white;
-            font-size: 18px;
-            padding: 15px 40px;
+            display: inline-block;
+            background-color: #00FF00;
+            color: black;
+            font-size: 22px;
+            padding: 20px 50px;
             text-decoration: none;
-            border-radius: 5px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border: 2px solid #00FF00;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            margin: 15px 0;
         }
         .download-btn:hover {
-            background-color: #45a049;
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+            background-color: #00CC00;
+            box-shadow: 0 5px 15px rgba(0, 255, 0, 0.5);
         }
         footer {
-            background-color: #333;
-            padding: 10px;
+            background-color: #1a1a1a;
+            color: #00FF00;
             text-align: center;
-            color: #fff;
+            padding: 20px;
+            border-top: 3px solid #00FF00;
         }
     </style>
 </head>
 <body>
+
+    <!-- Header section start -->
     <header>
-        <h1>IntSpLoiT Framework Web GUI</h1>
-        <!-- Burada logo olacak. Siz eklemek için logo.png dosyanızın adını belirtin -->
-        <img src="logo.png" alt="IntSpLoiT Logo" class="logo">
+        <!-- Main title of the page -->
+        <h1>IntSpLoiT Framework</h1>
+        
+        <!-- Logo image with styling -->
+        <img src="{{ url_for('static', filename='logo.png') }}" alt="IntFramework Logo">
     </header>
 
-    <div class="download-section">
-        <a href="https://github.com/intSpLoiT/intframework/archive/refs/heads/İntframeworkV4.zip" class="download-btn">Download IntSpLoiT Framework v4</a>
+    <!-- Main content area -->
+    <div class="main-content">
+        <!-- Download section -->
+        <section id="download">
+            <!-- Section title -->
+            <h2>Download IntSpLoiT Framework</h2>
+            
+            <!-- Introduction text for the download section -->
+            <p>Get the latest version of IntSpLoiT Framework for your operating system.</p>
+            
+            <!-- Download button for Termux Android version -->
+            <a href="https://github.com/intSpLoiT/intframework-termux/archive/refs/heads/İntframeworkV4.zip" class="download-btn">
+                Download for Android (Termux)
+            </a>
+            
+            <!-- Download button for Kali Linux version -->
+            <a href="https://github.com/intSpLoiT/intframework/archive/refs/heads/İntframeworkV4.zip" class="download-btn">
+                Download for Kali Linux
+            </a>
+            
+            <!-- Download button for Web GUI version -->
+            <a href="https://github.com/intSpLoiT/intframework/archive/refs/heads/webgui.zip" class="download-btn">
+                Download for Web GUI
+            </a>
+            
+            <!-- Additional install instruction for Kali Linux -->
+            <p>Or install it on Kali with:</p>
+            <pre>apt install intframework-pro</pre>
+        </section>
     </div>
 
+    <!-- Footer section -->
     <footer>
+        <!-- Footer text -->
         <p>&copy; 2025 IntSpLoiT Framework. All rights reserved.</p>
     </footer>
+
 </body>
 </html>
