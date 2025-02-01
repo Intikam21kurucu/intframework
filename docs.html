@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IntSpLoiT Framework Docs</title>
+  <style>
+    body {
+      background-color: #1b1b1b;
+      font-family: 'Courier New', monospace;
+      color: #00FF00;
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+    }
+
+    header {
+      text-align: center;
+      padding: 20px;
+      background: #333;
+      border-bottom: 2px solid #00FF00;
+    }
+
+    header h1 {
+      font-size: 3rem;
+      color: #FF0000;
+      margin: 0;
+    }
+
+    button {
+      background-color: #FF0000;
+      color: #fff;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 8px;
+      font-size: 1.2rem;
+      cursor: pointer;
+      transition: 0.3s;
+      margin: 20px 0;
+      text-transform: uppercase;
+    }
+
+    button:hover {
+      background-color: #ff4d4d;
+    }
+
+    .file-list {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      padding: 20px;
+    }
+
+    .file-item {
+      background: #252525;
+      padding: 15px;
+      border-radius: 5px;
+      box-shadow: 0 0 20px rgba(0, 255, 0, 0.5);
+    }
+
+    .file-item h3 {
+      color: #FF0000;
+      margin: 0;
+    }
+
+    .file-item p {
+      color: #00FF00;
+    }
+
+    .terminal {
+      margin-top: 20px;
+      padding: 20px;
+      font-size: 1rem;
+      background-color: #111;
+      color: #00FF00;
+      border: 1px solid #00FF00;
+      border-radius: 5px;
+      font-family: 'Courier New', monospace;
+    }
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</head>
+<body>
+
+  <header>
+    <h1>IntSpLoiT Framework Docs</h1>
+    <button id="load-files">Load Documentation Files</button>
+  </header>
+
+  <div class="file-list" id="file-list">
+    <!-- Files will appear here -->
+  </div>
+
+  <div class="terminal" id="terminal">
+    <p>Terminal Output:</p>
+    <pre id="terminal-output"></pre>
+  </div>
+
+  <script>
+    function loadFiles() {
+      const files = [
+        { name: "README.md", content: "# IntSpLoiT Framework\nThis is an open-source framework for penetration testing." },
+        { name: "install.md", content: "# Installation\nFollow the steps to install the framework on your system." },
+        { name: "usage.md", content: "# Usage\nLearn how to use the IntSpLoiT Framework effectively." },
+        { name: "license.md", content: "# License\nIntSpLoiT Framework is released under the MIT License." }
+      ];
+
+      const fileListContainer = document.getElementById("file-list");
+      const terminalOutput = document.getElementById("terminal-output");
+
+      fileListContainer.innerHTML = "";
+      terminalOutput.innerHTML = "";
+
+      files.forEach(file => {
+        const fileItem = document.createElement("div");
+        fileItem.classList.add("file-item");
+
+        const fileName = document.createElement("h3");
+        fileName.textContent = `File Name: ${file.name}`;
+
+        const fileContent = document.createElement("div");
+        fileContent.classList.add("file-content");
+        fileContent.innerHTML = marked(file.content); // Convert Markdown to HTML using the marked library
+
+        fileItem.appendChild(fileName);
+        fileItem.appendChild(fileContent);
+
+        fileListContainer.appendChild(fileItem);
+
+        // Terminal Output Simulation
+        terminalOutput.innerHTML += `> ${file.name} loaded.\n`;
+      });
+    }
+
+    document.getElementById("load-files").addEventListener("click", loadFiles);
+  </script>
+
+</body>
+</html>

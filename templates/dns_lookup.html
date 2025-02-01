@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DNS Lookup</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #1e1e1e;
+            color: white;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #333;
+            padding: 20px;
+            border-radius: 8px;
+        }
+        h1 {
+            text-align: center;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+            border: 1px solid #555;
+            color: #fff;
+            background-color: #444;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            border: none;
+            border-radius: 4px;
+            color: white;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .result {
+            background-color: #444;
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>DNS Lookup</h1>
+    <input type="text" id="dns" placeholder="Enter Domain (e.g., example.com)" />
+    <button onclick="lookupDNS()">Lookup DNS</button>
+    <div id="dnsResult" class="result"></div>
+</div>
+
+<script>
+    async function lookupDNS() {
+        const domain = document.getElementById("dns").value;
+        if (domain === "") {
+            alert("Please enter a domain.");
+            return;
+        }
+
+        const url = `https://osint.sh/dns/?target=${domain}`;
+        try {
+            const response = await fetch(url);
+            const data = await response.json();
+            document.getElementById("dnsResult").textContent = JSON.stringify(data, null, 2);
+        } catch (error) {
+            document.getElementById("dnsResult").textContent = "Error fetching DNS data.";
+        }
+    }
+</script>
+
+</body>
+</html>

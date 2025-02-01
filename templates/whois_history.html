@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Whois History Lookup - intSpLoiT Framework</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #333;
+            color: white;
+            padding: 10px 0;
+            text-align: center;
+        }
+        h2 {
+            color: #333;
+        }
+        .form-container {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            width: 50%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        input[type="text"], button {
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        button {
+            background-color: #333;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #555;
+        }
+        #whoisHistoryResult {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #e7e7e7;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Whois History Lookup</h1>
+</header>
+
+<div class="form-container">
+    <h2>Enter Domain for Whois History Lookup</h2>
+    <form id="whoisForm">
+        <input type="text" id="domain" placeholder="Enter domain (e.g. example.com)" required>
+        <button type="submit">Lookup Whois History</button>
+    </form>
+
+    <div id="whoisHistoryResult" style="display:none;">
+        <h3>Whois History Results:</h3>
+        <pre id="resultContent"></pre>
+    </div>
+</div>
+
+<footer>
+    <p>&copy; 2025 intSpLoiT Framework. All Rights Reserved.</p>
+    <p>Data Source: <a href="https://osint.sh/whoishistory/" target="_blank" style="color: white;">https://osint.sh/whoishistory/</a></p>
+</footer>
+
+<script>
+    document.getElementById('whoisForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        let domain = document.getElementById('domain').value;
+        let apiUrl = 'https://osint.sh/whoishistory/' + domain;
+
+        fetch(apiUrl)
+            .then(response => response.json())
+            .then(data => {
+                let resultContent = document.getElementById('resultContent');
+                let whoisResult = JSON.stringify(data, null, 2); // Pretty-print the response
+                resultContent.textContent = whoisResult;
+                document.getElementById('whoisHistoryResult').style.display = 'block';
+            })
+            .catch(error => {
+                document.getElementById('whoisHistoryResult').style.display = 'none';
+                alert("Error retrieving Whois history. Please check the domain or try again later.");
+            });
+    });
+</script>
+
+</body>
+</html>

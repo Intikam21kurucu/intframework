@@ -1,8 +1,0 @@
-Package: intframework
-Version: 1.0
-Section: utils
-Priority: optional
-Architecture: all
-Depends: python, python-requests, python-scrapy
-Maintainer: [Your Name] <[Your Email]>
-Description: Ağ güvenliği ve siber istihbarat toplama aracı.
