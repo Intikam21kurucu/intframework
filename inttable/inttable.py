@@ -163,7 +163,7 @@ class modules:
 
 # Core Class
 class core:
-    def activate(rate):
+    def activate(self, rate):
         global rater
         if not rate:
             print("enter the rate please!")
