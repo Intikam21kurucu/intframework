@@ -1,3 +1,0 @@
-Requirement already satisfied: cryptography in /data/data/com.termux/files/usr/lib/python3.12/site-packages (44.0.0)
-Requirement already satisfied: cffi>=1.12 in /data/data/com.termux/files/usr/lib/python3.12/site-packages (from cryptography) (1.17.1)
-Requirement already satisfied: pycparser in /data/data/com.termux/files/usr/lib/python3.12/site-packages (from cffi>=1.12->cryptography) (2.22)
