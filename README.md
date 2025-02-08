@@ -7,7 +7,7 @@
 
  
 ![Supported OS](https://img.shields.io/badge/Supported%20OS-Linux-yellow.svg)
-![License](https://img.shields.io/badge/license-BSL--1.0-blue.svg)
+![License](https://img.shields.io/badge/license-intpro--1.0-blue.svg)
 ![FRAMEWORK SÜRÜMÜ](https://img.shields.io/badge/FRAMEWORK%20SÜRÜMÜ-intSpLoiT--Framework%20console%20v4.2.89--dev--bbf096e-green.svg)
  
 ![Python](https://img.shields.io/badge/Python-3-green.svg)
