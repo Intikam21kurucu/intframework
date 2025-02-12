@@ -50,6 +50,8 @@ import os
 import pathlib
 import subprocess
 import colorama
+from rich.console import Console
+import time
 from colorama import Fore, Back, Style
 import inttable
 from modules.commands.banner import *
@@ -146,14 +148,22 @@ try:
 except:
 	pass
 try:
-	from uuid_changer import *
+	from uuid_manager import *
 except:
 	pass
+from uuid_manager import *
 def manager():
 	import plugin_manager as PluginManager
 	manager = PluginManager.PluginManager(plugin_dir="plugins", event_manager=event_manager)
 
+richconsole = Console()
 
+def blinking_text(text):
+    for _ in range(10):
+        console.print(f"[bold red]{text}[/bold red]", end="\r")
+        time.sleep(0.3)
+        console.print(" " * len(text), end="\r")  # Boşluk ile sil
+        time.sleep(0.3)
 
 init(autoreset=True)
 import plugin_manager as PluginManager
@@ -649,15 +659,6 @@ def db_disconnect(connection=sqlite3.connect('database.db')):
     # Bağlantıyı kapat
     connection.close()
 
-def search(modules, query):
-    results = {}
-    query = query.lower()  # Convert query to lowercase for case-insensitive search
-    
-    for modul, description in modules.items():
-        if query in modul.lower():  # Check if query matches module name
-            results[modul] = description
-    
-    return results
 
 payloads = None
 prompt = None
@@ -809,43 +810,53 @@ dirs_int = ["intPRO", "modules", "PHİSHERS", "tools"]
 inttablecore = inttable.core()
 inttablecore.activate("root")
 
+import pathlib
+from colorama import Fore, Style
+
 def list_all_files(directories):
     """
     List all files in the specified directories
     - directories: Directories to search in.
     """
     file_paths = []
-    
-    # Traverse each directory and its subdirectories
+
     for directory in directories:
         base_path = pathlib.Path(directory)
-        
+
         if not base_path.exists():
             print(Fore.RED + f"[!] Directory not found: {directory}")
             continue
-        
+
         for file in base_path.rglob('*'):  # Use rglob to search all files
-            if file.is_file():  # Only add files
+            if file.is_file():
                 file_paths.append(file)
-                
+
     return file_paths
 
-def search_in_file(file_path, search_term):
+def search_in_file(file_path, filters, raw_term):
     """
-    Search for a term in a file and return the matching lines
+    Search for a term in a file and return the matching lines based on filters
     - file_path: The file to search in.
-    - search_term: The term to search for.
+    - filters: Dictionary with search parameters.
+    - raw_term: The raw search term (if no filters are used).
     """
     matching_lines = []
-    
+
     try:
         with open(file_path, 'r', encoding='utf-8', errors='ignore') as file:
             for line in file:
-                if search_term.lower() in line.lower():  # Case-insensitive search
+                line_lower = line.lower()
+
+                # Eğer filtreler varsa filtrelere göre ara
+                if filters:
+                    if all(f"{key}:{value}" in line_lower for key, value in filters.items()):
+                        matching_lines.append(line.strip())
+                # Eğer filtre yoksa, sadece normal kelimeyi ara
+                elif raw_term and raw_term.lower() in line_lower:
                     matching_lines.append(line.strip())
     except Exception as e:
         print(Fore.RED + f"[!] Error: Could not read the file {file_path}: {e}")
-    
+
     return matching_lines
 
 def display_files(file_paths):
@@ -859,19 +870,20 @@ def display_files(file_paths):
     else:
         print(Fore.RED + "[!] No files found.")
 
-def search(files, term):
+def search(files, filters, raw_term):
     """
-    Search for a term in all files
+    Search for terms in all files based on filters or raw term.
     - files: List of files to search in.
-    - term: The term to search for.
+    - filters: Dictionary containing search parameters.
+    - raw_term: The normal search term if no filters are used.
     """
     search_results = {}
-    
+
     for file in files:
-        matching_lines = search_in_file(file, term)
+        matching_lines = search_in_file(file, filters, raw_term)
         if matching_lines:
             search_results[file] = matching_lines
-    
+
     return search_results
 
 def display_search_results(results):
@@ -887,19 +899,45 @@ def display_search_results(results):
     else:
         print(Fore.RED + "[!] No matches found.")
 
+def parse_search_term(search_term):
+    """
+    Parse the search term to extract filters like type, name, platform.
+    - search_term: Raw input string (e.g., "type:exploit name:mysql platform:aix" or "apache")
+    """
+    filters = {}
+    terms = search_term.split()
+    raw_term = ""
+
+    for term in terms:
+        if ":" in term:
+            key, value = term.split(":", 1)
+            filters[key.lower()] = value.lower()
+        else:
+            raw_term += f"{term} "  # Normal kelimeleri topluyor
+
+    return filters, raw_term.strip()
+
 def us_search(search_term):
     """
     Perform a search using the given search term in the specified directories.
     - search_term: The term to search for.
     """
+    # Parse filters and raw term
+    filters, raw_term = parse_search_term(search_term)
+
     # List all files in the directories
     file_paths = list_all_files(dirs_int)
 
-    # Perform the search
-    results = search(file_paths, search_term)
+    # Display available files
+    display_files(file_paths)
+
+    # Perform the search with filters or raw term
+    results = search(file_paths, filters, raw_term)
 
     # Display the search results
     display_search_results(results)
+
+
 
 def detect_interpreter(module_path):
     """
@@ -1107,7 +1145,7 @@ mailsearcher       - Search for email addresses linked to targets
 intweb             - Perform web application scanning and analysis  
 intninja           - Access Ninja tools for stealth operations  
 intmail            - Search for email-related vulnerabilities  
-intcam             - A camera hacking tool for Intikam21 users  
+intcam             - A camera hacking tool for intSpLoiT users  
 
 Module Commands  
 ----------------  
