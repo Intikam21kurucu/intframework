@@ -2,7 +2,7 @@
 # intSpLoiT Framework
 
 <p align="center">
-  <img src="https://github.com/Intikam21kurucu/intmages/blob/main/lv_0_20250104175232.gif" alt="Gitter chat">
+  <img src="https://github.com/intSpLoiT/intmages/blob/main/lv_0_20250104175232.gif" alt="Gitter chat">
 </p>
 
  
