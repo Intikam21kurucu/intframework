@@ -1,97 +1,105 @@
-
 # intSpLoiT Framework
 
 <p align="center">
-  <img src="https://github.com/intSpLoiT/intmages/blob/main/lv_0_20250104175232.gif" alt="Gitter chat">
+  <img src="https://github.com/Intikam21kurucu/intmages/blob/main/lv_0_20250104175232.gif" alt="intSpLoiT Framework">
 </p>
 
- 
 ![Supported OS](https://img.shields.io/badge/Supported%20OS-Linux-yellow.svg)
 ![License](https://img.shields.io/badge/license-intpro--1.0-blue.svg)
-![FRAMEWORK SÜRÜMÜ](https://img.shields.io/badge/FRAMEWORK%20SÜRÜMÜ-intSpLoiT--Framework%20console%20v4.2.89--dev--bbf096e-green.svg)
- 
+![Version](https://img.shields.io/badge/Framework%20Version-intSpLoiT%20Console%20v4.2.89--dev--bbf096e-green.svg)
 ![Python](https://img.shields.io/badge/Python-3-green.svg)
-![Exploits](https://img.shields.io/badge/EXPLOIT-2456-red.svg)
-![Build](https://img.shields.io/badge/BUILD-1103-red.svg)
-![Modules](https://img.shields.io/badge/modules-589-red.svg) 
+![Exploits](https://img.shields.io/badge/EXPLOITS-500%2B-red.svg)
+![Post Exploits](https://img.shields.io/badge/POST%20EXPLOITS-108-red.svg)
+![Auxiliary](https://img.shields.io/badge/AUXILIARY-108-red.svg)
+![Modules](https://img.shields.io/badge/MODULES-500%2B-red.svg)
+![Encoders](https://img.shields.io/badge/ENCODERS-50-red.svg)
+![Payloads](https://img.shields.io/badge/PAYLOADS-8-red.svg)
+![OSINT Modules](https://img.shields.io/badge/OSINT%20Modules-50-blue.svg)
 
-**We are editing this repo!**
+> **We are currently editing this repository! Stay tuned for updates.**  
 
+---
 
+## 🚀 Features  
+
+✅ **Wide Module Support** – Over 900+ modules, including OSINT,exploits,auxiliary,encoders, ... 
+✅ **Advanced Exploitation** – 500+ exploits (aiming for 2500)  
+✅ **Post-Exploitation Tools** – 120+ post-exploit modules (targeting 500+) for persistence and privilege escalation  
+✅ **Auxiliary Modules** – 108 supporting tools, with a goal to expand to 1250  
+✅ **OSINT-Specific Modules** – 50+ tools for open-source intelligence gathering  
+✅ **Payload Generation** – 8+ payloads with encoding support (50 encoders)  
+✅ **Multi-Platform Support** – Works on Termux, Kali Linux, and Debian-based systems 
+✅ **Interactive Shell** – Real-time command execution with a powerful shell  
+
+---
+
+## 🔮 Future Roadmap  
+
+🚧 **Expanding Exploit Library** – Increasing to 2500+ exploits and 500+ post-exploit modules  
+🚧 **More Auxiliary Tools** – Targeting 1250+ auxiliary modules  
+🚧 **Advanced OSINT Capabilities** – Enhancing OSINT modules beyond 50+  
+🚧 **Cloud-Based Modules** – Remote exploitation capabilities  
+🚧 **Mobile Device Support** – Dedicated Android & iOS modules  
+🚧 **Self-Updating Framework** – Automatic module and exploit updates  
+🚧 **Real-Time Attack Analysis** – In-depth monitoring of active exploits  
+🚧 **More Commands** – want to you are use other commands
  
-- intSpLoiT and other developers disclaim any responsibility or liability😀
+---
 
------------------------------------------------
- 
- 
-# A SMALL HELP AND Report the errors
+## ⚠️ Disclaimer  
 
-- 1~) open issues
-- 2~) select the template
-- 3~) write your issue
+**intSpLoiT and its developers disclaim any responsibility or liability for improper use of this framework.**  
 
+---
 
-# Package Requesting 
- 
-- 1~) open issues
-- 2~) select exploit request or auxiliary request (if for other tools select package request)
-- 3~) write your package link and package screenshot (please not request encoded code format)
+## ⚙️ Installation Guide  
 
------------------------------------------------
- 
+### **Before Running the Framework:**
+Ensure that all dependencies are installed properly.
 
- # Instructions
-
-**Please do the following before running the program:**
-
-**1.After terbuild.sh is finished:**
-
-````
+#### **1️⃣ After executing `terbuild.sh`**
+```bash
 source ~/.bashrc
-````
-
-**2. If intframework has been added to /usr/opt/intframework /usr/opt, then:**
-
-````
+```
+2️⃣ If intframework is located under /usr/opt
+```
 cd $PREFIX/opt/
 mkdir -p intframework
 mv $PREFIX/opt/* $PREFIX/opt/intframework
-````
-
-**3. Before running intconsole:**
-
-````
+```
+3️⃣ Before running intconsole
+```
 cd $INTFRAMEWORK_PATH
 mv inttable/inttable $PREFIX/lib/python3.12/
-````
-
-**4. If you want to use inttable:**
-
-````
+```
+4️⃣ Using inttable module in Python
+```
 import inttable.inttable as inttable
 
 inttable.core.activate("root")
 inttable.console.run("command")
-````
+```
 
+---
 
+## 📷 Screenshots
 
-  
- 
-
- 
-
-
-# EKRAN GÖRÜNTÜSÜ 
-
+**System Interface**:
 system photos:
-![İntikam21 photos:](https://github.com/Intikam21kurucu/intframework/blob/d5cb19b49875d0eb9a949c379202999d5c609e22/Photos/IMG_20241008_184826.jpg) 
+![İntikam21 photos:](https://github.com/intSpLoiT/intframework/blob/d5cb19b49875d0eb9a949c379202999d5c609e22/Photos/IMG_20241008_184826.jpg) 
+ 
+**More UI Previews**:
+ 
+![Photo2](https://github.com/intSpLoiT/intframework/blob/%C4%B0ntframeworkV4/IMG_20241027_122034.jpg)
+![Github Badge](https://github.com/intSpLoiT/intframework/blob/%C4%B0ntframeworkV4/IMG_20240916_191945.jpg)
+ 
+ 
+ 
+---
 
-![Photo2](https://github.com/Intikam21kurucu/intframework/blob/%C4%B0ntframeworkV4/IMG_20241027_122034.jpg)
-![Github Badge](https://github.com/Intikam21kurucu/intframework/blob/%C4%B0ntframeworkV4/IMG_20240916_191945.jpg)
-
-# İNSTALL TERMUX
-````apt update && apt upgrade
+## 📲 Installing on Termux
+```
+apt update && apt upgrade
 pkg update && pkg upgrade
 pkg install python3
 pkg install git
@@ -100,26 +108,17 @@ git clone https://github.com/intSpLoiT/intframework
 cd intframework 
 
 chmod +x terbuild.sh
-
 ./terbuild.sh
-````
+```
 
+---
 
+## 🔍 Usage Examples
 
-
-
-
-
-
-
-
-# Examples
-
+#### 1️⃣ Running a Network Scan Module
 ```
 int4 (modular) > use network_scan
 [*] Module selected: network_scan
-int4 module(network_scan) > show optiosn
-[-] Invalid command. Type 'help' for available commands.
 int4 module(network_scan) > show options
 [*] Available options for module: network_scan
 fs: None
@@ -127,64 +126,28 @@ timeout: None
 int4 module(network_scan) > set timeout 0.1
 [*] timeout = 0.1
 int4 module(network_scan) > run
-Network Scanner
-IP Address    | Device Name        | Status
----------------------------------------------
-192.168.5.1     | Network Scan       | Port Active, Ping Active, Subprocess Ping Successful, HTTP Active
-192.168.5.3     | Unknown Device       | Inactive
-192.168.5.5     | Unknown Device       | Inactive
-192.168.5.6     | Unknown Device       | Inactive
-192.168.5.8     | Unknown Device       | Inactive
-192.168.5.4     | Unknown Device       | Inactive
-192.168.5.7     | Unknown Device       | Inactive
-192.168.5.11    | Unknown Device       | Inactive
-192.168.5.10    | Unknown Device       | Inactive
-192.168.5.2     | Unknown Device       | Inactive
-192.168.5.9     | Unknown Device       | Inactive
-192.168.5.12    | Unknown Device       | Inactive
-192.168.5.13    | Unknown Device       | Inactive
-192.168.5.14    | Unknown Device       | Inactive
-192.168.5.15    | Unknown Device       | Inactive
-192.168.5.16    | Unknown Device       | Inactive
-192.168.5.17    | Unknown Device       | Inactive
-192.168.5.18    | Unknown Device       | Inactive
-192.168.5.19    | Unknown Device       | Inactive
-192.168.5.20    | Unknown Device       | Inactive
-192.168.5.21    | Unknown Device       | Inactive
-192.168.5.22    | Unknown Device       | Inactive
-192.168.5.23    | Unknown Device       | Inactive
-192.168.5.24    | Unknown Device       | Inactive
 ```
-**using inthandler**
+Example Output:
+```
+Network Scanner
+IP Address    | Device Name       | Status
+---------------------------------------------
+192.168.5.1   | Network Scan      | Port Active, Ping Active, HTTP Active
+192.168.5.3   | Unknown Device    | Inactive
+192.168.5.8   | Unknown Device    | Inactive
+```
+
+---
+
+#### 2️⃣ Using inthandler for Exploitation
 ```
 int4 (exploiter) > use multi/handler
 Exploit 'multi/handler' selected.
 int4 exploit(multi/handler) > run
 python: can't open file '/storage/emulated/0/intframework/modules/exploits/multi.handler': [Errno 2] No such file or directory
-int4 exploit(multi/handler) > back
-int4 exploit(multi/handler) > reset
-Options for multi/handler reset to default.
-int4 exploit(multi/handler) > run
-Exploit file is not defined for this exploit.
 int4 exploit(multi/handler) > set FILENAME multi/handler/inthandler.py
 FILENAME set to multi/handler/inthandler.py.
 int4 exploit(multi/handler) > run
 Listening on 0.0.0.0:4444
 Connection from ('127.0.0.1', 34170)
-İntShell > Connection from ('127.0.0.1', 34172)
-h
-İntShell > GET / HTTP/1.1
-Host: 0.0.0.0:4444
-Connection: keep-alive
-Accept-Language: ******
-Upgrade-Insecure-Requests: 1
-User-Agent: anonymous
-Referer: android-app://com.google.android.googlequicksearchbox/
-Accept-Encoding: gzip, deflate
-
-
-İntShell >
 ```
-
-
-
