@@ -114,7 +114,31 @@ chmod +x terbuild.sh
 ---
 
 ## 🔍 Usage Examples
+### in the console
+```bash
+int4-pro > use modules/Auxiliary/social/userscan.py
+int4-pro userscan.py(modules/Auxiliary/social/userscan.py) > run <example --lang en>
+not rooted
+[*] Inspecting module: modules/Auxiliary/social/userscan.py
+[+] Module inspection complete.
+[*] Running module: modules/Auxiliary/social/userscan.py
+[>] Command: python3 modules/Auxiliary/social/userscan.py example --lang en
+[+] Find Profile by Username [+]
+[+] Username found on: github
+[+] Profile URL: https://api.github.com/users/example/events/public
+---------------------------------------------------------------------------
+[+] Username found on: github
+[+] Profile URL: https://api.github.com/users/example
+---------------------------------------------------------------------------
+[+] Username found on: twitter
+[+] Profile URL: https://twitter.com/example
+---------------------------------------------------------------------------
+^C
 
+[!] Error during module execution: module 'inttable' has no attribute 'write'
+int4-pro userscan.py(modules/Auxiliary/social/userscan.py) >
+```
+### in Modular
 #### 1️⃣ Running a Network Scan Module
 ```
 int4 (modular) > use network_scan
@@ -139,6 +163,7 @@ IP Address    | Device Name       | Status
 
 ---
 
+### in Exploiter
 #### 2️⃣ Using inthandler for Exploitation
 ```
 int4 (exploiter) > use multi/handler
