@@ -37,7 +37,7 @@
 
 🚧 **Expanding Exploit Library** – Increasing to 2500+ exploits and 500+ post-exploit modules  
 🚧 **More Auxiliary Tools** – Targeting 1250+ auxiliary modules  
-🚧 **Advanced OSINT Capabilities** – Enhancing OSINT modules beyond 50+  
+🚧 **Advanced OSINT Capabilities** – Enhancing OSINT modules beyond 200+  
 🚧 **Cloud-Based Modules** – Remote exploitation capabilities  
 🚧 **Mobile Device Support** – Dedicated Android & iOS modules  
 🚧 **Self-Updating Framework** – Automatic module and exploit updates  
