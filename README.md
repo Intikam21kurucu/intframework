@@ -62,18 +62,18 @@ Ensure that all dependencies are installed properly.
 source ~/.bashrc
 ```
 2️⃣ If intframework is located under /usr/opt
-```
+```bash
 cd $PREFIX/opt/
 mkdir -p intframework
 mv $PREFIX/opt/* $PREFIX/opt/intframework
 ```
 3️⃣ Before running intconsole
-```
+```bash
 cd $INTFRAMEWORK_PATH
 mv inttable/inttable $PREFIX/lib/python3.12/
 ```
 4️⃣ Using inttable module in Python
-```
+```python
 import inttable.inttable as inttable
 
 inttable.core.activate("root")
@@ -98,7 +98,7 @@ system photos:
 ---
 
 ## 📲 Installing on Termux
-```
+```bash
 apt update && apt upgrade
 pkg update && pkg upgrade
 pkg install python3
