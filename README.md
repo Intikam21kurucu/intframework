@@ -23,6 +23,7 @@
 ## 🚀 Features  
 
 ✅ **Wide Module Support** – Over 900+ modules, including OSINT,exploits,auxiliary,encoders, ... 
+
 ✅ **Advanced Exploitation** – 500+ exploits (aiming for 2500)  
 ✅ **Post-Exploitation Tools** – 120+ post-exploit modules (targeting 500+) for persistence and privilege escalation  
 ✅ **Auxiliary Modules** – 108 supporting tools, with a goal to expand to 1250  
