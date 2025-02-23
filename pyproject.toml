@@ -1,9 +1,9 @@
 [tool.poetry]
 name = "intframework"
 version = "4.0.0"
-description = "Intikam21 Framework - An advanced cybersecurity and penetration testing tool."
+description = "intSpLoiT Framework - An advanced cybersecurity and penetration testing tool."
 authors = ["Intikam21 Team <intapp21@gmail.com>"]
-license = "GPL-3.0-or-later"
+license = "intLICENSE"
 repository = "https://gitlab.com/intapp21/intframework/-/tree/%C4%B0ntframeworkV4"
 keywords = ["pentest", "cybersecurity", "framework", "intframework"]
 
