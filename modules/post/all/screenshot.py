@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
-
+# Author: İntframework team
+# title: Remote Shell On Target
+# test:bad
 import mss
 from png import bmp_to_png
 
