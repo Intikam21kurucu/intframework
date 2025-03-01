@@ -1,3 +1,6 @@
+# Author: offlinemark/poet
+# title: Remote Shell On Target
+# test:good
 import os
 import select
 import subprocess as sp
