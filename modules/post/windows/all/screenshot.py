@@ -1,3 +1,6 @@
+# Author: @obsuresec
+# Title: Takes a screenshot of the current desktop and returns the output as a .PNG or .JPG.')
+# Test: good
 import platform
 import subprocess
 
