@@ -1,5 +1,8 @@
 #!/usr/bin/env python 3.7.2
 # -*- coding: utf-8 -*-
+#author: Mustafa Dalga
+#title: multi reverse shell handler
+#test: good
 import socket
 import json
 import base64
