@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 # Author: @bobsecq
-# title: Android Captcure and send image 
+# title: Android Get all contacts
 # test: good
 from jnius import autoclass
 
