@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 # Author: İntframework team
-# title: Screenshot
+# title: Screenshot on Target 
 # test:bad
 import mss
 from png import bmp_to_png
