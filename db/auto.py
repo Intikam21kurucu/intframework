@@ -24,12 +24,12 @@ SUPPORTED_LANGUAGES = {
 
 # 📌 Kontrol edilecek dizinler (regex ile kontrol edilecek)
 MODULE_PATTERNS = {
-    r".*exploit.*": "exploit",
-    r".*payload.*": "payload",
-    r".*auxiliary.*": "auxiliary",
-    r".*intpro.*": "intPRO",
-    r".*tools.*": "tool",
-    r".*cve.*": "cve"
+    r"exploit": "exploit",
+    r"payload": "payload",
+    r"auxiliary": "auxiliary",
+    r"intpro": "intPRO",
+    r"tools": "tool",
+    r"cve": "cve"
 }
 
 class ModuleManager:
@@ -66,12 +66,14 @@ class ModuleManager:
             "test_status": "Not Tested"
         }
 
+        metadata_regex = re.compile(r"#\s*(title|cve|google dork|author|test)\s*:\s*(.+)", re.IGNORECASE)
+
         try:
             with open(file_path, "r", encoding="utf-8", errors="ignore") as f:
                 for line in f:
                     line = line.strip()
                     if line.startswith("#"):
-                        match = re.match(r"#\s*(\w+)\s*:\s*(.+)", line)
+                        match = metadata_regex.match(line)
                         if match:
                             key, value = match.groups()
                             key = key.lower()
@@ -82,15 +84,10 @@ class ModuleManager:
                                 metadata["cve"] = value
                             elif key == "google dork":
                                 metadata["google_dork"] = value
-                            elif re.match(r"^(exploit author|author)", key):
-                                if not value.lower().startswith(("http://", "https://")):
-                                    metadata["author"] = value
+                            elif "author" in key:
+                                metadata["author"] = value
                             elif key == "test":
-                                value = value.lower()
-                                if value == "good":
-                                    metadata["test_status"] = "✅ Good"
-                                elif value == "bad":
-                                    metadata["test_status"] = "❌ Bad"
+                                metadata["test_status"] = "✅ Good" if value.lower() == "good" else "❌ Bad"
 
         except Exception as e:
             warnings.warn(f"Metadata okuma hatası: {e}")
@@ -99,9 +96,8 @@ class ModuleManager:
 
     def detect_module_type(self, file_path):
         """Regex kullanarak modül tipini belirler"""
-        lower_path = file_path.lower()
         for pattern, module_type in MODULE_PATTERNS.items():
-            if re.search(pattern, lower_path):
+            if re.search(pattern, file_path, re.IGNORECASE):
                 return module_type
         return "unknown"
 
