@@ -1,5 +1,5 @@
 # -*- encoding: utf-8 -*-
-
+# Author: İntframework Modify Team
 __all__ = [
   'GenericLogReader'
 ]
