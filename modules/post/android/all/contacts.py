@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-#Author: @bobsecq
-#Contributor(s):
-
+# Author: @bobsecq
+# title: Android Captcure and send image 
+# test: good
 from jnius import autoclass
 
 def getAllContacts():
