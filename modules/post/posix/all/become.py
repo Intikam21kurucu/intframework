@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-
+# Author: n1nj4sec/pupy
 import pwd
 import os
 import sys
