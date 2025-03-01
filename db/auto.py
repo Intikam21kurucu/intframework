@@ -21,7 +21,7 @@ SUPPORTED_LANGUAGES = {
 }
 
 # 📌 Kontrol edilecek dizinler
-SCAN_DIRECTORIES = ["modules", "intPRO", "tools", "cve"]
+SCAN_DIRECTORIES = ["modules", "intPRO", "tools"]
 
 class ModuleManager:
     def __init__(self, json_file="modules.json"):
