@@ -1,3 +1,6 @@
+# Author: obsuresec and harmjoy
+# Title: Takes a screenshot of the current desktop and returns the output as a .PNG or .JPG
+# Test: Good
 import platform
 import subprocess
 
