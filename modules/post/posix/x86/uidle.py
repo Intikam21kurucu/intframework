@@ -1,5 +1,6 @@
 # -*- encoding: utf-8 -*-
-
+# Title: Posix Uidle Getting Module
+# Test:bad
 import ctypes
 import os
 import time
