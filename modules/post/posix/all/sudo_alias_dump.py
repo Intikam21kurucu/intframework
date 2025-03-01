@@ -1,4 +1,6 @@
 # Code From: https://github.com/n1nj4sec/pupy/
+# Author: n1nj4sec/pupy
+# Title: sudo alias dumper pupy 
 import subprocess
 import threading
 import tempfile
