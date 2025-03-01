@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
+# Author: n1nj4sec/pupy
 # Title: Linux mexec tool
+# Test:good
 import os
 import threading
 import zlib
