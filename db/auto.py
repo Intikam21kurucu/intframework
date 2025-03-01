@@ -1,5 +1,6 @@
 import json
 import os
+import re
 
 # 📌 Desteklenen uzantılar
 SUPPORTED_LANGUAGES = {
@@ -21,7 +22,7 @@ SUPPORTED_LANGUAGES = {
 }
 
 # 📌 Kontrol edilecek dizinler
-SCAN_DIRECTORIES = ["modules", "intPRO", "tools"]
+SCAN_DIRECTORIES = ["modules", "intPRO", "tools", "cve"]
 
 class ModuleManager:
     def __init__(self, json_file="modules.json"):
@@ -54,20 +55,29 @@ class ModuleManager:
             with open(file_path, "r", encoding="utf-8") as f:
                 lines = f.readlines()
                 for line in lines:
-                    if line.startswith("# Exploit Title:"):
+                    line = line.strip()
+
+                    if line.lower().startswith("# exploit title:"):
                         metadata["exploit_title"] = line.split(":", 1)[1].strip()
-                    elif line.startswith("# CVE:"):
+
+                    elif line.lower().startswith("# cve:"):
                         metadata["cve"] = line.split(":", 1)[1].strip()
-                    elif line.startswith("# Google Dork:"):
+
+                    elif line.lower().startswith("# google dork:"):
                         metadata["google_dork"] = line.split(":", 1)[1].strip()
-                    elif line.startswith("# Exploit Author:"):
-                        metadata["author"] = line.split(":", 1)[1].strip()
-                    elif line.startswith("# Test:"):
+
+                    elif re.match(r"^# *(exploit author|author):", line.lower()):
+                        author = line.split(":", 1)[1].strip()
+                        if not author.lower().startswith(("http://", "https://")):
+                            metadata["author"] = author
+
+                    elif line.lower().startswith("# test:"):
                         test_status = line.split(":", 1)[1].strip().lower()
                         if test_status == "good":
                             metadata["test_status"] = "✅ Good"
                         elif test_status == "bad":
                             metadata["test_status"] = "❌ Bad"
+
         except Exception as e:
             print(f"Hata: {e}")
 
