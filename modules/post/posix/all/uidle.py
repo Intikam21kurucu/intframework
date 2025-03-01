@@ -1,3 +1,5 @@
+# Author: n1nj4sec/pupy
+# Title: Posix get idle
 import ctypes
 import os
 import time
