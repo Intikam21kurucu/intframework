@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
-# credit to : poet
+# Author: offlinemark/poet
+# title: Permanently remove client from target
+# test:bad
 import sys
 import os
 import pkg_resources
