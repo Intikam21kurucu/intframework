@@ -115,7 +115,7 @@ class ModuleManager:
 
         self.modules = found_modules
         self.save_modules()
-        return f"{len(found_modules)} modül JSON dosyasına kaydedildi."
+        return f"{len(found_modules)} module saved"
 
     def list_modules(self):
         """Tüm modülleri listele"""
