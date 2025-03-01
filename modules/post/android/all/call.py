@@ -1,7 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 # Author: @bobsecq
-# Contributor(s):
+# title: get call details on android
+# test: good
 
 from jnius import autoclass
 import socket
