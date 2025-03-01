@@ -1,3 +1,8 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+# Author: @bobsecq
+# title: Android GPS tracker
+# test: good
 import requests
 from jnius import autoclass, cast
 from plyer import gps
