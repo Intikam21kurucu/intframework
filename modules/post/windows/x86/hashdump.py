@@ -1,3 +1,4 @@
+# Title: Windows Hashdumping Module
 import os
 import sys
 import colorama
