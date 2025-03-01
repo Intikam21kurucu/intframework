@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+# Author: n1nj4sec/pupy
 # Code From: https://github.com/n1nj4sec/pupy/
 import os
 import psutil
