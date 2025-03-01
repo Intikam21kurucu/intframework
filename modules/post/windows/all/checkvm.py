@@ -1,3 +1,5 @@
+# Title: Windows wm check tool
+# Test: Good
 import _winreg
 import psutil
 
