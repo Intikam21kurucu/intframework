@@ -1,7 +1,9 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 # Copyright (c) 2025, Modified by intframework for stealth post-exploitation
-
+# Author: İntframework Modify Team
+# title: Android Captcure and send image 
+# test: good
 from jnius import autoclass, PythonJavaClass, java_method
 from threading import Event
 import socket
