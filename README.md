@@ -6,7 +6,7 @@
 
 ![Supported OS](https://img.shields.io/badge/Supported%20OS-Linux-yellow.svg)
 ![License](https://img.shields.io/badge/license-intLICENSE--1.3-blue.svg)
-![Version](https://img.shields.io/badge/Framework%20Version-intSpLoiT%20Console%20v4.2.89--dev--bbf096e-green.svg)
+![Version](https://img.shields.io/badge/Framework%20Version-intSpLoiT%20Console%20v4.2.90--dev--bbf096e-green.svg)
 ![Python](https://img.shields.io/badge/Python-3-green.svg)
 ![Exploits](https://img.shields.io/badge/EXPLOITS-500%2B-red.svg)
 ![Post Exploits](https://img.shields.io/badge/POST%20EXPLOITS-120+-red.svg)
