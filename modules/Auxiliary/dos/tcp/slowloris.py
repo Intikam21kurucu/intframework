@@ -1,3 +1,5 @@
+# Title: Advanced Slowloris Attack Tool with Tor & Proxy Support
+# Test: good
 import argparse
 import threading
 import socks
