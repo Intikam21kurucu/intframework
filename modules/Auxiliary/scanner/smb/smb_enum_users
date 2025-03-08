@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# Title: Smb user enumeration tool 
 import smbprotocol.connection
 import smbprotocol.session
 import smbprotocol.tree
