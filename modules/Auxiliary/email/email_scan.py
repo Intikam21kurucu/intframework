@@ -1,3 +1,4 @@
+# Title: Check if email addresses are valid
 import smtplib
 import argparse
 
