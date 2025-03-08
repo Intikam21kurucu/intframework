@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# Title: WiFi SSID or MAC address lookup tool.
 import os
 import re
 import json
@@ -99,7 +100,7 @@ class GeoWifi:
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="WiFi SSID or MAC address lookup tool (Metasploit-style output).")
+    parser = argparse.ArgumentParser(description="WiFi SSID or MAC address lookup tool.")
     parser.add_argument("--ssid", help="Target SSID", type=str)
     parser.add_argument("--mac", help="Target MAC address", type=str)
     parser.add_argument("--country", help="Country code (Default: PH)", type=str, default="PH")
