@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# Title: Analyze password strength from a file
 #test: good
 import argparse
 import os
