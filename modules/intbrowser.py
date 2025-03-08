@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+# Title: Simple Browser for information gathering 
+# test: good
 import requests
 from bs4 import BeautifulSoup
 import argparse
