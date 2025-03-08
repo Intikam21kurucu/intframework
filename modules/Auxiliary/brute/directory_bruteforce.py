@@ -1,4 +1,6 @@
-#!/usr/bin/env python3 
+#!/usr/bin/env python3
+# Title: simple but good directory bruteforcing tool
+# Test: good
 import requests
 
 def directory_bruteforce(target_url, wordlist):
