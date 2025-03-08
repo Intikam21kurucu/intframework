@@ -1,3 +1,5 @@
+# Title: is smb vulnerable? Check it!
+# test: good
 import socket
 import struct
 import sys
