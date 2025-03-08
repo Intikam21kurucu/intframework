@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# Title: Advenced Hash İdentifier (+50 Hash types)
 #test: good
 import argparse
 import re
