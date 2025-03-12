@@ -1,5 +1,6 @@
 # usr/bin/env python3
 # userscan.py
+# Title: Find social media profile via username
 import argparse
 from requests import get
 
