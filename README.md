@@ -11,7 +11,7 @@
 ![Exploits](https://img.shields.io/badge/EXPLOITS-500%2B-red.svg)
 ![Post Exploits](https://img.shields.io/badge/POST%20EXPLOITS-120+-red.svg)
 ![Auxiliary](https://img.shields.io/badge/AUXILIARY-108-red.svg)
-![Modules](https://img.shields.io/badge/MODULES-500%2B-red.svg)
+![Modules](https://img.shields.io/badge/MODULES-800%2B-red.svg)
 ![Encoders](https://img.shields.io/badge/ENCODERS-50-red.svg)
 ![Payloads](https://img.shields.io/badge/PAYLOADS-8-red.svg)
 ![OSINT Modules](https://img.shields.io/badge/OSINT%20Modules-50+-blue.svg)
