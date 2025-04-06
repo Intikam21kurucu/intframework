@@ -32,3 +32,4 @@ sysinfo
 smbmap
 websockets
 netifaces
+pandas
