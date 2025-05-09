@@ -54,6 +54,11 @@ from rich.console import Console
 import time
 from colorama import Fore, Back, Style
 import inttable
+import shlex
+from lib.int4.event import EventDispatcher
+dispatcher = EventDispatcher()
+import subprocess, shlex, os
+from colorama import Fore, Style
 from modules.commands.banner import *
 from modules.commands.dns_lookup import *
 
@@ -152,6 +157,18 @@ try:
 except:
 	pass
 from uuid_manager import *
+import lib.search
+from lib.int4.config_manager import load_context, validate_required_options, module_context, load_schema_from_module
+import lib.int4.config_manager as config_manager
+# Import the session manager module
+from lib.int4.session_manager import SessionManager
+
+# Instantiate the SessionManager
+session_manager = SessionManager()
+
+
+searcher = lib.search.ModuleSearch()
+
 def manager():
 	import plugin_manager as PluginManager
 	manager = PluginManager.PluginManager(plugin_dir="plugins", event_manager=event_manager)
@@ -342,7 +359,6 @@ ascii_sanat = """⢀⣠⣤⠶⠶⠶⠶⢦⣄⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
 . ⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶
 ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿ ⣿⣿⣿⣿⣿⣷⣷⣶⣿⣿ """	
-print(ascii_sanat)
     # 5 saniye boyunca animasyonu çalıştır
 os.system("python3 startoolkit.py")
 time.sleep(4)   
@@ -367,6 +383,16 @@ def list_jobs():
         print("==========")
         print(f"    {job_id} {exploit if exploit else 'None'}")
         
+# Komut dosyasının yolu
+command_file = os.path.expanduser("~/.reload.int4")
+
+def save_command(command):
+    """Komutu dosyaya kaydet"""
+    try:
+        with open(command_file, "a") as file:
+            file.write(command + "\n")
+    except Exception as e:
+        print(f"Komut dosyasına kaydedilirken bir hata oluştu: {e}")
 
 # Job silme fonksiyonu
 def kill_job(job_id):
@@ -504,7 +530,6 @@ def srun():
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     
-os.system("clear")
 if check_network():
 	print("you are inthacker-mode")
 	add_job("network")
@@ -784,6 +809,7 @@ def use_module(command):
 
             # Modül bilgilerini kullanıcıya göster
             get_input(modules=module_path, modulename=modulename)
+            load_schema_from_module(modules)
             inttable.write(f"[>] use module: {modules}")
             print(f"\n{Fore.YELLOW}[*] Loading module: {Fore.CYAN}{module_path}{Style.RESET_ALL}")
             print(f"{Fore.YELLOW}[*] Module: {Fore.GREEN}{modulename}{Style.RESET_ALL}")
@@ -870,21 +896,17 @@ def display_files(file_paths):
     else:
         print(Fore.RED + "[!] No files found.")
 
-def search(files, filters, raw_term):
+def search(command):
     """
-    Search for terms in all files based on filters or raw term.
-    - files: List of files to search in.
-    - filters: Dictionary containing search parameters.
-    - raw_term: The normal search term if no filters are used.
+    Process the search command using lib.search.
+
+    - command: Search command as a string (e.g., "search exploit type:auxiliary author:Intframework")
+    
+    Returns:
+        Search results processed by lib.search.
     """
-    search_results = {}
-
-    for file in files:
-        matching_lines = search_in_file(file, filters, raw_term)
-        if matching_lines:
-            search_results[file] = matching_lines
-
-    return search_results
+    searcher = lib.search.ModuleSearch()
+    searcher.process_command(command)
 
 def display_search_results(results):
     """
@@ -1025,45 +1047,139 @@ def detect_interpreter(module_path):
         print(f"{Fore.RED}[!] Error detecting interpreter for {Fore.CYAN}{module_path}{Style.RESET_ALL}: {e}{Style.RESET_ALL}")
         return "python3"  # Hata durumunda python3 döndür
 
+
+import subprocess, shlex, os
+from colorama import Fore, Style
+import pexpect
+import importlib.util
+import subprocess
+import pexpect
+import os
+import shlex
+from datetime import datetime
 def run_module(skar3792=None, payload=None, lhost=None, lport=None):
     global modules
 
     if not modules:
         print(f"{Fore.RED}[!] No module loaded. Use 'use intframework/path/to/module_name' to load one.{Style.RESET_ALL}")
+        dispatcher.dispatch("error_occurred", {
+            "source": "run_module",
+            "message": "No module loaded."
+        })
         return
 
     try:
-        # Modülü analiz et
         print(f"{Fore.YELLOW}[*] Inspecting module: {Fore.CYAN}{modules}{Style.RESET_ALL}")
         interpreter = detect_interpreter(modules)
-        
         if not interpreter:
-            print(f"{Fore.RED}[!] Error: Could not detect the interpreter for the module.{Style.RESET_ALL}")
+            print(f"{Fore.RED}[!] Interpreter detection failed.{Style.RESET_ALL}")
+            dispatcher.dispatch("error_occurred", {
+                "source": "run_module",
+                "message": "Interpreter detection failed."
+            })
             return
-
-        print(f"{Fore.GREEN}[+] Module inspection complete.{Style.RESET_ALL}")
+        print(f"{Fore.GREEN}[+] Interpreter: {interpreter}{Style.RESET_ALL}")
     except Exception as e:
-        print(f"{Fore.RED}[!] Error during module inspection: {e}{Style.RESET_ALL}")
-        pass
+        print(f"{Fore.RED}[!] Interpreter inspection error: {e}{Style.RESET_ALL}")
+        dispatcher.dispatch("error_occurred", {
+            "source": "run_module",
+            "message": str(e)
+        })
+        return
 
     try:
-        # Modülü çalıştır
+        load_schema_from_module(modules)
+        load_context()
+
+        if not validate_required_options():
+            print(f"{Fore.RED}[!] Cannot execute: missing required options.{Style.RESET_ALL}")
+            dispatcher.dispatch("error_occurred", {
+                "source": "run_module",
+                "message": "Missing required options."
+            })
+            return
+
         print(f"{Fore.YELLOW}[*] Running module: {Fore.CYAN}{modules}{Style.RESET_ALL}")
+        dispatcher.dispatch("module_execution", {
+            "module": modules,
+            "status": "started"
+        })
 
-        # None olmayan argümanları al
-        args = [str(arg) for arg in [modules, lhost, lport, payload, skar3792] if arg]
+        args = []
+        for key, value in module_context.items():
+            if value:
+                args.append(str(value))
 
-        # Komut oluştur
-        command = f"{interpreter} {' '.join(args)}"
+        if args:
+            spec = importlib.util.spec_from_file_location("module", modules)
+            mod = importlib.util.module_from_spec(spec)
+            spec.loader.exec_module(mod)
 
-        print(f"{Fore.MAGENTA}[>] Command: {Fore.WHITE}{command}{Style.RESET_ALL}")
-        os.system(command)
-        inttable.write(f"[>] running module: {modules}")
-        print(f"{Fore.GREEN}[+] Module executed successfully.{Style.RESET_ALL}")
+            for func_name in ("run", "main", "execute"):
+                if hasattr(mod, func_name):
+                    func = getattr(mod, func_name)
+                    if callable(func):
+                        print(f"{Fore.YELLOW}[*] Running module function: {func_name}(){Style.RESET_ALL}")
+                        func(module_context if use_context else args)
+                        if inttable:
+                            inttable.write(f"[>] ran Python module function: {modules}")
+                        if dispatcher:
+                            dispatcher.dispatch("module_execution", {
+                                "module": modules,
+                                "status": "completed",
+                                "output": f"{func_name}() executed"
+                            })
+        	
+
+        # Komutu oluştur
+        command = [interpreter, modules] + skar3792 if skar3792 else [interpreter, modules]
+
+        # input() var mı kontrol et
+        with open(modules, 'r', encoding='utf-8') as f:
+            script_content = f.read()
+            uses_input = 'input(' in script_content
+
+        if uses_input:
+            # input kullanan modül için etkileşimli terminal
+            cmd_str = ' '.join(shlex.quote(arg) for arg in command)
+            print(f"{Fore.YELLOW}[*] Module uses input(). Starting interactive session...{Style.RESET_ALL}")
+            child = pexpect.spawn(cmd_str)
+            child.interact()
+            inttable.write(f"[>] ran interactively: {modules}")
+            dispatcher.dispatch("module_execution", {
+                "module": modules,
+                "status": "completed",
+                "output": "[interactive execution completed]"
+            })
+        else:
+            # normal modüller için subprocess
+            result = subprocess.run(command, capture_output=True, text=True)
+
+            inttable.write(f"[>] running module: {modules}")
+
+            if result.returncode == 0:
+                print(f"{Fore.GREEN}[+] Module executed successfully.{Style.RESET_ALL}")
+                print(f"{Fore.CYAN}{result.stdout.strip()}{Style.RESET_ALL}")
+                dispatcher.dispatch("module_execution", {
+                    "module": modules,
+                    "status": "completed",
+                    "output": result.stdout.strip()
+                })
+            else:
+                print(f"{Fore.RED}[!] Module execution failed with code {result.returncode}.{Style.RESET_ALL}")
+                print(f"{Fore.RED}{result.stderr.strip()}{Style.RESET_ALL}")
+                dispatcher.dispatch("error_occurred", {
+                    "source": "run_module",
+                    "message": result.stderr.strip()
+                })
+
     except Exception as e:
-        print(f"{Fore.RED}[!] Error during module execution: {e}{Style.RESET_ALL}")
-
-
+        print(f"{Fore.RED}[!] Error executing module: {e}{Style.RESET_ALL}")
+        dispatcher.dispatch("error_occurred", {
+            "source": "run_module",
+            "message": str(e)
+        })
+        
 def monitor_process(proc):
     """Çalışan modülü izler"""
     global running_pid
@@ -1090,12 +1206,13 @@ menu_banner()
 global help_input
 global valid_commands
 valid_commands = {
-"neofetch", "com-help", "intshark", "oip", "introjan", "intai", "track", "build", "mode-admin", "use", "set", "show", "build", "mode-", "back", "item", "search", "show commands", "int install", "connect", "int", "install", "mode-ninja", "int install mode-ninja", "int install git", "int install aichat", "use", "exploit", "bset", "banner", "py-search", "payload-search", "exp-search", "exploit-search", "jobs", "jobs -k", "dns", "help", "use ", "intcrawler", "searchuser", "mailsearch", "phonesearch", "connectbot", "meterpreter", "shotgun", "imei", "exp-search", "py-search", "run", "show", "whoI", "intattack", "load_plugins", "list_plugins", "run_plugins", "monitor", "add_module", "intattack", "exploiter", "modular","wifi_scan", "network_scan", "wardriving", 'int', 'hydra', 'dragon', "tunnel", "portfwd", "route", #more more more.....
+"neofetch", "com-help", "intshark", "oip", "introjan", "intai", "track", "build", "mode-admin", "use", "set", "show", "build", "mode-", "back", "item", "search", "show commands", "int install", "connect", "int", "install", "mode-ninja", "int install mode-ninja", "int install git", "int install aichat", "use", "exploit", "bset", "banner", "py-search", "payload-search", "exp-search", "exploit-search", "jobs", "jobs -k", "dns", "help", "use ", "intcrawler", "searchuser", "mailsearch", "phonesearch", "connectbot", "meterpreter", "shotgun", "imei", "exp-search", "py-search", "run", "show", "whoI", "intattack", "load_plugins", "list_plugins", "run_plugins", "monitor", "add_module", "intattack", "exploiter", "modular","wifi_scan", "network_scan", "wardriving", 'int', 'hydra', 'dragon', "tunnel", "portfwd", "route", "session" #more more more.....
     }
 global st
 from uuid_manager import *
 load_sessions()
 create_session("intrpc", "root@int")
+print("This is your inactive session. The active session is 0.")
 print(" ")
 global running_pid
 running_pid = None        
@@ -1350,6 +1467,7 @@ Examples:
 | /intframework/modules/exploits/Fuzzering/           |
 | /intframework/modules/exploits/ac68.py/             |
 +------------------------------------------------------------------------+
+....[will be deleted]
     	""")
     if help_input.startswith("meterpreter") and help_input.endswith(""):
     			os.system("python3 intmeterpreter.py start")
@@ -1567,10 +1685,9 @@ Examples:
     		    scanners       using scanner
     		    
     		    example:
-    		    	use intframework::modules::AUTO:ctf
+    		    	use intframework::modules::AUTO:ctf.py or use intframework/modules/AUTO/ctf.py
     		    
-    		    we are developed this framework this framework uses :: not / 
-    		    Please do not contact us for this. 
+    		    we are developed this framework this framework uses :: and / 
     		    	
     			""")
     elif help_input.startswith("connect"):
@@ -1602,67 +1719,6 @@ Examples:
     elif help_input == "banner":
     	banner()
     	menu_banner()
-    elif help_input.startswith("vp"):
-    	if '-' not in help_input:
-    		print("please arguments")
-    	if '-w' or '--start-web' in help_input:
-    		os.system("python3 webstarter.py")
-    	else:
-    		pass
-    	if '-a' or '--add' in help_input:
-    		global add_add
-    		add_add = "ADDED"
-    	else:
-    		pass
-    	if '-a' or '--add' not in help_input:
-    		add_add = None
-    	else:
-    		pass
-    	if '-b' or '--build' in help_input:
-    		if add_add == None:
-    			print("please use vp add command first")
-    			global add_slan
-    			add_slan = None
-    		if add_add == "ADDED":
-    			import pyfiglet
-    			a = pyfiglet.figlet_format("INTIKAM21 OFFİCİAL") 
-    			print(a)
-    			print("starting")
-    			t.sleep(3)
-    			os.system("sh intvirtualstarter.sh")
-    			add_job("intikam21 virtual pc")
-    			add_slan = "YES"
-    		elif add_slan == "YES" and add_add == "ADDED":
-    			print("builded you are must use -all")
-    	else:
-    		pass
-    	if '-all' in help_input:
-    		os.system("""
-			python3 İNTOFİCCİAL.py
-			""")
-    	else:
-    		pass
-
-    if help_input == "show scanners":
-    	print("""
-+------------------------------------------------------------------------+
-|                         SCANNERS                                   |
-+====================================+
-| /intframework/modules/scanners/portscan |
-| /intframework/modules/scanners/bluetooth_scanners.py|
-| /intframework/modules/scanners/dirscanner|
-| /intframework/modules/scanners/emailscan|
-| /intframework/modules/scanners/userscan |
-| /intframework/modules/scanners/wlanscanner|
-| /intframework/modules/scanners/adminfinder |
-| /intframework/modules/scanners/service_scanner|
-| /intframework/modules/scanners/vulnerability_scanner|
-| /intframework/modules/scanners/dns_scanner|
-| /intframework/modules/scanners/ping_scan|
-| /intframework/modules/scanners/network_scan|
-| /intframework/modules/scanners/Crack/wificracker|
-+------------------------------------------------------------------------+    	
-    	""")
     if help_input.startswith("add_module"):
     	mdd = help_input[11:]
     	try:
@@ -1671,8 +1727,7 @@ Examples:
     		try:
     			os.system(f"mv {mdd} $INTFRAMEWORK_PATH")
     		except:
-    			print("please export INTFRAMEWORK_PATH.")
-    
+    			print("please export INTFRAMEWORK_PATH.")    
     if help_input.startswith("wardriving"):
     	setdbs = help_input[11:]
     	if setdbs == "start":
@@ -1719,14 +1774,52 @@ Examples:
     if help_input.startswith("activate_plugins"):
     	pg_manager.load_plugins()
     if help_input.startswith("session"):
-    	d = help_input[8:]
-    	if d.startswith("-k"):
-    		kill_id = d[3:]
-    		kill_session(kill_id)
-    	if d == "-l":
-    		load_sessions()
-    		session_listele()
-    		cleanup()
+        d = help_input[8:].strip()
+        if d == "-l":
+            # List all sessions
+            sessions = session_manager.list_sessions()
+            if not sessions:
+                print("No active sessions.")
+            else:
+                for session_id in sessions:
+                    print(f"Session ID: {session_id}")
+                    session_modules = session_manager.list_modules_in_session(session_id)
+                    if session_modules:
+                        print(f"Modules: {', '.join(session_modules)}")
+                    else:
+                        print("No modules in this session.")
+
+        elif d.startswith("-i"):
+            # Interact with a specific session
+            session_id = d[3:].strip()
+            if session_manager.has_session(session_id):
+                # Switching to the session
+                session_manager.switch_session(session_id)
+                print(f"Session {session_id} is now active.")
+            else:
+                print(f"Session {session_id} does not exist.")
+
+        elif d.startswith("-k"):
+            # Kill a specific session
+            session_id = d[3:].strip()
+            if session_manager.has_session(session_id):
+                session_manager.remove_session(session_id)
+                print(f"Session {session_id} has been terminated.")
+            else:
+                print(f"Session {session_id} does not exist.")
+
+        elif d == "-h":
+            # Show help message
+            print("""
+            Session Command Options:
+            - session -l          : List all active sessions.
+            - session -i <ID>     : Interact with a specific session by ID.
+            - session -k <ID>     : Kill (terminate) a session by ID.
+            - session -h          : Show this help message.
+            """)
+
+        else:
+            print("Invalid session command. Use 'session -h' for help.")
     if help_input == "exploiter":
     	print("new exploiter session created")
     	os.system("python3 exploiter.py")
@@ -1756,8 +1849,8 @@ Examples:
         run_module(skar3792=extracted_text)
     if help_input == "run":
         run_module()
-    if help_input == "srun":
-    	srun()
+    if help_input == "show options":
+    	config_manager.show_options()
     if help_input == "osint":
     	print("https://osintframework.com/")
     if help_input.startswith("set"):
@@ -1766,7 +1859,7 @@ Examples:
         
         if len(command_parts) == 2:
             variable, value = command_parts
-            set(variable, value)  # set fonksiyonunu çağır
+            config_manager.set_option(variable, value)  # set fonksiyonunu çağır
         else:
             print("[-] Invalid input. Please provide both variable and value.")
     if help_input.startswith("setg"):
@@ -1786,12 +1879,11 @@ Examples:
     	else:
     		print("[-] Invalid input. Please provide both variable and value.")
     if help_input.startswith("search"):
-    	termof_search = help_input[7:]
-    	if termof_search:
-    		us_search(termof_search)
-    	else:
-    		fpth = list_all_files(dirs_int)
-    		display_files(fpth)
+        parts = help_input.split(" ", 1)  # Sadece 1 kez böl, komut ve query ayrılır
+        if len(parts) == 2 and parts[1].strip():
+            search(help_input)  # Burada komple komutu gönderiyoruz, çünkü lib.search zaten parçalayacak
+        else:
+            print(f"[{Fore.BLUE}inttable{Fore.RESET}] Syntax Error: Usage: search <query> [filters]")
     if help_input == "whoami":
     	username = getpass.getuser()
     	# Sistemin platform bilgisini alma
@@ -1822,9 +1914,78 @@ Examples:
     		os.system(f"python3 $INTFRAMEWORK_PATH/modules/commands/dragon {dragonn}")
     	else:
     		os.system(f"python3 $INTFRAMEWORK_PATH/modules/commands/dragon")
+    if help_input.startswith("listen"):
+    	lport = help_input[7:] if help_input[7:] else None
+    	if lport is None:
+    		print("Listening 5000...")
+    		os.system("python3 $INTFRAMEWORK_PATH/modules/exploits/multi/handler.py -lh 0.0.0.0 -lp 5000")
+    	else:
+    		print(f"Listening {lport}...")
+    		os.system(f"python3 $INTFRAMEWORK_PATH/modules/exploits/multi/handler.py -lh 0.0.0.0 -lp {lport}")
+    if help_input.startswith("dump"):
+    	dumper = help_input[5:]
+    	if dumper:
+    		os.system(f"python3 {intframework_path}/commands/dump.py {dumper}")
+    	else:
+    		os.system(f"python3 {intframework_path}/commands/dump.py -h")
+    if help_input.startswith("webgui"):
+    	action = help_input[7:]
+    	if action == "install":
+    		os.system("""
+cd ..
+git clone -b webgui https://github.com/intSpLoiT/intframework.git intframeworkweb
+cd intframeworkweb
+echo "export intweb=$(pwd)" >> ~/.bashrc
+pip3 install -r requirements.txt
+cd ..
+cd $INTFRAMEWORK_PATH
+    		""")
+    	if action == "start":
+    		os.system("python3 $intweb/main.py")
+    	if action == "uninstall":
+    		os.system("""
+rm -rf $intweb
+    		""")
+    if help_input.startswith("exploitdb"):
+        s = help_input[10:]  # Remove "exploitdb " from the input
 
+        if not s.strip():
+            print("[!] Error: No arguments provided. Use '-h' for help.")
+            continue
+
+        # Build command dynamically
+        command = f"python3 {intframework_path}/modules/commands/exploitdb.py"
+
+        parts = s.split()
+        valid_flags = ["-h","-s", "--search", "-p", "--platform", "-y", "--year",
+                       "-t", "--type", "-a", "--author", "-i", "--id",
+                       "-l", "--limit", "-v", "--verbose", "-c", "--code",
+                       "-T", "--table", "-S", "--save"]
+
+        i = 0
+        while i < len(parts):
+            if parts[i] in valid_flags:
+                # If flag is a standalone switch (like -v, -c, -T), just add it
+                if parts[i] in ["-v", "--verbose", "-c", "--code", "-T", "--table"]:
+                    command += f" {parts[i]}"
+                else:
+                    # Ensure the next item is a value
+                    if i + 1 < len(parts):
+                        command += f" {parts[i]} {parts[i+1]}"
+                        i += 1
+                    else:
+                        print(f"[!] Error: Missing value for {parts[i]}.")
+                        break
+            else:
+                print(f"[!] Warning: Ignoring unknown argument '{parts[i]}'.")
+            i += 1
+
+        print(f"[*] Running: {command}")
+        os.system(command)
     if help_input in help:
     	os.system("help")
+    if help_input == "exit" or help_input == "quit":
+    	sys.exit()
     if not any(help_input.startswith(command) for command in valid_commands):
     	t.sleep(0.75)
     	if help_input.startswith("hydra"):
