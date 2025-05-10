@@ -1,2 +1,3 @@
 flask
 streamlit
+gunicorn
