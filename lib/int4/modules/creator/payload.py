@@ -40,7 +40,7 @@ class PayloadManager:
             return f"import base64\nexec(base64.b64decode('{encoded}').decode())"
         return code
 
-    def save(self, code, filename="payload.py"):
+    def save(self, code, filename="intpayload.py"):
         with open(filename, "w") as f:
             f.write(code)
         return filename 
