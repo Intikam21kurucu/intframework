@@ -1,9 +1,12 @@
 #!/usr/bin/env python3
+# Author: arun kumar venugopal
+# Title: Simple Cve Search Tool
+# Description: search tool to use the NIST NVD ( National Vulnerability Database ) to fetch CVEs associated with a product @arun kumar venugopal 
+# test:normal
 import requests
 import json
 import click
 import re
-#author:arunkumarv
 #https://www.linkedin.com/in/arunkumarvenugopal/
 click.echo(click.style('*' * 120, fg='cyan'))
 click.echo(click.style('                                                 CVE Finder                                       ', fg='red', bold=True))
@@ -41,7 +44,7 @@ def search_by_cpe(cpe_name):
     print_cve_details(vulnerabilities)
     return vulnerabilities
 
-
+search tool to use the NIST NVD ( National Vulnerability Database ) to fetch CVEs associated with a product @arun kumar v',
 def search_by_cve_id(cve_id):
     cve_id = cve_id.upper()
     base_url =f"https://services.nvd.nist.gov/rest/json/cves/2.0?cveId={cve_id}"
