@@ -58,6 +58,9 @@ def nmap():
         return render_template('nmap.html', result=result)
 
     return render_template('nmap.html')
+@app.route('/live_module_watcher')
+def live_module_watcher():
+    return render_template('live_module_watcher.html')
 
 # Ana sayfa route'u
 @app.route('/')
