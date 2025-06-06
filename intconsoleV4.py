@@ -3,6 +3,7 @@
 global phisherserror
 global clouderror
 import os
+os.system("export INTFRAMEWORK_PATH='/storage/emulated/0/inttest/intframework--ntframeworkV4 (1)/intframework--ntframeworkV4'")
 try:
 	os.system("$INTFRAMEWORK_PATH") or os.system("echo $INTFRAMEWORK_PATH")
 except:
@@ -162,7 +163,7 @@ from lib.int4.config_manager import load_context, validate_required_options, mod
 import lib.int4.config_manager as config_manager
 # Import the session manager module
 from lib.int4.session_manager import SessionManager
-
+import plugin_manager
 # Instantiate the SessionManager
 session_manager = SessionManager()
 
@@ -184,7 +185,7 @@ def blinking_text(text):
 
 init(autoreset=True)
 import plugin_manager as PluginManager
-pg_manager = PluginManager.PluginManager(plugin_dir="plugins")
+
 
 import os
 from colorama import Fore
@@ -833,8 +834,6 @@ def check_if_argparse_used(module_path):
 # Directories to search
 dirs_int = ["intPRO", "modules", "PHİSHERS", "tools"]
 
-inttablecore = inttable.core()
-inttablecore.activate("root")
 
 import pathlib
 from colorama import Fore, Style
@@ -1201,6 +1200,10 @@ def get_input(modules=None, modulename=None, cdn=None):
 init(autoreset=True)
 get_input()
 banner()
+manager = plugin_manager.PluginManager()
+print("[*] Loading plugins...")
+manager.load_plugins()
+print(f"[+] {len(manager.plugins)} plugin(s) loaded.")
 pro_plugin()
 menu_banner()
 global help_input
@@ -1218,6 +1221,9 @@ global running_pid
 running_pid = None        
 while True:
     help_input = input(prompt)
+    hpparts = help_input.split() if help_input else []
+    hpcommand = hpparts[0] if len(hpparts) > 0 else None
+    hparguments = hpparts[1:] if len(hpparts) > 1 else None
     if help_input.lower() == "help":
     	print("""
 IntSpLoiT Framework Help Menu
@@ -1338,8 +1344,18 @@ We are working...
 """)
     if help_input == "wifi_scan":
     	scan_wifispy()
-    else:
-    	print("not rooted")
+    if help_input == "help plugins":
+    	print("""
+Available commands:
+
+Command       Description
+-------       ------------------------------------------
+list_plugins  Lists all currently loaded plugins.
+load          Loads a plugin or module dynamically.
+pl_help       Shows the list of commands and their descriptions provided by plugins.
+
+Type 'help <command>' for more information on a specific command.
+    	""")
     if help_input.startswith("py-search" or "payload-search") and help_input.endswith("''"):
     	    if help_input.startswith("payload-search '") and help_input.endswith("'"):
     	    	term = user_input[len("payload-search '"):-1]
@@ -1480,21 +1496,6 @@ Examples:
     	if "-k" in help_input:
     		job_id = help_input[help_input.find("-k "):]
     		kill_job(job_id)
-    if help_input == "use bots":
-    	print("""
-    	   BOT   NAME          Language        platform
-    	----------------------------    ----------------        ------------
-    	smsbomber/bot1   turkish/Türkiye termux
-    	mailinputter/bot1   english/US          whattsapp
-    	  genius_ip/bot1      turkish/Türkiye   telegram  
-    	""")
-    	setter = input(f"{Fore.RED + Style.BRIGHT} int4 (bot selecter) >")
-    	if setter == "smsbomber/bot1":
-    		get_input(modulename="bots", modules="smsbomber-bot")
-    	if setter == "mailinputter/bot1":
-    		get_input(modulename="bots", modules="mailinputter-bot")
-    	if setter == "genius_ip/bot1":
-    		get_input(modulename="bots", modules="genius_ip-bot")
     if help_input.startswith("dns"):
     	if "-f" in help_input:
     		format_chef = help_input[help_input.find("-f "):]
@@ -1762,17 +1763,21 @@ Examples:
     	db_list()
     if help_input  == "db_disconnect":
     	db_disconnect()
-    if help_input.startswith("load "):
-    	arg = help_input[5:]
-    	try:
-    		pg_manager.load_plugin(arg)
-    	except:
-    		print("")
-    		pass
+    if help_input == "load":         
+        parser = argparse.ArgumentParser()
+        parser.add_argument("name", nargs="?")
+        parser.add_argument("-i", dest="path", nargs="?")
+        args = parser.parse_args(hparguments)
+        name = args.name
+        path = args.path
+        if path:
+        	print(manager.load_plugin_module(name, path=path))
+        else:
+        	print(manager.load_command(name))
+        	pass
+
     else:
     	pass
-    if help_input.startswith("activate_plugins"):
-    	pg_manager.load_plugins()
     if help_input.startswith("session"):
         d = help_input[8:].strip()
         if d == "-l":
@@ -1826,7 +1831,7 @@ Examples:
     if help_input == "modular":
     	os.system("python3 modular.py")
     if help_input == "list_plugins":
-    	pg_manager.list_plugins()
+    	manager.list_plugins()
     else:
     	pass
     if help_input == "neofetch":
@@ -1928,6 +1933,18 @@ Examples:
     		os.system(f"python3 {intframework_path}/commands/dump.py {dumper}")
     	else:
     		os.system(f"python3 {intframework_path}/commands/dump.py -h")
+    if hpcommand is None:
+        pass
+
+    if hpcommand == "pl_help":
+        print(manager.get_plugin_help())
+        pass
+
+    if hpcommand in manager.get_commands():
+        result = manager.run_command(hpcommand, hparguments)
+        print(result)
+        pass
+        
     if help_input.startswith("webgui"):
     	action = help_input[7:]
     	if action == "install":
