@@ -162,8 +162,27 @@ import lib.search
 from lib.int4.config_manager import load_context, validate_required_options, module_context, load_schema_from_module
 import lib.int4.config_manager as config_manager
 # Import the session manager module
+import readline
+import lib.history_manager as history_manager
 from lib.int4.session_manager import SessionManager
 import plugin_manager
+import atexit
+def goodbye():
+    time.sleep(0.5)
+    print(Fore.MAGENTA + Style.BRIGHT + "\nShutting down intSpLoiT Framework...")
+    time.sleep(1)
+    print(Fore.CYAN + r"""
+╔════════════════════════════════════════════════════════════════╗
+║        Thank you for using intSpLoiT Framework                ║
+║        Stay stealthy, stay sharp.                             ║
+║        Visit: www.intframeworkweb.onrender.com                ║
+╚════════════════════════════════════════════════════════════════╝
+""")
+    time.sleep(1.2)
+    print(Fore.GREEN + "[✓] Session ended safely. See you again, Operator.\n")
+    history_manager.save_history()
+    
+atexit.register(goodbye)
 # Instantiate the SessionManager
 session_manager = SessionManager()
 
@@ -189,6 +208,8 @@ import plugin_manager as PluginManager
 
 import os
 from colorama import Fore
+
+history_manager = history_manager.HistoryManager()
 
 def pro_plugin():
 	try:
@@ -1224,6 +1245,12 @@ while True:
     hpparts = help_input.split() if help_input else []
     hpcommand = hpparts[0] if len(hpparts) > 0 else None
     hparguments = hpparts[1:] if len(hpparts) > 1 else None
+    if help_input:
+    	readline.add_history(help_input)
+    	history_manager.log_command(help_input)
+    if help_input == "":
+    	pass
+    
     if help_input.lower() == "help":
     	print("""
 IntSpLoiT Framework Help Menu
@@ -1355,135 +1382,6 @@ load          Loads a plugin or module dynamically.
 pl_help       Shows the list of commands and their descriptions provided by plugins.
 
 Type 'help <command>' for more information on a specific command.
-    	""")
-    if help_input.startswith("py-search" or "payload-search") and help_input.endswith("''"):
-    	    if help_input.startswith("payload-search '") and help_input.endswith("'"):
-    	    	term = user_input[len("payload-search '"):-1]
-    	    	result = search_payloads(term)
-    	    	print_payloads(result)
-    	    else:
-    	    	term = user_input[len("py-search '"):-1]
-    	    	result = search_payloads(term)
-    	    	print_payloads(result) 
-    if help_input.startswith("select"):
-    	h  = help_input[7:]
-    	if h.lower() == "doshack":
-    		if get_input(cdn="auxiliary/dos"):
-    			s = input("selected if you are want to run [y/n] else you are want to write a run on console* ")
-    			if s.lower() == "y":
-    				os.system("""    			 
-    			    cd ~
-    			    cd intframework
-    			    cd DoShAcK
-    			    python Doshack.py
-    			    """)
-    			else:
-    				pass
-    		else:
-    			print("invalid command!")    			
-    	if h.lower() == "dos.py":
-    		if get_input(cdn="auxiliary/dos"):
-    			s = input("selected if you are want to run [y/n] else you are want to write a run on console* ")
-    			if s.lower() == "y":
-    				os.system("""    			 
-    				python3 DDOS.py
-    			    """)
-    			else:
-    				pass
-    		else:
-    			print("invalid command")
-    	if h.lower() == "-spc/discord":
-    		if get_input(cdn="auxiliary/social-enginering"):
-    			s = input("selected if you are want to run [y/n] else you are want to write a run on console* ")
-    			if s.lower() == "y":
-    				os.system("""
-    				python3 DİSCORD.py
-    			    """)
-    			else: 
-    				pass
-    			os.system("python3 DİSCORD.py")
-    		else:
-    			print("İNVALİD COMMAND")
-    	if h.lower() == "intformations":
-    		if get_input(cdn="auxiliary/social-enginering"):
-    		    try:
-    			    f  = os.system("""
-    			apt update -y && apt upgrade -y
-    			pkg install git
-    			pkg install python
-    			pkg install python3
-    			git clone https://github.com/Intikam21kurucu/int-formations
-    			chmod +x install.sh
-    			./install.sh
-    			""")
-    		    except:
-    		    	print()
-    if help_input == "show examples":
-    	print("""
-    	For Examples:
-		use command using auxiliary:
-			use auxiliary
-		selecting dirs example(if use auxiliary) else (use exploits or payloads or other tools):
-			select {Your selecting module)
-RUN
-=======
-	For Example:
-		run shodan
-		if you are set domain or others and use shodan following commands:
-			use shodan
-			set API={YourApiKey}
-			or set API {YourApiKey}
-			set mail=yourinfo@example.com
-			or
-			set DOMAİN=google.com
-			else
-			you are must using arguments or back else set other arguments for shodan
-		finally:
-			run
-Examples:
-    others enter a documents,
-    # Entering Modules:
-    	usage:
-    		use modules (Your Path)
-    	# example:
-    		set other=127.0.0.1
-    		use modules /intframework/modules/intcrawler/
-    		run
-    	""")
-    if help_input == "show exploits":
-    	print("""
-+------------------------------------------------------------------------+
-|                           EXPLOİTS                                    |
-+------------------------------------------------------------------------+
-| /intframework/modules/exploits/MS17-010/      |
-| /intframework/modules/exploits/CVE-2006/       |
-| /intframework/modules/exploits/CVE-2018-6389/       |
-| /intframework/modules/exploits/CVE-2016-3074/       |
-| /intframework/modules/exploits/CamExploit2/       |
-| /intframework/modules/exploits/CollectID/           |
-| /intframework/modules/exploits/DiamondFox/           |
-| /intframework/modules/exploits/DropleGanger/        |
-| /intframework/modules/exploits/HydraPwn/           |
-| /intframework/modules/exploits/IE-AURORA/           |
-| /intframework/modules/exploits/MS14-068/            |
-| /intframework/modules/exploits/ShellShock/        |
-| /intframework/modules/exploits/TorCT-Shell/      |
-| /intframework/modules/exploits/WifiToolInstaller/    |
-| /intframework/modules/exploits/gwn700/              |
-| /intframework/modules/exploits/se0wned/              |
-| /intframework/modules/exploits/se0wned/              |
-| /intframework/modules/exploits/Brainpan-Exploit.py/   |
-| /intframework/modules/exploits/Httproxyscan.py/ |
-| /intframework/modules/exploits/carpwned.py/    |
-| /intframework/modules/exploits/php_carpwn.py/     |
-| /intframework/modules/exploits/CrashCast/           |
-| /intframework/modules/exploits/DropleGanger/         |
-| /intframework/modules/exploits//       |
-| /intframework/modules/exploits/CVE2018-10561/       |
-| /intframework/modules/exploits/Fuzzering/           |
-| /intframework/modules/exploits/ac68.py/             |
-+------------------------------------------------------------------------+
-....[will be deleted]
     	""")
     if help_input.startswith("meterpreter") and help_input.endswith(""):
     			os.system("python3 intmeterpreter.py start")
