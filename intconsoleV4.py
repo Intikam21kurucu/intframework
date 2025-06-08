@@ -808,12 +808,10 @@ def scan5115(interface):
     import scapy.all as scapy
     try:
     	networks = Cell.all(interface)
-    	inttable.write("network_scanned!")
     except FileNotFoundError:
     	print("iwlist not found")
     if os.getuid() == 0:
     	print("[intbase] device is not rooted!")
-    	inttable.write("Device is not Rooted!")
     print(f"{len(networks)} adet kablosuz ağ bulundu:")
     for network in networks:
         print(f"SSID: {network.ssid}")
@@ -833,7 +831,6 @@ def use_module(command):
             # Modül bilgilerini kullanıcıya göster
             get_input(modules=module_path, modulename=modulename)
             load_schema_from_module(modules)
-            inttable.write(f"[>] use module: {modules}")
             print(f"\n{Fore.YELLOW}[*] Loading module: {Fore.CYAN}{module_path}{Style.RESET_ALL}")
             print(f"{Fore.YELLOW}[*] Module: {Fore.GREEN}{modulename}{Style.RESET_ALL}")
             print(f"{Fore.YELLOW}[*] Successfully loaded.{Style.RESET_ALL}\n")
@@ -1142,8 +1139,6 @@ def run_module(skar3792=None, payload=None, lhost=None, lport=None):
                     if callable(func):
                         print(f"{Fore.YELLOW}[*] Running module function: {func_name}(){Style.RESET_ALL}")
                         func(module_context if use_context else args)
-                        if inttable:
-                            inttable.write(f"[>] ran Python module function: {modules}")
                         if dispatcher:
                             dispatcher.dispatch("module_execution", {
                                 "module": modules,
@@ -1153,8 +1148,8 @@ def run_module(skar3792=None, payload=None, lhost=None, lport=None):
         	
 
         # Komutu oluştur
-        command = [interpreter, modules] + skar3792 if skar3792 else [interpreter, modules]
-
+        command = [interpreter, modules] + (shlex.split(skar3792) if skar3792 and isinstance(skar3792, str) else (skar3792 if skar3792 else []))
+        
         # input() var mı kontrol et
         with open(modules, 'r', encoding='utf-8') as f:
             script_content = f.read()
@@ -1166,7 +1161,6 @@ def run_module(skar3792=None, payload=None, lhost=None, lport=None):
             print(f"{Fore.YELLOW}[*] Module uses input(). Starting interactive session...{Style.RESET_ALL}")
             child = pexpect.spawn(cmd_str)
             child.interact()
-            inttable.write(f"[>] ran interactively: {modules}")
             dispatcher.dispatch("module_execution", {
                 "module": modules,
                 "status": "completed",
@@ -1176,7 +1170,6 @@ def run_module(skar3792=None, payload=None, lhost=None, lport=None):
             # normal modüller için subprocess
             result = subprocess.run(command, capture_output=True, text=True)
 
-            inttable.write(f"[>] running module: {modules}")
 
             if result.returncode == 0:
                 print(f"{Fore.GREEN}[+] Module executed successfully.{Style.RESET_ALL}")
