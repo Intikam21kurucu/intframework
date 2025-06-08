@@ -53,8 +53,4 @@ def dönen_animasyon(metin, süre):
         time.sleep(0.2)
         i = (i + 1) % len(metin)
 
-# Animasyon süresi dolduğunda terminali sıfırla
-os.system('clear')
-print(list)
-# Animasyonu çalıştır
 dönen_animasyon(animasyon_metni, animasyon_suresi)   
