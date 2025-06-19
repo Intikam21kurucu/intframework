@@ -17,7 +17,7 @@
 ![OSINT Modules](https://img.shields.io/badge/OSINT%20Modules-50+-blue.svg)
 
 > **We are currently editing this repository! Stay tuned for updates.**  
-> **Other update comming on 29.07.2025**
+> **Other update comming on 20.08.2025**
 ---
 
 ## 🚀 Features  
