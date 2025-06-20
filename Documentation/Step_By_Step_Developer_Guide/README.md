@@ -74,7 +74,7 @@ def exploit():
 
 ---
 
-4. Testing your module
+## 4. Testing your module
 
 Load your module inside the framework:
 intSpLoiT > use exploits/example_exploit
@@ -92,11 +92,11 @@ Make sure your module works correctly without errors.
 
 ---
 
-5. How to submit your module?
+## 5. How to submit your module?
 
 You have two options to contribute your module:
 
-1. Pull Request (PR):
+### 1. Pull Request (PR):
 
 Fork the intSpLoiT repository on GitHub.
 
@@ -110,7 +110,7 @@ Wait for review and feedback.
 
 
 
-2. GitHub Issue:
+### 2. GitHub Issue:
 
 If you prefer, you can open an Issue instead of a PR.
 
@@ -126,7 +126,7 @@ The core team will review and may add the module or request changes.
 
 ---
 
-6. Important Notes
+## 6. Important Notes
 
 Modules may contain exploit or offensive code targeting remote systems.
 
@@ -148,7 +148,7 @@ Contributions are voluntary and unpaid, but highly appreciated.
 
 ---
 
-7. Thank you!
+## 7. Thank you!
 
 Your contributions help the intSpLoiT community grow stronger and more versatile.
 Every module, no matter how small, is valuable.
