@@ -20,6 +20,8 @@
 > **Other update comming on 20.08.2025**
 ---
 
+💡 Interested in becoming a contributor? [Click here to get started](./CONTRIBUTING.md)
+
 ## 🚀 Features  
 
 ✅ **Wide Module Support** – Over 800+ modules, including OSINT,exploits,auxiliary,encoders, ... 
