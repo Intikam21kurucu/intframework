@@ -19,6 +19,7 @@ def __init__(self):
     self.listener = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     self.listener.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     self.active = False
+```
 
 Creates a TCP socket listener.
 
