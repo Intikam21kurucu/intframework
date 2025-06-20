@@ -33,7 +33,7 @@ Initializes the active flag to track listener state.
 
 ## 2. Starting the Listener
 
-```
+```python
 def start_listener(self):
     self.listener.bind((CONFIG["LHOST"], CONFIG["LPORT"]))
     self.listener.listen()
@@ -57,7 +57,7 @@ Spawns a background thread to run accept_loop().
 
 ### Accept Loop
 
-```
+```python
 def accept_loop(self):
     from .registry import increment_session_id
     while self.active:
@@ -98,7 +98,7 @@ Optional session name
 
 ### Listing Sessions
 
-```
+```python
 def list_sessions(self):
     print_info("Active sessions:")
     for sid, session in list_sessions().items():
@@ -118,7 +118,7 @@ Useful for monitoring current active connections.
 
 ### Interact Method
 
-```
+```python
 def interact(self, session_id):
     session = get_session(session_id)
     if session and session.alive:
@@ -137,7 +137,7 @@ Fails gracefully if session is inactive.
 
 ### Sending Commands
 
-```
+```python
 def send_command(self, session_id, command):
     session = get_session(session_id)
     if session and session.alive:
@@ -161,7 +161,7 @@ Returns the decoded response string or None.
 
 ### Renaming Sessions
 
-```
+```python
 def rename_session(self, session_id, new_name):
     if set_session_name(session_id, new_name):
         print(f"[+] Session {session_id} renamed to '{new_name}'")
@@ -176,7 +176,7 @@ Improves usability in multi-session scenarios.
 
 ### Setting Response Timeout
 
-```
+```python
 def set_timeout(self, seconds):
     try:
         seconds = int(seconds)
@@ -193,7 +193,7 @@ Important for network stability and responsiveness.
 
 ### Searching Sessions
 
-```
+```python
 def search_sessions(self, filter_str):
     results = []
     for sid, sess in list_sessions().items():
@@ -218,7 +218,7 @@ Useful for locating targets in large session lists.
 ## 7. Stopping the Listener
 
 ### To stop accepting new sessions:
-```
+```python
 manager.active = False
 manager.listener.close()
 ```
