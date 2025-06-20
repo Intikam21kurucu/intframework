@@ -20,7 +20,7 @@
 > **Other update comming on 20.08.2025**
 ---
 
-💡 Interested in becoming a contributor? [Click here to get started](./CONTRIBUTING.md)
+💡 Interested in developing the framework core? See [CORE_DEVELOPERS.md](./CORE_DEVELOPERS.md)
 
 ## 🚀 Features  
 
