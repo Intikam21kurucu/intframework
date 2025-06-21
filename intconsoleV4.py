@@ -164,11 +164,11 @@ import lib.int4.config_manager as config_manager
 # Import the session manager module
 import readline
 import lib.history_manager as history_manager
-import lib.session_manager as session_manager
-from lib.session_manager import sessions
+from lib.session_manager.manager import SessionManager
 import plugin_manager
 import atexit
-session_manager.create_single_session("127.0.0.1", 2023)
+sm = SessionManager()
+sm.start_listener()
 def goodbye():
     time.sleep(0.5)
     print(Fore.MAGENTA + Style.BRIGHT + "\nShutting down intSpLoiT Framework...")
@@ -1193,6 +1193,117 @@ def run_module(skar3792=None, payload=None, lhost=None, lport=None):
             "source": "run_module",
             "message": str(e)
         })
+
+
+
+def handle_sessions(args, sm):
+    from lib.session_manager.registry import list_sessions, remove_session
+
+    if len(args) == 1 or "-l" in args or "--list" in args:
+        sm.list_sessions()
+
+    elif "-h" in args or "--help" in args:
+        print("""
+Usage: session [options] or session [id]
+
+Active session manipulation and interaction.
+
+OPTIONS:
+
+    -c, --command <command>              Run a command on the session given with -i, or all
+    -h, --help                           Help banner
+    -i, --interact <id>                  Interact with the supplied session ID
+    -k, --kill <id>                      Terminate sessions by session ID
+    -K, --kill-all                       Terminate all sessions
+    -l, --list                           List all active sessions
+    -n, --name <id> <name>               Name or rename a session by ID
+    -S, --search <filter>                Search session IPs (example: 192.168.)
+    -t, --timeout <seconds>              Set response timeout (default: 15)
+    -v, --list-verbose                   List sessions in verbose mode (partial)
+    -x, --list-extended                  List extended session info (partial)
+""")
+
+    elif "-i" in args or "--interact" in args:
+        try:
+            idx = args.index("-i") if "-i" in args else args.index("--interact")
+            session_id = int(args[idx + 1])
+            sm.interact(session_id)
+        except:
+            print("[!] Usage: sessions -i <id>")
+
+    elif "-c" in args or "--command" in args:
+        try:
+            idx = args.index("-c") if "-c" in args else args.index("--command")
+            command = args[idx + 1]
+            if "-i" in args:
+                iidx = args.index("-i")
+                session_id = int(args[iidx + 1])
+                output = sm.send_command(session_id, command)
+                print(output)
+            else:
+                for sid in list_sessions().keys():
+                    output = sm.send_command(sid, command)
+                    print(f"[Session {sid}] > {output}")
+        except:
+            print("[!] Usage: sessions -c <command> -i <id>")
+
+    elif "-k" in args or "--kill" in args:
+        try:
+            idx = args.index("-k") if "-k" in args else args.index("--kill")
+            session_id = int(args[idx + 1])
+            remove_session(session_id)
+            print(f"[+] Session {session_id} terminated.")
+        except:
+            print("[!] Usage: sessions -k <id>")
+
+    elif "-K" in args or "--kill-all" in args:
+        for sid in list(list_sessions().keys()):
+            remove_session(sid)
+        print("[+] All sessions terminated.")
+
+    elif "-n" in args or "--name" in args:
+        try:
+            idx = args.index("-n") if "-n" in args else args.index("--name")
+            session_id = int(args[idx + 1])
+            name = args[idx + 2]
+            sm.rename_session(session_id, name)
+        except:
+            print("[!] Usage: sessions -n <id> <name>")
+
+    elif "-S" in args or "--search" in args:
+        try:
+            idx = args.index("-S") if "-S" in args else args.index("--search")
+            filter_value = args[idx + 1]
+            sm.search_sessions(filter_value)
+        except:
+            print("[!] Usage: sessions --search <filter>")
+
+    elif "-t" in args or "--timeout" in args:
+        try:
+            idx = args.index("-t") if "-t" in args else args.index("--timeout")
+            timeout = int(args[idx + 1])
+            sm.set_timeout(timeout)
+        except:
+            print("[!] Usage: sessions --timeout <seconds>")
+
+    elif "-v" in args or "--list-verbose" in args:
+        print("[*] Verbose session listing:")
+        for sid, sess in list_sessions().items():
+            print(f"Session {sid} | Addr: {sess.addr} | Alive: {sess.alive}")
+
+    elif "-x" in args or "--list-extended" in args:
+        print("[*] Extended session info:")
+        for sid, sess in list_sessions().items():
+            print(f"""
+[Session #{sid}]
+  IP       : {sess.addr[0]}
+  Port     : {sess.addr[1]}
+  Alive    : {'Yes' if sess.alive else 'No'}
+  Commands : {list(sess.shell.dynamic_commands.keys())}
+""")
+
+    else:
+        print("[!] Unknown sessions option. Use 'sessions -h' for help.")
         
 def monitor_process(proc):
     """Çalışan modülü izler"""
@@ -1671,7 +1782,7 @@ Type 'help <command>' for more information on a specific command.
     else:
     	pass
     if help_input.startswith("session"):
-    	session_manager.handle_session_command(help_input)
+    	handle_sessions(help_input, sm)
     if help_input == "exploiter":
     	print("new exploiter session created")
     	os.system("python3 exploiter.py")
