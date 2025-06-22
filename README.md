@@ -25,13 +25,13 @@
 ## 🚀 Features  
 
 ✅ **Wide Module Support** – Over 800+ modules, including OSINT,exploits,auxiliary,encoders, ... 
-
 ✅ **Advanced Exploitation** – 500+ exploits (aiming for 2500)  
 ✅ **Post-Exploitation Tools** – 120+ post-exploit modules (targeting 500+) for persistence and privilege escalation  
 ✅ **Auxiliary Modules** – 108 supporting tools, with a goal to expand to 1250  
 ✅ **OSINT-Specific Modules** – 50+ tools for open-source intelligence gathering  
 ✅ **Payload Generation** – 8+ payloads with encoding support (50 encoders)  
 ✅ **Multi-Platform Support** – Works on Termux, Kali Linux, and Debian-based systems
+
 ✅ **Interactive Shell** – Real-time command execution with a powerful shell  
 
 ---
