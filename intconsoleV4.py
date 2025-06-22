@@ -52,6 +52,9 @@ import pathlib
 import subprocess
 import colorama
 from rich.console import Console
+from prompt_toolkit import prompt
+from prompt_toolkit.formatted_text import ANSI
+from prompt_toolkit.completion import Completer, Completion
 import time
 from colorama import Fore, Back, Style
 import inttable
@@ -59,6 +62,8 @@ import shlex
 from lib.int4.event import EventDispatcher
 dispatcher = EventDispatcher()
 import subprocess, shlex, os
+from prompt_toolkit.completion import WordCompleter
+from prompt_toolkit.history import InMemoryHistory
 from colorama import Fore, Style
 from modules.commands.banner import *
 from modules.commands.dns_lookup import *
@@ -709,7 +714,7 @@ def db_disconnect(connection=sqlite3.connect('database.db')):
 
 
 payloads = None
-prompt = None
+promptin = None
 def get_meterpreter():
     global payloads
     try:
@@ -1078,121 +1083,184 @@ from datetime import datetime
 def run_module(skar3792=None, payload=None, lhost=None, lport=None):
     global modules
 
-    if not modules:
-        print(f"{Fore.RED}[!] No module loaded. Use 'use intframework/path/to/module_name' to load one.{Style.RESET_ALL}")
-        dispatcher.dispatch("error_occurred", {
-            "source": "run_module",
-            "message": "No module loaded."
-        })
-        return
-
     try:
+        if not modules:
+            print(f"{Fore.RED}[!] No module loaded. Use 'use intframework/path/to/module_name' to load one.{Style.RESET_ALL}")
+            if dispatcher:
+                dispatcher.dispatch("error_occurred", {
+                    "source": "run_module",
+                    "message": "No module loaded."
+                })
+            return
+
         print(f"{Fore.YELLOW}[*] Inspecting module: {Fore.CYAN}{modules}{Style.RESET_ALL}")
         interpreter = detect_interpreter(modules)
         if not interpreter:
             print(f"{Fore.RED}[!] Interpreter detection failed.{Style.RESET_ALL}")
-            dispatcher.dispatch("error_occurred", {
-                "source": "run_module",
-                "message": "Interpreter detection failed."
-            })
+            if dispatcher:
+                dispatcher.dispatch("error_occurred", {
+                    "source": "run_module",
+                    "message": "Interpreter detection failed."
+                })
             return
         print(f"{Fore.GREEN}[+] Interpreter: {interpreter}{Style.RESET_ALL}")
+
     except Exception as e:
         print(f"{Fore.RED}[!] Interpreter inspection error: {e}{Style.RESET_ALL}")
-        dispatcher.dispatch("error_occurred", {
-            "source": "run_module",
-            "message": str(e)
-        })
+        if dispatcher:
+            dispatcher.dispatch("error_occurred", {
+                "source": "run_module",
+                "message": str(e)
+            })
         return
 
     try:
-        load_schema_from_module(modules)
-        load_context()
-
-        if not validate_required_options():
-            print(f"{Fore.RED}[!] Cannot execute: missing required options.{Style.RESET_ALL}")
-            dispatcher.dispatch("error_occurred", {
-                "source": "run_module",
-                "message": "Missing required options."
-            })
-            return
-
         print(f"{Fore.YELLOW}[*] Running module: {Fore.CYAN}{modules}{Style.RESET_ALL}")
-        dispatcher.dispatch("module_execution", {
-            "module": modules,
-            "status": "started"
-        })
+        if dispatcher:
+            dispatcher.dispatch("module_execution", {
+                "module": modules,
+                "status": "started"
+            })
 
-        args = []
-        for key, value in module_context.items():
-            if value:
-                args.append(str(value))
+        # PYTHON MODÜLÜ
+        if modules.endswith(".py"):
+            try:
+                load_schema_from_module(modules)
+                load_context()
+            except Exception as e:
+                print(f"{Fore.YELLOW}[!] Context loading skipped: {e}{Style.RESET_ALL}")
 
-        if args:
-            spec = importlib.util.spec_from_file_location("module", modules)
-            mod = importlib.util.module_from_spec(spec)
-            spec.loader.exec_module(mod)
+            try:
+                args = []
+                for key, value in module_context.items():
+                    if value:
+                        args.append(str(value))
 
-            for func_name in ("run", "main", "execute"):
-                if hasattr(mod, func_name):
-                    func = getattr(mod, func_name)
-                    if callable(func):
-                        print(f"{Fore.YELLOW}[*] Running module function: {func_name}(){Style.RESET_ALL}")
-                        func(module_context if use_context else args)
+                spec = importlib.util.spec_from_file_location("module", modules)
+                mod = importlib.util.module_from_spec(spec)
+
+                if spec.loader:
+                    spec.loader.exec_module(mod)
+
+                    for func_name in ("run", "main", "execute"):
+                        if hasattr(mod, func_name):
+                            func = getattr(mod, func_name)
+                            if callable(func):
+                                print(f"{Fore.YELLOW}[*] Running module function: {func_name}(){Style.RESET_ALL}")
+                                try:
+                                    func(module_context if use_context else args)
+                                except Exception as ferror:
+                                    print(f"{Fore.RED}[!] Error inside function: {ferror}{Style.RESET_ALL}")
+                                    if dispatcher:
+                                        dispatcher.dispatch("error_occurred", {
+                                            "source": func_name,
+                                            "message": str(ferror)
+                                        })
+                                    return
+                                if dispatcher:
+                                    dispatcher.dispatch("module_execution", {
+                                        "module": modules,
+                                        "status": "completed",
+                                        "output": f"{func_name}() executed"
+                                    })
+                                return
+
+                    print(f"{Fore.RED}[!] No entry function found (run/main/execute).{Style.RESET_ALL}")
+                    if dispatcher:
+                        dispatcher.dispatch("error_occurred", {
+                            "source": "run_module",
+                            "message": "No callable function found."
+                        })
+
+                else:
+                    print(f"{Fore.RED}[!] Python module loader is None.{Style.RESET_ALL}")
+                    if dispatcher:
+                        dispatcher.dispatch("error_occurred", {
+                            "source": "run_module",
+                            "message": "Python loader is None"
+                        })
+
+            except Exception as ex:
+                print(f"{Fore.RED}[!] Error loading Python module: {ex}{Style.RESET_ALL}")
+                if dispatcher:
+                    dispatcher.dispatch("error_occurred", {
+                        "source": "run_module",
+                        "message": str(ex)
+                    })
+
+        # PYTHON DIŞI MODÜLLER
+        else:
+            if not skar3792:
+                skar3792 = ""
+
+            try:
+                command = [interpreter, modules] + (
+                    shlex.split(skar3792) if isinstance(skar3792, str) else skar3792
+                )
+
+                # input() kullanılıyor mu kontrol et
+                uses_input = False
+                try:
+                    with open(modules, 'r', encoding='utf-8') as f:
+                        script_content = f.read()
+                        uses_input = 'input(' in script_content
+                except:
+                    uses_input = False
+
+                if uses_input:
+                    cmd_str = ' '.join(shlex.quote(arg) for arg in command)
+                    print(f"{Fore.YELLOW}[*] Module uses input(). Starting interactive session...{Style.RESET_ALL}")
+                    try:
+                        child = pexpect.spawn(cmd_str)
+                        child.interact()
                         if dispatcher:
                             dispatcher.dispatch("module_execution", {
                                 "module": modules,
                                 "status": "completed",
-                                "output": f"{func_name}() executed"
+                                "output": "[interactive execution completed]"
                             })
-        	
+                    except Exception as ie:
+                        print(f"{Fore.RED}[!] Error in interactive session: {ie}{Style.RESET_ALL}")
+                        if dispatcher:
+                            dispatcher.dispatch("error_occurred", {
+                                "source": "run_module",
+                                "message": str(ie)
+                            })
+                else:
+                    result = subprocess.run(command, capture_output=True, text=True)
+                    if result.returncode == 0:
+                        print(f"{Fore.GREEN}[+] Module executed successfully.{Style.RESET_ALL}")
+                        print(f"{Fore.CYAN}{result.stdout.strip()}{Style.RESET_ALL}")
+                        if dispatcher:
+                            dispatcher.dispatch("module_execution", {
+                                "module": modules,
+                                "status": "completed",
+                                "output": result.stdout.strip()
+                            })
+                    else:
+                        print(f"{Fore.RED}[!] Module execution failed with code {result.returncode}.{Style.RESET_ALL}")
+                        print(f"{Fore.RED}{result.stderr.strip()}{Style.RESET_ALL}")
+                        if dispatcher:
+                            dispatcher.dispatch("error_occurred", {
+                                "source": "run_module",
+                                "message": result.stderr.strip()
+                            })
 
-        # Komutu oluştur
-        command = [interpreter, modules] + (shlex.split(skar3792) if skar3792 and isinstance(skar3792, str) else (skar3792 if skar3792 else []))
-        
-        # input() var mı kontrol et
-        with open(modules, 'r', encoding='utf-8') as f:
-            script_content = f.read()
-            uses_input = 'input(' in script_content
-
-        if uses_input:
-            # input kullanan modül için etkileşimli terminal
-            cmd_str = ' '.join(shlex.quote(arg) for arg in command)
-            print(f"{Fore.YELLOW}[*] Module uses input(). Starting interactive session...{Style.RESET_ALL}")
-            child = pexpect.spawn(cmd_str)
-            child.interact()
-            dispatcher.dispatch("module_execution", {
-                "module": modules,
-                "status": "completed",
-                "output": "[interactive execution completed]"
-            })
-        else:
-            # normal modüller için subprocess
-            result = subprocess.run(command, capture_output=True, text=True)
-
-
-            if result.returncode == 0:
-                print(f"{Fore.GREEN}[+] Module executed successfully.{Style.RESET_ALL}")
-                print(f"{Fore.CYAN}{result.stdout.strip()}{Style.RESET_ALL}")
-                dispatcher.dispatch("module_execution", {
-                    "module": modules,
-                    "status": "completed",
-                    "output": result.stdout.strip()
-                })
-            else:
-                print(f"{Fore.RED}[!] Module execution failed with code {result.returncode}.{Style.RESET_ALL}")
-                print(f"{Fore.RED}{result.stderr.strip()}{Style.RESET_ALL}")
-                dispatcher.dispatch("error_occurred", {
-                    "source": "run_module",
-                    "message": result.stderr.strip()
-                })
+            except Exception as ex:
+                print(f"{Fore.RED}[!] Error running non-python module: {ex}{Style.RESET_ALL}")
+                if dispatcher:
+                    dispatcher.dispatch("error_occurred", {
+                        "source": "run_module",
+                        "message": str(ex)
+                    })
 
     except Exception as e:
-        print(f"{Fore.RED}[!] Error executing module: {e}{Style.RESET_ALL}")
-        dispatcher.dispatch("error_occurred", {
-            "source": "run_module",
-            "message": str(e)
-        })
+        print(f"{Fore.RED}[!] Unhandled error: {e}{Style.RESET_ALL}")
+        if dispatcher:
+            dispatcher.dispatch("error_occurred", {
+                "source": "run_module",
+                "message": str(e)
+            })
 
 
 
@@ -1313,16 +1381,122 @@ def monitor_process(proc):
             print(f"Module {modules} has stopped.")
             return
         time.sleep(1)  # Her saniye kontrol et
-def get_input(modules=None, modulename=None, cdn=None):
-    global prompt
+
+commands_with_desc = {
+    "neofetch": ("Show system info", "\x1b[32m"),
+    "com-help": ("Show command help", "\x1b[34m"),
+    "intshark": ("Network sniffer tool", "\x1b[36m"),
+    "oip": ("IP lookup", "\x1b[36m"),
+    "introjan": ("Trojan control", "\x1b[31m"),
+    "build": ("Build payloads or exploits", "\x1b[33m"),
+    "use": ("Use module", "\x1b[32m"),
+    "set": ("Set options", "\x1b[33m"),
+    "show": ("Show options or info", "\x1b[36m"),
+    "back": ("Go back", "\x1b[33m"),
+    "search": ("Search modules or exploits", "\x1b[33m"),
+    "show commands": ("List available commands", "\x1b[36m"),
+    "connect": ("Connect to target", "\x1b[33m"),
+    "exploit": ("Exploit target system", "\x1b[31m"),
+    "bset": ("Batch set options", "\x1b[33m"),
+    "banner": ("Show banner", "\x1b[36m"),
+    "py-search": ("Search Python scripts", "\x1b[32m"),
+    "payload-search": ("Search payloads", "\x1b[31m"),
+    "exp-search": ("Search exploits", "\x1b[31m"),
+    "exploit-search": ("Search exploits", "\x1b[31m"),
+    "jobs": ("Show background jobs", "\x1b[33m"),
+    "jobs -k": ("Kill background jobs", "\x1b[31m"),
+    "dns": ("DNS lookup", "\x1b[36m"),
+    "help": ("Show help menu", "\x1b[32m"),
+    "use ": ("Use module (space required)", "\x1b[32m"),
+    "intcrawler": ("intSpLoiT crawler tool", "\x1b[36m"),
+    "searchuser": ("Search user info", "\x1b[33m"),
+    "mailsearch": ("Email search", "\x1b[33m"),
+    "phonesearch": ("Phone number search", "\x1b[33m"),
+    "connectbot": ("Connect to botnet", "\x1b[31m"),
+    "meterpreter": ("Meterpreter shell", "\x1b[31m"),
+    "shotgun": ("Shotgun attack tool", "\x1b[31m"),
+    "imei": ("IMEI info lookup", "\x1b[36m"),
+    "run": ("Run command or script", "\x1b[32m"),
+    "whoI": ("Whois lookup", "\x1b[36m"),
+    "intattack": ("Launch intSpLoiT attack", "\x1b[31m"),
+    "load_plugins": ("Load plugins", "\x1b[33m"),
+    "list_plugins": ("List available plugins", "\x1b[33m"),
+    "run_plugins": ("Run loaded plugins", "\x1b[32m"),
+    "monitor": ("Monitor activities", "\x1b[36m"),
+    "exploiter": ("Exploit tool", "\x1b[31m"),
+    "modular": ("Modular mode", "\x1b[33m"),
+    "wifi_scan": ("Scan WiFi networks", "\x1b[36m"),
+    "network_scan": ("Scan networks", "\x1b[36m"),
+    "wardriving": ("Wardriving mode", "\x1b[33m"),
+    "hydra": ("Brute force tool", "\x1b[31m"),
+    "dragon": ("Dragon tool", "\x1b[31m"),
+    "tunnel": ("Create tunnel", "\x1b[33m"),
+    "portfwd": ("Port forwarding", "\x1b[33m"),
+    "route": ("Manage routing", "\x1b[33m"),
+    "session": ("Manage sessions", "\x1b[33m"),
+}
+
+global modules
+global modulename
+global cdn
+
+def get_input(modules=None, modulename=None, cdn=None, payloads=None):
+    global promptin
+
+    # Eğer dışarıdan parametre geçilmediyse varsayılanları kullan
+    modules = modules if modules is not None else ""
+    modulename = modulename if modulename is not None else ""
+    cdn = cdn if cdn is not None else ""
+    payloads = payloads if payloads is not None else ""
+
     get_meterpreter()
-    module = modules if modules is not None else ""
-    module_name = modulename if modulename is not None else ""
-    cd = cdn if cdn is not None else ""
-    prompt = (f"{Fore.BLUE}int4-pro{Fore.RESET} payloads({Fore.RED}{payloads}{Fore.RESET})>{Style.RESET_ALL}" if payloads else
-              f"{Fore.BLUE}int4-pro{Fore.RESET} {module_name}({Fore.RED}{module}{Fore.RESET}) >{Style.RESET_ALL}" if module and module_name else
-              f"{Fore.BLUE}int4-pro{Fore.RESET} ({Fore.RED}{cd}{Fore.RESET}) >{Style.RESET_ALL}" if cd else
-              f"{Fore.BLUE}{Style.BRIGHT}int4-pro{Style.RESET_ALL} >")
+
+    if payloads:
+        promptin = f"{Fore.BLUE}int4-pro{Fore.RESET} payloads({Fore.RED}{payloads}{Fore.RESET})> {Style.RESET_ALL}"
+        return ANSI(f"\x1b[34mint4-pro\x1b[0m payloads(\x1b[31m{payloads}\x1b[0m)> ")
+    if modules and modulename:
+        promptin = f"{Fore.BLUE}int4-pro{Fore.RESET} {modulename}({Fore.RED}{modules}{Fore.RESET}) > {Style.RESET_ALL}"
+        return ANSI(f"\x1b[34mint4-pro\x1b[0m {modulename}(\x1b[31m{modules}\x1b[0m)> ")
+    if cdn:
+        promptin = f"{Fore.BLUE}int4-pro{Fore.RESET} ({Fore.RED}{cdn}{Fore.RESET}) > {Style.RESET_ALL}"
+        return ANSI(f"\x1b[34mint4-pro\x1b[0m (\x1b[31m{cdn}\x1b[0m)> ")
+    promptin = f"{Fore.BLUE}{Style.BRIGHT}int4-pro{Style.RESET_ALL} >"
+    return ANSI(f"\x1b[1;34mint4-pro\x1b[0m > ")
+
+class CommandCompleter(Completer):
+    def __init__(self, command_dict, history_limit=100):
+        self.command_dict = command_dict
+        self.history_commands = []
+        self.history_limit = history_limit
+
+    def add_to_history(self, command):
+        command = command.strip().split()[0]
+        if command and command not in self.history_commands:
+            self.history_commands.insert(0, command)
+            if len(self.history_commands) > self.history_limit:
+                self.history_commands.pop()
+
+    def get_completions(self, document, complete_event):
+        text = document.text_before_cursor.lower()
+
+        # Önce geçmişten getir
+        for cmd in self.history_commands:
+            if cmd.startswith(text):
+                desc, color = self.command_dict.get(cmd, ("", "\x1b[36m"))
+                yield Completion(cmd, start_position=-len(text), display=ANSI(f"{color}{cmd}\x1b[0m"), display_meta=desc)
+
+        # Sonra sabit komutlar
+        for cmd, (desc, color) in self.command_dict.items():
+            if cmd.startswith(text) and cmd not in self.history_commands:
+                yield Completion(cmd, start_position=-len(text), display=ANSI(f"{color}{cmd}\x1b[0m"), display_meta=desc)
+
+
+
+# History objesi prompt_toolkit ile uyumlu şekilde
+history = InMemoryHistory()
+from prompt_toolkit import prompt
+
+completer = CommandCompleter(commands_with_desc)
 init(autoreset=True)
 get_input()
 banner()
@@ -1346,13 +1520,14 @@ print(" ")
 global running_pid
 running_pid = None        
 while True:
-    help_input = input(prompt)
+    help_input = prompt(get_input(), completer=completer)
     hpparts = help_input.split() if help_input else []
     hpcommand = hpparts[0] if len(hpparts) > 0 else None
     hparguments = hpparts[1:] if len(hpparts) > 1 else None
     if help_input:
     	readline.add_history(help_input)
     	history_manager.log_command(help_input)
+    	completer.add_to_history(help_input)
     if help_input == "":
     	pass
     
