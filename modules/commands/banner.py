@@ -280,7 +280,7 @@ def banner():
 def menu_banner():
         print("" + Fore.RESET)
         print(f"""
-=[          {Fore.YELLOW}İNTPRO console v1.2.90-dev-bbf096e1f{Style.RESET_ALL}                 ]=
+=[          {Fore.YELLOW}İNTPRO console v1.3.01-dev-bbf096e1f{Style.RESET_ALL}                 ]=
 + --=[ 2456 exploits        - 1248 auxiliary    - 500 post       ]=
 + --=[ 1465 payloads        - 50 encoders       - 1 nops         ]=
 + --=[ 40 evasion           - 10 PRO MODULES                     ]=
