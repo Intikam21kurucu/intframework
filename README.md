@@ -31,7 +31,6 @@
 ✅ **OSINT-Specific Modules** – 50+ tools for open-source intelligence gathering  
 ✅ **Payload Generation** – 8+ payloads with encoding support (50 encoders)  
 ✅ **Multi-Platform Support** – Works on Termux, Kali Linux, and Debian-based systems
-
 ✅ **Interactive Shell** – Real-time command execution with a powerful shell  
 
 ---
