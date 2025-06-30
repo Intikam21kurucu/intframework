@@ -11,7 +11,7 @@ class AuxiliaryModule:
     """
 
     def __init__(self):
-        self.option_schema = {
+        option_schema = {
             "RHOSTS": {
                 "description": "Target host(s), comma separated or single domain/ip",
                 "required": True,
@@ -77,7 +77,7 @@ class AuxiliaryModule:
     # Helper methods for intSpLoiT framework compatibility
     def get_option(self, key):
         # Bu fonksiyon framework'den parametre değerini alır (yerine göre override edilir)
-        return self.option_schema[key]["default"]
+        return option_schema[key]["default"]
 
     def _parse_targets(self, target_str):
         if not target_str:
