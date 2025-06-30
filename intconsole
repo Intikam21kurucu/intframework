@@ -47,7 +47,7 @@ def update_framework(intframework_path, branch="intframeworkV4"):
         logging.error(f"Update failed: {e}")
         return False
 
-def get_commit_difference(repo_path, branch="main"):
+def get_commit_difference(repo_path, branch="intframeworkV4"):
     try:
         local = subprocess.check_output(["git", "rev-parse", branch], cwd=repo_path, text=True).strip()
         remote = subprocess.check_output(["git", "rev-parse", f"origin/{branch}"], cwd=repo_path, text=True).strip()
@@ -58,7 +58,7 @@ def get_commit_difference(repo_path, branch="main"):
         logging.error(f"Failed to get commit difference: {e}")
         return 0
 
-def conditional_update(intframework_path, threshold=5, branch="main"):
+def conditional_update(intframework_path, threshold=5, branch="intframeworkV4"):
     try:
         subprocess.run(["git", "fetch", "origin"], cwd=intframework_path, check=True,
                        stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
@@ -92,7 +92,7 @@ def main():
     intframework_path = get_intframework_path()
     os.chdir(intframework_path)
 
-    conditional_update(intframework_path, threshold=5, branch="main")
+    conditional_update(intframework_path, threshold=5, branch="intframeworkV4")
 
     url = "https://raw.githubusercontent.com/intSpLoiT/intframework/refs/heads/intframeworkV4/version.md"
     version_info = fetch_data_from_url(url)
