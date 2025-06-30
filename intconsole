@@ -31,7 +31,7 @@ def fetch_data_from_url(url):
         logging.error(f"Failed to fetch data: {e}")
         return None
 
-def update_framework(intframework_path, branch="main"):
+def update_framework(intframework_path, branch="intframeworkV4"):
     repo_path = Path(intframework_path)
     if not (repo_path / ".git").exists():
         logging.error("Update failed: Not a git repository.")
