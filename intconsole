@@ -94,7 +94,7 @@ def main():
 
     conditional_update(intframework_path, threshold=5, branch="main")
 
-    url = "https://raw.githubusercontent.com/intSpLoiT/intframework/refs/heads/%C4%B0ntframeworkV4/version.md"
+    url = "https://raw.githubusercontent.com/intSpLoiT/intframework/refs/heads/intframeworkV4/version.md"
     version_info = fetch_data_from_url(url)
 
     parser = argparse.ArgumentParser(description="Intframework Console Starter")
