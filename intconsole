@@ -1,84 +1,174 @@
 #!/usr/bin/env python3
 import os
 import argparse
-try:
-    import inttable
-except:
-    pass
-import requests
+import logging
 import subprocess
+from pathlib import Path
 
-# Get the INTFRAMEWORK_PATH environment variable
-intframework_path = os.getenv("INTFRAMEWORK_PATH")
-if not intframework_path:
-    print("Error: $INTFRAMEWORK_PATH environment variable is not set.")
-    exit(1)
+# --- LOGGING AYARI ---
+log_path = Path.home() / ".intconsole_log"
+logging.basicConfig(
+    level=logging.ERROR,
+    format='[%(asctime)s] [%(levelname)s] %(message)s',
+    handlers=[logging.FileHandler(log_path, encoding='utf-8')]
+)
 
-# Change the working directory to INTFRAMEWORK_PATH
-try:
-    os.chdir(intframework_path)
-except FileNotFoundError:
-    print(f"Error: The directory {intframework_path} was not found.")
-    exit(1)
+# --- TEMEL FONKSİYONLAR ---
+
+def get_intframework_path():
+    path = os.getenv("INTFRAMEWORK_PATH")
+    if not path or not Path(path).is_dir():
+        logging.error("$INTFRAMEWORK_PATH environment variable is not set or invalid.")
+        exit(1)
+    return path
 
 def fetch_data_from_url(url):
+    import requests
     try:
-        response = requests.get(url)
-        response.raise_for_status()  # Raises an exception for HTTP errors
-        return response.text  # Returns the page content
-    except requests.exceptions.RequestException as e:
-        print(f"Error: {e}")
+        response = requests.get(url, timeout=10)
+        response.raise_for_status()
+        return response.text
+    except requests.RequestException as e:
+        logging.error(f"Failed to fetch data: {e}")
         return None
 
-url = "https://raw.githubusercontent.com/intSpLoiT/intframework/refs/heads/%C4%B0ntframeworkV4/version.md"
-data = fetch_data_from_url(url)
-
-inttable.core.activate("root")
-
-# Execute commands from a file
-def ecff(file_path):
+def execute_command(command, intframework_path):
     try:
-        with open(file_path, 'r') as file:
-            commands = file.readlines()
-            for command in commands:
-                command = command.strip()
-                if command:
-                	os.system(f"python3 {intframework_path}/remote.py {command}")
-    except FileNotFoundError:
-        print("File not found.")
-    
+        subprocess.run(
+            ["python3", f"{intframework_path}/remote.py"] + command.split(),
+            check=True,
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL,
+            text=True
+        )
+    except subprocess.CalledProcessError as e:
+        logging.error(f"Command execution failed: {e}")
+
+def ecff(file_path, intframework_path):
+    if not Path(file_path).exists():
+        logging.error(f"File '{file_path}' not found.")
+        return
     if not file_path.endswith((".int4", ".int")):
-        print("Please use a .int4 or .int file.")
-
-# Move this file to the bin directory and set permissions
-s = __file__
-if "bin" not in s:
-    os.chmod(__file__, 0o755)  # Set file permissions
-    os.system(f"mv {__file__} $PREFIX/bin")
-
-# Process arguments
-parser = argparse.ArgumentParser(description="Console Starter")
-parser.add_argument("-x", help="Command to execute with intconsole")
-parser.add_argument("-i", "--int", help=".int file to read commands from")
-parser.add_argument("-q", help="Start intconsole in quiet mode")
-parser.add_argument("-v", "--version", help="Show version information")
-
-args = parser.parse_args()
-
-if args.x:
-    os.system(f"python3 {intframework_path}/remote.py {args.x}")
-
-if args.int:
-    ecff(args.int)
-
-if args.q:
-    os.system(f"python3 {intframework_path}/quited.py")
-
-if args.version and data:
-    print(data)  # Print the data
-
-if not any(vars(args).values()):
+        logging.warning("Please use a .int4 or .int file.")
     try:
-        os.system(f"python3 {intframework_path}/intconsoleV4.py")
-    except:
-        os.system("python3 intconsoleV4.py")
+        with open(file_path, "r") as file:
+            for line in file:
+                cmd = line.strip()
+                if cmd:
+                    execute_command(cmd, intframework_path)
+    except Exception as e:
+        logging.error(f"Error reading file: {e}")
+
+def update_framework(intframework_path, branch="main"):
+    repo_path = Path(intframework_path)
+    if not (repo_path / ".git").exists():
+        logging.error("Update failed: Not a git repository.")
+        return False
+    try:
+        subprocess.run(
+            ["git", "fetch", "--all"],
+            cwd=intframework_path,
+            check=True,
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL
+        )
+        subprocess.run(
+            ["git", "reset", "--hard", f"origin/{branch}"],
+            cwd=intframework_path,
+            check=True,
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL
+        )
+        logging.info("Framework successfully updated.")
+        return True
+    except subprocess.CalledProcessError as e:
+        logging.error(f"Update failed: {e}")
+        return False
+
+def get_commit_difference(repo_path, branch="main"):
+    try:
+        local = subprocess.check_output(
+            ["git", "rev-parse", branch],
+            cwd=repo_path, text=True
+        ).strip()
+        remote = subprocess.check_output(
+            ["git", "rev-parse", f"origin/{branch}"],
+            cwd=repo_path, text=True
+        ).strip()
+        count = subprocess.check_output(
+            ["git", "rev-list", "--count", f"{local}..{remote}"],
+            cwd=repo_path, text=True
+        ).strip()
+        return int(count)
+    except Exception as e:
+        logging.error(f"Failed to get commit difference: {e}")
+        return 0
+
+def conditional_update(intframework_path, threshold=5, branch="main"):
+    try:
+        subprocess.run(["git", "fetch", "origin"],
+                       cwd=intframework_path,
+                       check=True,
+                       stdout=subprocess.DEVNULL,
+                       stderr=subprocess.DEVNULL)
+    except subprocess.CalledProcessError as e:
+        logging.error(f"Git fetch failed: {e}")
+        return False
+
+    diff_count = get_commit_difference(intframework_path, branch)
+
+    if diff_count >= threshold:
+        return update_framework(intframework_path, branch)
+    return False
+
+# --- ANA FONKSİYON ---
+
+def main():
+    intframework_path = get_intframework_path()
+    os.chdir(intframework_path)
+
+    # Otomatik sessiz güncelleme kontrolü (5 commit farkı eşik)
+    conditional_update(intframework_path, threshold=5, branch="main")
+
+    url = "https://raw.githubusercontent.com/intSpLoiT/intframework/refs/heads/%C4%B0ntframeworkV4/version.md"
+    version_info = fetch_data_from_url(url)
+
+    parser = argparse.ArgumentParser(description="Intframework Console Starter")
+    parser.add_argument("-x", help="Execute command with intconsole")
+    parser.add_argument("-i", "--int", help=".int file to read commands from")
+    parser.add_argument("-q", action='store_true', help="Start intconsole in quiet mode")
+    parser.add_argument("-v", "--version", action='store_true', help="Show version information")
+    parser.add_argument("--update", action='store_true', help="Manually trigger update")
+
+    args = parser.parse_args()
+
+    if args.update:
+        updated = update_framework(intframework_path)
+        if not updated:
+            logging.error("Manual update failed.")
+        return
+
+    if args.x:
+        execute_command(args.x, intframework_path)
+    elif args.int:
+        ecff(args.int, intframework_path)
+    elif args.q:
+        quiet_script = Path(intframework_path) / "quited.py"
+        if quiet_script.exists():
+            subprocess.run(["python3", str(quiet_script)])
+        else:
+            logging.error("quited.py script not found.")
+    elif args.version:
+        if version_info:
+            print(version_info)
+        else:
+            logging.info("Version info not available.")
+    else:
+        intconsole_script = Path(intframework_path) / "intconsoleV4.py"
+        if intconsole_script.exists():
+            subprocess.run(["python3", str(intconsole_script)])
+        else:
+            logging.error("intconsoleV4.py script not found.")
+
+if __name__ == "__main__":
+    main()
