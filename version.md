@@ -1,1 +1,1 @@
-=[ {Fore.YELLOW} intSpLoiT-Framework console v4.2.09-dev-bbf096e{Style.RESET_ALL} ]
+=[          {Fore.YELLOW}İNTPRO console v1.3.01-dev-bbf096e1f{Style.RESET_ALL}                 ]=
