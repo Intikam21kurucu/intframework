@@ -1147,7 +1147,7 @@ def run_module(skar3792=None, payload=None, lhost=None, lport=None):
                             if callable(func):
                                 print(f"{Fore.YELLOW}[*] Running module function: {func_name}(){Style.RESET_ALL}")
                                 try:
-                                    func(module_context if use_context else args)
+                                    func(module_context)
                                 except Exception as ferror:
                                     print(f"{Fore.RED}[!] Error inside function: {ferror}{Style.RESET_ALL}")
                                     if dispatcher:
