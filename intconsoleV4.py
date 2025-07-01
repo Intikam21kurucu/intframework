@@ -3,6 +3,7 @@
 global phisherserror
 global clouderror
 import os
+os.system("export INTFRAMEWORK_PATH='/storage/emulated/0/inttest/intframework--ntframeworkV4 (1)/intframework--ntframeworkV4'")
 try:
 	os.system("$INTFRAMEWORK_PATH") or os.system("echo $INTFRAMEWORK_PATH")
 except:
@@ -63,6 +64,20 @@ dispatcher = EventDispatcher()
 import subprocess, shlex, os
 from prompt_toolkit.completion import WordCompleter
 from prompt_toolkit.history import InMemoryHistory
+from prompt_toolkit.history import FileHistory
+from prompt_toolkit.formatted_text import StyleAndTextTuples
+from prompt_toolkit import PromptSession
+from prompt_toolkit.history import InMemoryHistory  # veya FileHistory
+from prompt_toolkit.completion import Completer, Completion
+from prompt_toolkit.formatted_text import ANSI
+from prompt_toolkit import PromptSession
+from prompt_toolkit.history import FileHistory
+from prompt_toolkit.completion import FuzzyCompleter, Completer, Completion
+from prompt_toolkit.lexers import PygmentsLexer
+from prompt_toolkit.styles import Style as PTStyle
+from prompt_toolkit.validation import Validator, ValidationError
+from prompt_toolkit.formatted_text import ANSI
+from pygments.lexers.python import PythonLexer
 from colorama import Fore, Style
 from modules.commands.banner import *
 from modules.commands.dns_lookup import *
@@ -90,12 +105,6 @@ except:
 try:
 	from modules import expdatabase
 except:
-	pass
-try:
-	from modules.expdatabase import create_option, create_exploit, show_options, set_option, run_exploit, use_framework, import_framework, initialize_framework
-	from modules.expdatabase import import_framework, show_options, set_option, run_exploit, use_framework, create_exploit
-except:
-	print("exploit database not found please reinstall framework")
 	pass
 try:
 	from modules import intmodules
@@ -389,7 +398,18 @@ ascii_sanat = """⢀⣠⣤⠶⠶⠶⠶⢦⣄⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
     # 5 saniye boyunca animasyonu çalıştır
 os.system("python3 startoolkit.py")
 time.sleep(4)   
+# Başlangıç işlemleri
+import os
 
+def framework_setup():
+    hist_file = os.path.expanduser("~/.intframework_history.txt")
+    if not os.path.exists(hist_file):
+        os.makedirs(os.path.dirname(hist_file), exist_ok=True)
+        with open(hist_file, "w"): pass
+    if not os.getenv("INTFRAMEWORK_PATH"):
+        os.environ["INTFRAMEWORK_PATH"] = os.getcwd()
+
+framework_setup()
 init()      
 global jobs
 # Initialize jobs dictionary
@@ -805,6 +825,83 @@ def scan_wifispy():
 		print("wifi not found")
 		pass
 
+
+import os
+import time
+import shutil
+import sys
+
+def clear_screen():
+    """
+    Clears the terminal screen. Compatible with Windows and Unix-based systems.
+    """
+    os.system('cls' if os.name == 'nt' else 'clear')
+
+def center_text(text, width):
+    """
+    Centers the given text within the specified width.
+    """
+    if len(text) >= width:
+        return text
+    padding = (width - len(text)) // 2
+    return " " * padding + text
+
+def credits_scroll(file_path="credits.txt", delay=0.3, color_code="\033[2;32m"):
+    """
+    Displays the contents of a credits file as a movie-style scrolling credits animation in the terminal.
+
+    Parameters:
+    - file_path: Path to the credits file (default: "credits.txt")
+    - delay: Delay in seconds between each scroll step
+    - color_code: ANSI color code for the text (default: dim green)
+
+    The function adapts to the terminal size automatically.
+    """
+
+    try:
+        with open(file_path, "r", encoding="utf-8") as file:
+            lines = [line.strip() for line in file.readlines() if line.strip()]
+    except FileNotFoundError:
+        print(f"\033[1;31mError: The file '{file_path}' was not found.\033[0m")
+        return
+    except Exception as e:
+        print(f"\033[1;31mFile read error: {e}\033[0m")
+        return
+
+    if not lines:
+        print(f"\033[1;33mWarning: The file '{file_path}' is empty or contains no content.\033[0m")
+        return
+
+    terminal_size = shutil.get_terminal_size((80, 20))
+    terminal_height, terminal_width = terminal_size.lines, terminal_size.columns
+
+    padding_lines = terminal_height
+    scroll_lines = [""] * padding_lines + lines + [""] * padding_lines
+
+    try:
+        for i in range(len(scroll_lines) - terminal_height + 1):
+            clear_screen()
+            window = scroll_lines[i:i + terminal_height]
+
+            for line in window:
+                print(f"{color_code}{center_text(line, terminal_width)}\033[0m")
+
+            time.sleep(delay)
+
+        clear_screen()
+        thank_you_msg = "Thank you!"
+        print(f"\033[1;36m{center_text(thank_you_msg, terminal_width)}\033[0m")
+        time.sleep(2)
+        clear_screen()
+
+    except KeyboardInterrupt:
+        clear_screen()
+        print(f"\n\033[1;33mAnimation interrupted by user.\033[0m")
+        sys.exit()
+
+
+
+
 from colorama import Fore, Style, init			
 init()
 def scan5115(interface):
@@ -1147,8 +1244,11 @@ def run_module(skar3792=None, payload=None, lhost=None, lport=None):
                             if callable(func):
                                 print(f"{Fore.YELLOW}[*] Running module function: {func_name}(){Style.RESET_ALL}")
                                 try:
-                                    func(module_context)
-                                except Exception as ferror:
+                                    try:
+                                    	func(module_context)
+                                    except:
+                                    	func()
+                                except Exception as error:
                                     print(f"{Fore.RED}[!] Error inside function: {ferror}{Style.RESET_ALL}")
                                     if dispatcher:
                                         dispatcher.dispatch("error_occurred", {
@@ -1380,7 +1480,7 @@ def monitor_process(proc):
             print(f"Module {modules} has stopped.")
             return
         time.sleep(1)  # Her saniye kontrol et
-
+from prompt_toolkit.lexers import Lexer
 commands_with_desc = {
     "neofetch": ("Show system info", "\x1b[32m"),
     "com-help": ("Show command help", "\x1b[34m"),
@@ -1461,6 +1561,7 @@ def get_input(modules=None, modulename=None, cdn=None, payloads=None):
         return ANSI(f"\x1b[34mint4-pro\x1b[0m (\x1b[31m{cdn}\x1b[0m)> ")
     promptin = f"{Fore.BLUE}{Style.BRIGHT}int4-pro{Style.RESET_ALL} >"
     return ANSI(f"\x1b[1;34mint4-pro\x1b[0m > ")
+from prompt_toolkit.completion import FuzzyCompleter, Completer, Completion
 
 class CommandCompleter(Completer):
     def __init__(self, command_dict, history_limit=100):
@@ -1490,12 +1591,43 @@ class CommandCompleter(Completer):
                 yield Completion(cmd, start_position=-len(text), display=ANSI(f"{color}{cmd}\x1b[0m"), display_meta=desc)
 
 
+class CommandColorLexer(Lexer):
+    def lex_document(self, document):
+        def get_line(lineno: int) -> StyleAndTextTuples:
+            line = document.lines[lineno]
+            words = line.strip().split()
+            tokens = []
+
+            for word in words:
+                lower = word.lower()
+
+                if lower in ["exploit", "run", "scan", "payload"]:
+                    tokens.append(("class:red", word + ' '))
+                elif lower in ["use", "set", "show", "options", "back", "info"]:
+                    tokens.append(("class:blue", word + ' '))
+                elif lower in ["check", "connect", "list"]:
+                    tokens.append(("class:green", word + ' '))
+                elif lower in ["clear", "exit", "help"]:
+                    tokens.append(("class:yellow", word + ' '))
+                else:
+                    tokens.append(("", word + ' '))
+
+            return tokens
+
+        return get_line
+
+style = PTStyle.from_dict({
+    'red': 'bold ansired',
+    'blue': 'bold ansiblue',
+    'green': 'bold ansigreen',
+    'yellow': 'bold ansiyellow',
+})
 
 # History objesi prompt_toolkit ile uyumlu şekilde
 history = InMemoryHistory()
 from prompt_toolkit import prompt
-
 completer = CommandCompleter(commands_with_desc)
+fuzzy_completer=FuzzyCompleter(completer)
 init(autoreset=True)
 get_input()
 banner()
@@ -1518,8 +1650,14 @@ print("This is your inactive session. The active session is 0.")
 print(" ")
 global running_pid
 running_pid = None        
+from prompt_toolkit import PromptSession
+session = PromptSession(
+    history=FileHistory("~/.intframework_history.txt"),
+    lexer=CommandColorLexer(),
+    style=style
+)
 while True:
-    help_input = prompt(get_input(), completer=completer)
+    help_input = session.prompt(get_input(), completer= completer)
     hpparts = help_input.split() if help_input else []
     hpcommand = hpparts[0] if len(hpparts) > 0 else None
     hparguments = hpparts[1:] if len(hpparts) > 1 else None
@@ -1542,6 +1680,7 @@ Command            - Function
 help               - Show help for commands  
 exit               - Exit the console  
 banner             - Display or customize the banner tutorial  
+credits            - Display credits
 clear              - Clear the console screen  
 use                - Select a module to use  
 show               - Display available commands, tools, or exploits  
@@ -1575,6 +1714,7 @@ intweb             - Perform web application scanning and analysis
 intninja           - Access Ninja tools for stealth operations  
 intmail            - Search for email-related vulnerabilities  
 intcam             - A camera hacking tool for intSpLoiT users  
+
 
 Module Commands  
 ----------------  
