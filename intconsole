@@ -1,138 +1,232 @@
 #!/usr/bin/env python3
 import os
+import sys
 import argparse
 import logging
 import subprocess
+import shutil
 from pathlib import Path
+
+# --- GLOBAL VERBOSE DEĞİŞKENİ ---
+VERBOSE = False
 
 # --- LOGGING AYARI ---
 log_path = Path.home() / ".intconsole_log"
+log_file = logging.FileHandler(log_path, encoding='utf-8')
+null_out = open(os.devnull, 'w')
 logging.basicConfig(
-    level=logging.ERROR,
+    level=logging.DEBUG,
     format='[%(asctime)s] [%(levelname)s] %(message)s',
-    handlers=[logging.FileHandler(log_path, encoding='utf-8')]
+    handlers=[
+        log_file,
+        logging.StreamHandler(sys.stderr if '--verbose' in sys.argv else null_out)
+    ]
 )
 
-# --- TEMEL FONKSİYONLAR ---
-def get_intframework_path():
-    path = os.getenv("INTFRAMEWORK_PATH")
-    if not path or not Path(path).is_dir():
-        logging.error("$INTFRAMEWORK_PATH environment variable is not set or invalid.")
-        exit(1)
-    return path
+def log(msg):
+    if VERBOSE:
+        print(msg)
 
-def fetch_data_from_url(url):
+# --- OTOMATİK KURULUM ---
+def auto_install_self():
+    try:
+        script_path = Path(__file__).resolve()
+        prefix = os.getenv("PREFIX")
+        if not prefix:
+            return
+        bin_dir = Path(prefix) / "bin"
+        target_path = bin_dir / "intconsole"
+        if target_path.exists():
+            return
+        bin_dir.mkdir(parents=True, exist_ok=True)
+        shutil.copy(script_path, target_path)
+        target_path.chmod(0o755)
+        log(f"[✓] Auto-installed to: {target_path}")
+    except Exception as e:
+        logging.error(f"Auto-install failed: {e}")
+        if VERBOSE:
+            print(f"[!] Auto-install error: {e}")
+
+# --- KENDİNİ SİL ---
+def uninstall_self():
+    try:
+        prefix = os.getenv("PREFIX")
+        if not prefix:
+            return
+        path = Path(prefix) / "bin" / "intconsole"
+        if path.exists():
+            path.unlink()
+            log(f"[✓] Uninstalled: {path}")
+        else:
+            log("Already uninstalled.")
+    except Exception as e:
+        logging.error(f"Uninstall failed: {e}")
+        if VERBOSE:
+            print(f"[!] Uninstall error: {e}")
+
+# --- ONARIM ---
+def repair_install():
+    uninstall_self()
+    auto_install_self()
+    log("[✓] Repair complete.")
+
+# --- INTFRAMEWORK_PATH KONTROLÜ ---
+def get_intframework_path() -> Path:
+    path = os.getenv("INTFRAMEWORK_PATH")
+    if not path:
+        sys.exit("ERROR: $INTFRAMEWORK_PATH not set.")
+    p = Path(path)
+    if not p.is_dir():
+        sys.exit(f"ERROR: Invalid path: {p}")
+    return p
+
+# --- URL'DEN VERİ ÇEK ---
+def fetch_data_from_url(url: str) -> str | None:
     import requests
     try:
-        response = requests.get(url, timeout=10)
-        response.raise_for_status()
-        return response.text
-    except requests.RequestException as e:
-        logging.error(f"Failed to fetch data: {e}")
+        r = requests.get(url, timeout=10)
+        r.raise_for_status()
+        return r.text
+    except Exception as e:
+        logging.error(f"Fetch error: {e}")
         return None
 
-def update_framework(intframework_path, branch="intframeworkV4"):
-    repo_path = Path(intframework_path)
-    if not (repo_path / ".git").exists():
-        logging.error("Update failed: Not a git repository.")
-        return False
+# --- GIT KOMUTU ---
+def run_git_command(args: list[str], cwd: Path) -> bool:
     try:
-        subprocess.run(["git", "fetch", "--all"], cwd=intframework_path, check=True,
-                       stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-        subprocess.run(["git", "reset", "--hard", f"origin/{branch}"], cwd=intframework_path, check=True,
-                       stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-        logging.info("Framework successfully updated.")
+        subprocess.run(args, cwd=cwd, check=True,
+                       stdout=None if VERBOSE else subprocess.DEVNULL,
+                       stderr=None if VERBOSE else subprocess.DEVNULL)
         return True
     except subprocess.CalledProcessError as e:
-        logging.error(f"Update failed: {e}")
+        logging.error(f"Git error: {args} | {e}")
         return False
 
-def get_commit_difference(repo_path, branch="intframeworkV4"):
+# --- GÜNCELLEME FONKSİYONU ---
+def update_framework(path: Path, branch="intframeworkV4") -> bool:
+    if not (path / ".git").exists():
+        logging.error("Not a git repo.")
+        return False
+    return run_git_command(["git", "fetch", "--all"], path) and \
+           run_git_command(["git", "reset", "--hard", f"origin/{branch}"], path)
+
+# --- COMMIT FARKI AL ---
+def get_commit_difference(path: Path, branch="intframeworkV4") -> int:
     try:
-        local = subprocess.check_output(["git", "rev-parse", branch], cwd=repo_path, text=True).strip()
-        remote = subprocess.check_output(["git", "rev-parse", f"origin/{branch}"], cwd=repo_path, text=True).strip()
-        count = subprocess.check_output(["git", "rev-list", "--count", f"{local}..{remote}"],
-                                        cwd=repo_path, text=True).strip()
+        local = subprocess.check_output(["git", "rev-parse", branch], cwd=path, text=True).strip()
+        remote = subprocess.check_output(["git", "rev-parse", f"origin/{branch}"], cwd=path, text=True).strip()
+        count = subprocess.check_output(["git", "rev-list", "--count", f"{local}..{remote}"], cwd=path, text=True).strip()
         return int(count)
     except Exception as e:
-        logging.error(f"Failed to get commit difference: {e}")
+        logging.error(f"Commit diff error: {e}")
         return 0
 
-def conditional_update(intframework_path, threshold=5, branch="intframeworkV4"):
-    try:
-        subprocess.run(["git", "fetch", "origin"], cwd=intframework_path, check=True,
-                       stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-    except subprocess.CalledProcessError as e:
-        logging.error(f"Git fetch failed: {e}")
-        return False
+# --- EŞİKLE OTOMATİK UPDATE ---
+def conditional_update(path: Path, threshold=5, branch="intframeworkV4"):
+    if run_git_command(["git", "fetch", "origin"], path):
+        if get_commit_difference(path, branch) >= threshold:
+            update_framework(path, branch)
 
-    diff_count = get_commit_difference(intframework_path, branch)
-    if diff_count >= threshold:
-        return update_framework(intframework_path, branch)
-    return False
-
-def ecff(file_path, intframework_path):
+# --- KOMUT DOSYASI OKUMA ---
+def ecff(file: str, path: Path):
     from scripts.handle_console import parse_and_run_commands
-    if not Path(file_path).exists():
-        logging.error(f"File '{file_path}' not found.")
+    p = Path(file)
+    if not p.exists():
+        logging.error("File not found.")
         return
-    if not file_path.endswith((".int4", ".int")):
-        logging.warning("Please use a .int4 or .int file.")
-    try:
-        with open(file_path, "r") as file:
-            for line in file:
-                cmd = line.strip()
-                if cmd:
-                    parse_and_run_commands(cmd)
-    except Exception as e:
-        logging.error(f"Error reading file: {e}")
+    with p.open(encoding="utf-8") as f:
+        for line in f:
+            cmd = line.strip()
+            if cmd:
+                parse_and_run_commands(cmd)
 
 # --- ANA FONKSİYON ---
 def main():
-    intframework_path = get_intframework_path()
-    os.chdir(intframework_path)
+    global VERBOSE
 
-    conditional_update(intframework_path, threshold=5, branch="intframeworkV4")
+    # Ön-parselle sadece --verbose kontrolü
+    pre_parser = argparse.ArgumentParser(add_help=False)
+    pre_parser.add_argument("--verbose", action="store_true")
+    pre_args, _ = pre_parser.parse_known_args()
+    VERBOSE = pre_args.verbose
 
-    url = "https://raw.githubusercontent.com/intSpLoiT/intframework/refs/heads/intframeworkV4/version.md"
-    version_info = fetch_data_from_url(url)
+    # Logging seviyesi güncelle
+    logging.getLogger().setLevel(logging.DEBUG if VERBOSE else logging.ERROR)
 
-    parser = argparse.ArgumentParser(description="Intframework Console Starter")
-    parser.add_argument("-x", help="Execute command with intconsole")
-    parser.add_argument("-i", "--int", help=".int file to read commands from")
-    parser.add_argument("-q", action='store_true', help="Start intconsole in quiet mode")
-    parser.add_argument("-v", "--version", action='store_true', help="Show version information")
-    parser.add_argument("--update", action='store_true', help="Manually trigger update")
+    # Otomatik kurulum
+    auto_install_self()
+
+    # Ortam kontrolü
+    path = get_intframework_path()
+
+    # Ana argümanlar
+    parser = argparse.ArgumentParser(description="Intframework Console")
+    parser.add_argument("-x", help="Tek komut çalıştır")
+    parser.add_argument("-i", "--int", help=".int/.int4 dosyası çalıştır")
+    parser.add_argument("-q", action='store_true', help="Sessiz mod")
+    parser.add_argument("-v", "--version", action='store_true', help="Versiyon bilgisi")
+    parser.add_argument("--update", action='store_true', help="Güncelleme yap")
+    parser.add_argument("--check-updates-only", action='store_true', help="Sadece commit farkını göster")
+    parser.add_argument("--repair", action='store_true', help="Onar ve yeniden kur")
+    parser.add_argument("--uninstall", action='store_true', help="intconsole'u sil")
+    parser.add_argument("--verbose", action='store_true', help="Detaylı çıktı")
     args = parser.parse_args()
 
-    if args.update:
-        updated = update_framework(intframework_path)
-        if not updated:
-            logging.error("Manual update failed.")
+    if args.uninstall:
+        uninstall_self()
         return
+
+    if args.repair:
+        repair_install()
+        return
+
+    if args.check_updates_only:
+        diff = get_commit_difference(path, "intframeworkV4")
+        log(f"Yeni commit sayısı: {diff}")
+        return
+
+    if args.update:
+        if update_framework(path, "intframeworkV4"):
+            log("[✓] Güncelleme başarılı.")
+        else:
+            log("[!] Güncelleme başarısız.")
+        return
+
+    try:
+        conditional_update(path)
+    except Exception as e:
+        logging.error(f"Otomatik güncelleme hatası: {e}")
 
     if args.x:
         from scripts.handle_console import parse_and_run_commands
         parse_and_run_commands(args.x)
-    elif args.int:
-        ecff(args.int, intframework_path)
-    elif args.q:
-        quiet_script = Path(intframework_path) / "quited.py"
-        if quiet_script.exists():
-            subprocess.run(["python3", str(quiet_script)])
-        else:
-            logging.error("quited.py script not found.")
-    elif args.version:
-        if version_info:
-            print(version_info)
-        else:
-            logging.info("Version info not available.")
-    else:
-        intconsole_script = Path(intframework_path) / "intconsoleV4.py"
-        if intconsole_script.exists():
-            subprocess.run(["python3", str(intconsole_script)])
-        else:
-            logging.error("intconsoleV4.py script not found.")
+        return
 
+    if args.int:
+        ecff(args.int, path)
+        return
+
+    if args.q:
+        q = path / "quited.py"
+        if q.exists():
+            subprocess.run(["python3", str(q)])
+        else:
+            logging.error("quited.py bulunamadı.")
+        return
+
+    if args.version:
+        url = "https://raw.githubusercontent.com/intSpLoiT/intframework/refs/heads/intframeworkV4/version.md"
+        info = fetch_data_from_url(url)
+        print(info if info else "Versiyon bilgisi alınamadı.")
+        return
+
+    # Ana intconsoleV4 başlat
+    main_console = path / "intconsoleV4.py"
+    if main_console.exists():
+        subprocess.run(["python3", str(main_console)])
+    else:
+        logging.error("intconsoleV4.py bulunamadı.")
+
+# --- BAŞLATICI ---
 if __name__ == "__main__":
     main()
