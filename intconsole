@@ -28,29 +28,27 @@ def log(msg):
         print(msg)
 
 # --- MOVE SELF TO $PREFIX/bin ---
-def move_self_to_bin():
+
+def move_self_to_bin(force_move=True):
     try:
         script_path = Path(__file__).resolve()
-        prefix = os.getenv("PREFIX")
-        if not prefix:
-            return
-        bin_dir = Path(prefix) / "bin"
-        target_path = bin_dir / "intconsole"
-        if script_path == target_path:
+        prefix = os.environ.get("PREFIX", "/data/data/com.termux/files/usr")
+        bin_path = Path(prefix) / "bin" / "intconsole"
+
+        if script_path == bin_path:
             return  # Already in correct location
-        if not bin_dir.exists():
-            bin_dir.mkdir(parents=True)
-        subprocess.run(["mv", str(script_path), str(target_path)],
-                       stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-        target_path.chmod(0o755)
-        log(f"[✓] Moved to: {target_path}")
-        print(f"[!] Script moved. Now run:\n\n    intconsole {' '.join(sys.argv[1:])}\n")
+
+        # Copy then remove original to simulate mv (if mv fails)
+        subprocess.run(["mv", str(script_path), str(bin_path)], check=True)
+        bin_path.chmod(0o755)
+
+        print(f"\n[✓] intconsole has been moved to {bin_path}")
+        print(f"[!] Now run it with:\n\n    intconsole {' '.join(sys.argv[1:])}\n")
         sys.exit(0)
     except Exception as e:
-        logging.error(f"Move failed: {e}")
-        if VERBOSE:
-            print(f"[!] mv error: {e}")
+        print(f"[!] Failed to move intconsole: {e}")
         sys.exit(1)
+
 
 # --- REMOVE SELF ---
 def uninstall_self():
