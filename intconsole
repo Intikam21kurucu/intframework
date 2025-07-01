@@ -29,25 +29,57 @@ def log(msg):
 
 # --- MOVE SELF TO $PREFIX/bin ---
 
-def move_self_to_bin(force_move=True):
+def detect_bin_path() -> Path:
+    """En uygun bin dizinini döndürür."""
+    candidates = []
+
+    # TERMUX özel yol
+    if "com.termux" in sys.executable or "termux" in os.environ.get("PREFIX", "").lower():
+        candidates.append(Path(os.environ.get("PREFIX", "/data/data/com.termux/files/usr")) / "bin")
+
+    # Standart Linux dizinleri
+    candidates += [Path("/usr/local/bin"), Path("/usr/bin"), Path("/bin")]
+
+    for path in candidates:
+        try:
+            path.mkdir(parents=True, exist_ok=True)
+            if os.access(path, os.W_OK):
+                return path
+        except:
+            continue
+
+    # Yazılabilir olmayan hiçbir yol yoksa kullanıcıyı uyar
+    print("[!] No writable bin directory found. Run manually with sudo or move manually.")
+    sys.exit(1)
+
+def move_self_to_bin():
     try:
         script_path = Path(__file__).resolve()
-        prefix = os.environ.get("PREFIX", "/data/data/com.termux/files/usr")
-        bin_path = Path(prefix) / "bin" / "intconsole"
+        target_dir = detect_bin_path()
+        target_path = target_dir / "intconsole"
 
-        if script_path == bin_path:
-            return  # Already in correct location
+        if script_path == target_path:
+            return  # Zaten taşınmış
 
-        # Copy then remove original to simulate mv (if mv fails)
-        subprocess.run(["mv", str(script_path), str(bin_path)], check=True)
-        bin_path.chmod(0o755)
+        # Kopyala ve chmod +x ver
+        shutil.copy(script_path, target_path)
+        target_path.chmod(0o755)
 
-        print(f"\n[✓] intconsole has been moved to {bin_path}")
-        print(f"[!] Now run it with:\n\n    intconsole {' '.join(sys.argv[1:])}\n")
+        # Orijinali sil
+        script_path.unlink(missing_ok=True)
+
+        print(f"\n[✓] intconsole successfully moved to: {target_path}")
+        print(f"[!] You can now run it directly with:\n\n    intconsole {' '.join(sys.argv[1:])}\n")
         sys.exit(0)
-    except Exception as e:
-        print(f"[!] Failed to move intconsole: {e}")
+
+    except PermissionError:
+        print(f"[!] Permission denied while moving to system bin directory.\n    Try: sudo mv {__file__} /usr/local/bin/intconsole")
         sys.exit(1)
+
+    except Exception as e:
+        print(f"[!] Move failed: {e}")
+        sys.exit(1)
+
 
 
 # --- REMOVE SELF ---
@@ -157,14 +189,14 @@ def ecff(file: str, path: Path):
 # --- MAIN ---
 def main():
     global VERBOSE
-
+    move_self_to_bin()
     pre_parser = argparse.ArgumentParser(add_help=False)
     pre_parser.add_argument("--verbose", action="store_true")
     pre_args, _ = pre_parser.parse_known_args()
     VERBOSE = pre_args.verbose
     logging.getLogger().setLevel(logging.DEBUG if VERBOSE else logging.ERROR)
 
-    move_self_to_bin()  # Auto move to /bin
+     # Auto move to /bin
 
     path = get_intframework_path()
 
