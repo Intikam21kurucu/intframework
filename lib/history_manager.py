@@ -7,7 +7,7 @@ init(autoreset=True)
 
 class HistoryManager:
     def __init__(self, history_file=None, json_log_file=None, history_limit=1000):
-        self.history_file = history_file or os.path.expanduser("~/.intframework_history")
+        self.history_file = history_file or os.path.expanduser("~/.intframework_history.txt")
         self.json_log_file = json_log_file or os.path.expanduser("~/.inthistory.json")
         self.history_limit = history_limit
         self.load_history()
