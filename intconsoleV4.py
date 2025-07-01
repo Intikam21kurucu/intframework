@@ -3,7 +3,6 @@
 global phisherserror
 global clouderror
 import os
-os.system("export INTFRAMEWORK_PATH='/storage/emulated/0/inttest/intframework--ntframeworkV4 (1)/intframework--ntframeworkV4'")
 try:
 	os.system("$INTFRAMEWORK_PATH") or os.system("echo $INTFRAMEWORK_PATH")
 except:
