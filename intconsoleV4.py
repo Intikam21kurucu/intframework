@@ -1651,8 +1651,9 @@ print(" ")
 global running_pid
 running_pid = None        
 from prompt_toolkit import PromptSession
+history_path = os.path.expanduser("~/.intframework_history.txt")
 session = PromptSession(
-    history=FileHistory("~/.intframework_history.txt"),
+    history=FileHistory(history_path),
     lexer=CommandColorLexer(),
     style=style
 )
