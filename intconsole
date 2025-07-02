@@ -262,6 +262,7 @@ def main():
 
     main_console = path / "intconsoleV4.py"
     if main_console.exists():
+        os.system(f"cd {path}")
         subprocess.run(["python3", str(main_console)])
     else:
         logging.error("intconsoleV4.py not found.")
