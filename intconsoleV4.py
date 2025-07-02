@@ -919,6 +919,9 @@ def scan5115(interface):
         print(f"BSSID (MAC): {network.address}")
         print(f"Sinyal Gücü: {network.signal} dBm")
         print(f"Şifreleme: {network.encryption_type}\n")
+
+global prompt_str
+
 def use_module(command):
     global modules, modulename
     try:
@@ -930,7 +933,7 @@ def use_module(command):
             modules = module_path  # Global değişken olarak belirle
 
             # Modül bilgilerini kullanıcıya göster
-            get_input(modules=module_path, modulename=modulename)
+            prompt_str=get_input(modules=module_path, modulename=modulename)
             load_schema_from_module(modules)
             print(f"\n{Fore.YELLOW}[*] Loading module: {Fore.CYAN}{module_path}{Style.RESET_ALL}")
             print(f"{Fore.YELLOW}[*] Module: {Fore.GREEN}{modulename}{Style.RESET_ALL}")
@@ -1561,6 +1564,9 @@ def get_input(modules=None, modulename=None, cdn=None, payloads=None):
         return ANSI(f"\x1b[34mint4-pro\x1b[0m (\x1b[31m{cdn}\x1b[0m)> ")
     promptin = f"{Fore.BLUE}{Style.BRIGHT}int4-pro{Style.RESET_ALL} >"
     return ANSI(f"\x1b[1;34mint4-pro\x1b[0m > ")
+    
+    
+    
 from prompt_toolkit.completion import FuzzyCompleter, Completer, Completion
 
 class CommandCompleter(Completer):
@@ -1651,14 +1657,14 @@ print(" ")
 global running_pid
 running_pid = None        
 from prompt_toolkit import PromptSession
-history_path = os.path.expanduser("~/.intframework_history.txt")
 session = PromptSession(
-    history=FileHistory(history_path),
+    history=FileHistory("~/.intframework_history.txt"),
     lexer=CommandColorLexer(),
     style=style
 )
+prompt_str = get_input()
 while True:
-    help_input = session.prompt(get_input(), completer= completer)
+    help_input = session.prompt(prompt_str, completer= completer)
     hpparts = help_input.split() if help_input else []
     hpcommand = hpparts[0] if len(hpparts) > 0 else None
     hparguments = hpparts[1:] if len(hpparts) > 1 else None
