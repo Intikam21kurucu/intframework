@@ -1655,21 +1655,38 @@ create_session("intrpc", "root@int")
 print("This is your inactive session. The active session is 0.")
 print(" ")
 global running_pid
+def get_prompt():
+    # güvenli şekilde global değişkenlere erişim
+    try:
+        if 'modules' in globals() and 'modulename' in globals():
+            if modules and modulename:
+                return get_input(modules=modules, modulename=modulename)
+        if 'cdn' in globals() and cdn:
+            return get_input(cdn=cdn)
+        if 'payloads' in globals() and payloads:
+            return get_input(payloads=payloads)
+    except Exception:
+        pass
+    return get_input()
 running_pid = None        
 from prompt_toolkit import PromptSession
+from prompt_toolkit.enums import EditingMode
 history_path = os.path.expanduser("~/.intframework_history.txt")
+history_fl = FileHistory(history_path)
 session = PromptSession(
-    history=FileHistory(history_path),
+    history=history_fl,
     lexer=CommandColorLexer(),
-    style=style
+    style=style,
+    editing_mode=EditingMode.EMACS
 )
 prompt_str = get_input()
 while True:
-    help_input = session.prompt(prompt_str, completer= completer)
+    help_input = session.prompt(get_prompt(), completer= completer)
     hpparts = help_input.split() if help_input else []
     hpcommand = hpparts[0] if len(hpparts) > 0 else None
     hparguments = hpparts[1:] if len(hpparts) > 1 else None
     if help_input:
+    	history.append_string(help_input)
     	readline.add_history(help_input)
     	history_manager.log_command(help_input)
     	completer.add_to_history(help_input)
