@@ -1483,6 +1483,17 @@ def monitor_process(proc):
             print(f"Module {modules} has stopped.")
             return
         time.sleep(1)  # Her saniye kontrol et
+
+
+import os, sys
+
+path = os.getenv("INTFRAMEWORK_PATH")
+if not path or not os.path.isdir(path):
+    sys.exit("[!] INTFRAMEWORK_PATH is not set or is invalid.")
+
+os.chdir(path)
+print(f"[✓] Changed working directory to: {path}")
+
 from prompt_toolkit.lexers import Lexer
 commands_with_desc = {
     "neofetch": ("Show system info", "\x1b[32m"),
@@ -1682,12 +1693,6 @@ session = PromptSession(
 prompt_str = get_input()
 import os, sys
 
-path = os.getenv("INTFRAMEWORK_PATH")
-if not path or not os.path.isdir(path):
-    sys.exit("[!] INTFRAMEWORK_PATH is not set or is invalid.")
-
-os.chdir(path)
-print(f"[✓] Changed working directory to: {path}")
 
 while True:
     help_input = session.prompt(get_prompt(), completer= completer)
