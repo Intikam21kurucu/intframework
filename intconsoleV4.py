@@ -1680,6 +1680,15 @@ session = PromptSession(
     editing_mode=EditingMode.EMACS
 )
 prompt_str = get_input()
+import os, sys
+
+path = os.getenv("INTFRAMEWORK_PATH")
+if not path or not os.path.isdir(path):
+    sys.exit("[!] INTFRAMEWORK_PATH is not set or is invalid.")
+
+os.chdir(path)
+print(f"[✓] Changed working directory to: {path}")
+
 while True:
     help_input = session.prompt(get_prompt(), completer= completer)
     hpparts = help_input.split() if help_input else []
