@@ -20,6 +20,12 @@
 > **Other update comming on 20.08.2025**
 ---
 
+## 🧠 Why Choose intSpLoiT?
+
+intSpLoiT is a modular penetration testing framework with over 800+ modules including exploits, post-exploitation, OSINT tools, and payloads.  
+It is designed for security researchers, red teams, and ethical hackers who need flexibility, power, and scalability.
+
+---
 💡 Interested in developing the framework core? See [CORE_DEVELOPERS.md](./CORE_DEVELOPERS.md)
 
 ## 🚀 Features  
