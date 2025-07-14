@@ -136,9 +136,7 @@ Each module must define an `option_schema` dictionary to specify user-configurab
 If you have questions or need help:
 
 - Open an issue on GitHub.  
-- Join our Telegram/Discord channels: **(add your links here)**  
-- Email the core development team at: **(add email)**
-
+- Email the core development team at: intikam21applogin@gmail.com
 ---
 
 Thank you for helping make intSpLoiT stronger!
