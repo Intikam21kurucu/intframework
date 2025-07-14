@@ -59,9 +59,15 @@ Our goal is to provide a powerful set of modules including exploits, auxiliary t
 Modules are organized by type inside the `modules/` directory:
 
 - `exploits/`  
-- `auxiliary/`  
+- `Auxiliary/`  
 - `post/`  
-- `osint/`  
+- `osint/`
+- `AUTO`
+- `encoders`
+- `evasion`
+- `nops`
+- `payloads`
+
 
 Create your module in the appropriate subfolder with a descriptive filename.
 
