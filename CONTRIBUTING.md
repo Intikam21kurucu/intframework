@@ -3,6 +3,8 @@
 Thank you for your interest in contributing to the intSpLoiT Framework!  
 Your efforts help us build a stronger, more versatile, and more powerful tool for the cybersecurity community.
 
+💡 Interested in developing the framework core? See [CORE_DEVELOPERS.md](./CORE_DEVELOPERS.md)
+
 ---
 
 ## Table of Contents
