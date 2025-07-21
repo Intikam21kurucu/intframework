@@ -185,6 +185,11 @@ class ModuleManager:
     def get_module(self, name):
         return self.modules.get(name, None)
 
+# Exportable for import use
+def run_scan():
+    manager = ModuleManager()
+    return manager.scan_modules()
+
 def main():
     parser = argparse.ArgumentParser(description="Module Manager CLI")
     parser.add_argument("action", choices=["scan", "list", "get"], help="Action to perform")
