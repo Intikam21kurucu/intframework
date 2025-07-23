@@ -3,6 +3,9 @@ from flask import Flask, render_template, request
 import subprocess
 import os
 import socket
+import time
+import requests
+import threading
 from concurrent.futures import ThreadPoolExecutor
 
 app = Flask(__name__)
@@ -18,7 +21,7 @@ def self_ping():
     while True:
         try:
             print("Self-ping atılıyor...")
-            requests.get("https://https://intframework.onrender.com/")
+            requests.get("https://intframeworkweb.onrender.com")
         except:
             pass
         time.sleep(300)  # 5 dakikada bir
@@ -123,4 +126,5 @@ def menu():
     return render_template('menu.html')
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    threading.Thread(target=self_ping, daemon=True).start()
+    app.run(debug=True, host="0.0.0.0", port=10000)
