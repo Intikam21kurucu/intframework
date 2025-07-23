@@ -296,4 +296,6 @@ def main():
 if __name__ == "__main__":
     os.system("rm -rf module_manager.log")
     main()
+    os.system("rm -rf module_manager.log")
+    
     
