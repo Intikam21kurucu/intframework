@@ -126,4 +126,5 @@ def menu():
     return render_template('menu.html')
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    threading.Thread(target=self_ping, daemon=True).start()
+    app.run(debug=True, host="0.0.0.0", port=10000)
