@@ -294,4 +294,6 @@ def main():
                 print(f"[-] Module '{args.name}' not found.")
 
 if __name__ == "__main__":
+    os.system("rm -rf modulemanager.log")
     main()
+    
