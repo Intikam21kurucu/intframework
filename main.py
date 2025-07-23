@@ -21,7 +21,7 @@ def self_ping():
     while True:
         try:
             print("Self-ping atılıyor...")
-            requests.get("https://https://intframework.onrender.com/")
+            requests.get("https://intframework.onrender.com/")
         except:
             pass
         time.sleep(300)  # 5 dakikada bir
