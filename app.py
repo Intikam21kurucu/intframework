@@ -14,6 +14,15 @@ def is_safe_input(user_input):
 
 app = Flask(__name__)
 
+def self_ping():
+    while True:
+        try:
+            print("Self-ping atılıyor...")
+            requests.get("https://https://intframework.onrender.com/")
+        except:
+            pass
+        time.sleep(300)  # 5 dakikada bir
+
 def scan_port(port, target_ip):
     """Verilen IP adresi ve port için bağlantı sağlanıp sağlanamadığını kontrol eder."""
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -114,4 +123,4 @@ def menu():
     return render_template('menu.html')
 
 if __name__ == "__main__":
-    app.run(debug=True, port=3000)
+    app.run(debug=True)
