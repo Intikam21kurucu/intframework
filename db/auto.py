@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import argparse
 import ujson
 import os
@@ -7,6 +8,7 @@ import logging
 from datetime import datetime
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from lib.ai_score import IntelligenceAnalyzer
+import os
 
 # Logger yapılandırması - sadece önemli loglar
 logger = logging.getLogger("ModuleManager")
