@@ -14,6 +14,15 @@ def is_safe_input(user_input):
 
 app = Flask(__name__)
 
+def self_ping():
+    while True:
+        try:
+            print("Self-ping atılıyor...")
+            requests.get("https://https://intframework.onrender.com/")
+        except:
+            pass
+        time.sleep(300)  # 5 dakikada bir
+
 def scan_port(port, target_ip):
     """Verilen IP adresi ve port için bağlantı sağlanıp sağlanamadığını kontrol eder."""
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -58,6 +67,9 @@ def nmap():
         return render_template('nmap.html', result=result)
 
     return render_template('nmap.html')
+@app.route('/live_module_watcher')
+def live_module_watcher():
+    return render_template('live_module_watcher.html')
 
 # Ana sayfa route'u
 @app.route('/')
