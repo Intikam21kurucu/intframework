@@ -1,10 +1,10 @@
 [Desktop Entry]
 Name=Intframework
-Comment=The ultimate Penetration Testing Tool 🔎
+Name[tr]=İntframework
+Comment=The ultimate Penetration Testing Tool 🔎 intSpLoiT framework 
 Exec=sh -c "intconsole"
-Icon=intframework/İNTİKAM11CONSOLEİMG_20240522_165446_0000.png
+Icon=/opt/intframework/intframework.png
 Terminal=true
 Type=Application
 Categories=02-penetration-testing;
 X-Kali-Package=intframework
-Name[C]=İntframework
