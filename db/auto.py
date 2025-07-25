@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 import argparse
 import ujson
 import os
@@ -8,7 +7,6 @@ import logging
 from datetime import datetime
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from lib.ai_score import IntelligenceAnalyzer
-import os
 
 # Logger yapılandırması - sadece önemli loglar
 logger = logging.getLogger("ModuleManager")
@@ -215,7 +213,7 @@ class ModuleManager:
 
         module_data = {
             "name": mod_name,
-            "path": file_path,
+            "path": os.path.relpath(file_path, self.base_path),
             "type": mod_type,
             "command": f"{SUPPORTED_LANGUAGES.get(ext, 'unknown')} {mod_name}",
             **metadata,
@@ -296,8 +294,4 @@ def main():
                 print(f"[-] Module '{args.name}' not found.")
 
 if __name__ == "__main__":
-    os.system("rm -rf module_manager.log")
     main()
-    os.system("rm -rf module_manager.log")
-    
-    
