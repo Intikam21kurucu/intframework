@@ -27,6 +27,7 @@ It is designed for security researchers, red teams, and ethical hackers who need
 
 ---
 💡 Interested in developing the framework core? See [CORE_DEVELOPERS.md](./CORE_DEVELOPERS.md)
+💬 Discord: velgrath_
 
 ## 🚀 Features  
 
