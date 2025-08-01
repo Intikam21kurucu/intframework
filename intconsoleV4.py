@@ -1251,7 +1251,7 @@ def run_module(skar3792=None, payload=None, lhost=None, lport=None):
                                     	func(module_context)
                                     except:
                                     	func()
-                                except Exception as error:
+                                except Exception as ferror:
                                     print(f"{Fore.RED}[!] Error inside function: {ferror}{Style.RESET_ALL}")
                                     if dispatcher:
                                         dispatcher.dispatch("error_occurred", {
