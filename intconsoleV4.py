@@ -899,7 +899,113 @@ def credits_scroll(file_path="credits.txt", delay=0.3, color_code="\033[2;32m"):
         print(f"\n\033[1;33mAnimation interrupted by user.\033[0m")
         sys.exit()
 
+#!/usr/bin/env python3
+import requests
+import time
+import argparse
 
+def outer_func(colour):
+    def inner_function(msg):
+        print(f'{colour}{msg}')
+    return inner_function
+
+''' COLOUR PRINTS '''
+GREEN = outer_func('\033[92m')
+YELLOW = outer_func('\033[93m')
+RED = outer_func('\033[91m')
+
+
+def searchus(username):
+    WEBSITES = [
+        f'https://www.instagram.com/{username}', f'https://www.facebook.com/{username}', f'https://www.twitter.com/{username}',
+        f'https://www.youtube.com/{username}', f'https://{username}.blogspot.com', f'https://plus.google.com/s/{username}/top',
+        f'https://www.reddit.com/user/{username}', f'https://{username}.wordpress.com', f'https://www.pinterest.com/{username}',
+        f'https://www.github.com/{username}', f'https://{username}.tumblr.com', f'https://www.flickr.com/people/{username}',
+        f'https://steamcommunity.com/id/{username}', f'https://vimeo.com/{username}', f'https://soundcloud.com/{username}',
+        f'https://disqus.com/by/{username}', f'https://medium.com/@{username}', f'https://{username}.deviantart.com',
+        f'https://vk.com/{username}', f'https://about.me/{username}', f'https://imgur.com/user/{username}',
+        f'https://flipboard.com/@{username}', f'https://slideshare.net/{username}', f'https://fotolog.com/{username}',
+        f'https://open.spotify.com/user/{username}', f'https://www.mixcloud.com/{username}', f'https://www.scribd.com/{username}',
+        f'https://www.badoo.com/en/{username}', f'https://www.patreon.com/{username}', f'https://bitbucket.org/{username}',
+        f'https://www.dailymotion.com/{username}', f'https://www.etsy.com/shop/{username}', f'https://cash.me/{username}',
+        f'https://www.behance.net/{username}', f'https://www.goodreads.com/{username}', f'https://www.instructables.com/member/{username}',
+        f'https://keybase.io/{username}', f'https://kongregate.com/accounts/{username}', f'https://{username}.livejournal.com',
+        f'https://angel.co/{username}', f'https://last.fm/user/{username}', f'https://dribbble.com/{username}',
+        f'https://www.codecademy.com/{username}', f'https://en.gravatar.com/{username}', f'https://pastebin.com/u/{username}',
+        f'https://foursquare.com/{username}', f'https://www.roblox.com/user.aspx?username={username}', f'https://www.gumroad.com/{username}',
+        f'https://{username}.newgrounds.com', f'https://www.wattpad.com/user/{username}', f'https://www.canva.com/{username}',
+        f'https://creativemarket.com/{username}', f'https://www.trakt.tv/users/{username}', f'https://500px.com/{username}',
+        f'https://buzzfeed.com/{username}', f'https://tripadvisor.com/members/{username}', f'https://{username}.hubpages.com',
+        f'https://{username}.contently.com', f'https://houzz.com/user/{username}', f'https://blip.fm/{username}',
+        f'https://www.wikipedia.org/wiki/User:{username}', f'https://news.ycombinator.com/user?id={username}', f'https://www.reverbnation.com/{username}',
+        f'https://www.designspiration.net/{username}', f'https://www.bandcamp.com/{username}', f'https://www.colourlovers.com/love/{username}',
+        f'https://www.ifttt.com/p/{username}', f'https://www.ebay.com/usr/{username}', f'https://{username}.slack.com',
+        f'https://www.okcupid.com/profile/{username}', f'https://www.trip.skyscanner.com/user/{username}', f'https://ello.co/{username}',
+        f'https://tracky.com/user/~{username}', f'https://{username}.basecamphq.com/login', f'https://www.linkedin.com/in/{username}'
+    ]
+
+    GREEN(f'[+] Searching for username: {username}')
+    time.sleep(0.5)
+    print('.......')
+    time.sleep(0.5)
+    print('.......\n')
+    time.sleep(0.5)
+
+    GREEN(f'[+] intSpLoiT\'s UserSearch is working...\n')
+    time.sleep(0.5)
+    print('.......')
+    time.sleep(0.5)
+    print('.......\n')
+    time.sleep(0.5)
+
+    time.sleep(1)
+
+    count = 0
+    match = True
+    for url in WEBSITES:
+        r = requests.get(url)
+
+        if r.status_code == 200:
+            if match:
+                GREEN('[+] FOUND MATCHES')
+                match = False
+            YELLOW(f'\n{url} - {r.status_code} - OK')
+            if username in r.text:
+                GREEN(f'POSITIVE MATCH: Username:{username} - text has been detected in url.')
+            else:
+                GREEN(f'POSITIVE MATCH: Username:{username} - \033[91mtext has NOT been detected in url, could be a FALSE POSITIVE.')
+        count += 1
+
+    total = len(WEBSITES)
+    GREEN(f'FINISHED: A total of {count} MATCHES found out of {total} websites.')
+
+def usersearch_handler(help_input):
+    """
+    Argparse kullanarak tamamen orijinal script mantığını korur.
+    Örnek: "usersearch username=velgrath"
+    """
+    try:
+        # shlex ile input stringini argv listesine çevir
+        args_list = shlex.split(help_input)
+
+        # argparse oluştur
+        parser = argparse.ArgumentParser(description="Search for a username across multiple websites")
+        parser.add_argument('username', type=str, help='Username to search for')
+
+        # args_list'ın ilk elemanı komut ise onu ignore et
+        if args_list[0].lower() == "usersearch":
+            args_list = args_list[1:]
+
+        args = parser.parse_args(args_list)
+
+        bannerslk()
+        searchus(args.username)
+
+    except SystemExit:
+        # argparse kendi sys.exit() çağrısını yapıyor, bunu handle etmek için
+        print("Hata: Parametreler hatalı veya eksik. Örnek: usersearch username=velgrath")
+    except Exception as e:
+        print(f"Hata: {str(e)}")
 
 
 from colorama import Fore, Style, init			
@@ -1365,6 +1471,71 @@ def run_module(skar3792=None, payload=None, lhost=None, lport=None):
             })
 
 
+import socket
+from colorama import Fore, Style, init
+
+init(autoreset=True)
+
+def make_red_bold(text):
+    return f"{Style.BRIGHT}{Fore.RED}{text}{Style.RESET_ALL}"
+
+def send_bytes_to_ip(target_ip, target_port, byte_size, timeout=3):
+    """Belirtilen süre içinde belirtilen boyutta bir byte dizisi gönderir."""
+    message = b"A" * byte_size  # Örnek byte dizisi
+    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    sock.settimeout(timeout)
+    try:
+        sock.connect((target_ip, target_port))
+        sock.sendall(message)
+        print(f"{byte_size} byte's message true {target_ip}:{target_port} adresses connected.")
+    except socket.timeout:
+        print(f"Hata: Bağlantı zaman aşımına uğradı ({timeout} saniye).")
+    except Exception as e:
+        print(f"Hata: Mesaj gönderilirken bir hata oluştu: {str(e)}")
+    finally:
+        sock.close()
+
+def shotgun_handler(help_input):
+    """
+    help_input örnek formatı:
+    shotgun lhost=127.0.0.1 lport=8080 bytes=1024
+    """
+    try:
+        # Boşluklarla ayır
+        parts = help_input.strip().split()
+        if len(parts) < 4:
+            print("Hata: Eksik parametreler. Örnek kullanım: shotgun lhost=IP lport=PORT bytes=SIZE")
+            return
+
+        # Default değerler
+        target_ip = None
+        target_port = None
+        byte_size = None
+
+        # Parametreleri ayrıştır
+        for part in parts[1:]:  # ilk kısım 'shotgun'
+            if part.startswith("lhost="):
+                target_ip = part.split("=")[1]
+            elif part.startswith("lport="):
+                target_port = int(part.split("=")[1])
+            elif part.startswith("bytes="):
+                byte_size = int(part.split("=")[1])
+
+        # Hata kontrolü
+        if not target_ip or not target_port or not byte_size:
+            print("Hata: Tüm parametreler gerekli! Örnek: shotgun lhost=127.0.0.1 lport=8080 bytes=1024")
+            return
+
+        # Byte gönder
+        send_bytes_to_ip(target_ip, target_port, byte_size, timeout=3)
+        print(make_red_bold("SHOTTED!"))
+
+    except Exception as e:
+        print(f"Hata: {str(e)}")
+
+# Örnek kullanım framework içinde:
+# help_input = "shotgun lhost=127.0.0.1 lport=8080 bytes=1024"
+# shotgun_handler(help_input)
 
 def handle_sessions(args, sm):
     args = args.split() if isinstance(args, str) else args
@@ -1564,6 +1735,315 @@ try:
 except:
 	pass
 	
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
+"""
+IntSpLoiT Framework Full Help Module
+Author: Velgrath 🔱
+Description: Comprehensive help system for all IntSpLoiT commands.
+"""
+
+def show_help(command=None):
+    help_data = {
+        # -------------------- GENERAL COMMANDS --------------------
+        "help": {
+            "description": "Show the general help menu or detailed help for a specific command.",
+            "usage": "help or help <command>",
+            "example": "help wifi_scan",
+            "how_to": "1. Type 'help' to see a list of all available commands.\n"
+                      "2. Type 'help <command>' to get detailed usage information."
+        },
+        "exit": {
+            "description": "Exit the framework console safely.",
+            "usage": "exit",
+            "example": "exit",
+            "how_to": "Simply type 'exit' or 'quit' to leave the console."
+        },
+        "banner": {
+            "description": "Display or customize the framework banner.",
+            "usage": "banner",
+            "example": "banner",
+            "how_to": "1. Type 'banner' to show current banner.\n"
+                      "2. Use options to customize colors or text."
+        },
+        "credits": {
+            "description": "Show the credits for the framework.",
+            "usage": "credits",
+            "example": "credits",
+            "how_to": "1. Type 'credits' to see all contributors and team info."
+        },
+        "clear": {
+            "description": "Clear the console screen.",
+            "usage": "clear",
+            "example": "clear",
+            "how_to": "1. Type 'clear' to remove all previous outputs from view."
+        },
+        "use": {
+            "description": "Select a specific module to use.",
+            "usage": "use <module_name>",
+            "example": "use exploits/multi/listeners/mini.py",
+            "how_to": "1. Type 'show modules' to see all available modules.\n"
+                      "2. Use 'use <module_name>' to load it.\n"
+                      "3. Then use 'set' commands to configure parameters."
+        },
+        "show": {
+            "description": "Show available modules, commands, tools, or exploits.",
+            "usage": "show <type>",
+            "example": "show exploits",
+            "how_to": "1. Use 'show modules' to list all modules.\n"
+                      "2. Use 'show exploits' to see all exploit modules.\n"
+                      "3. Use 'show tools' to see auxiliary tools."
+        },
+        "info": {
+            "description": "Get detailed information about the currently selected module.",
+            "usage": "info",
+            "example": "info",
+            "how_to": "1. First, 'use <module>' to select a module.\n"
+                      "2. Type 'info' to view description, options, and requirements."
+        },
+        "run": {
+            "description": "Execute the selected module with currently set parameters.",
+            "usage": "run",
+            "example": "run",
+            "how_to": "1. Select a module with 'use'.\n"
+                      "2. Configure options with 'set'.\n"
+                      "3. Type 'run' to execute it."
+        },
+        "srun": {
+            "description": "Set module parameters and execute immediately.",
+            "usage": "srun param1=value1 param2=value2 ...",
+            "example": "srun target=192.168.1.100 port=80",
+            "how_to": "1. Instead of separate 'set' commands, provide all options in-line.\n"
+                      "2. Module runs automatically after setting parameters."
+        },
+        "jobs": {
+            "description": "View and manage active background jobs.",
+            "usage": "jobs",
+            "example": "jobs",
+            "how_to": "1. Shows a list of running jobs with ID and status.\n"
+                      "2. Use 'kill <job_id>' to terminate a job."
+        },
+        "kill": {
+            "description": "Terminate a specific background job.",
+            "usage": "kill <job_id>",
+            "example": "kill 2",
+            "how_to": "1. First, view jobs using 'jobs'.\n"
+                      "2. Use the job ID to terminate it safely."
+        },
+        # -------------------- DATABASE COMMANDS --------------------
+        "db_connect": {
+            "description": "Connect to a database for storing/retrieving scan or module data.",
+            "usage": "db_connect <db_name>",
+            "example": "db_connect intsp_db",
+            "how_to": "1. Ensure the database server is running.\n"
+                      "2. Type 'db_connect <db_name>' to connect.\n"
+                      "3. Once connected, modules can read/write data."
+        },
+        "db_list": {
+            "description": "List all available databases.",
+            "usage": "db_list",
+            "example": "db_list",
+            "how_to": "Simply type 'db_list' to see all databases on the server."
+        },
+        "db_disconnect": {
+            "description": "Disconnect from the currently connected database.",
+            "usage": "db_disconnect",
+            "example": "db_disconnect",
+            "how_to": "1. Type 'db_disconnect' to safely close the connection."
+        },
+        "db_nmap": {
+            "description": "Perform Nmap scanning with results stored in the database.",
+            "usage": "db_nmap <target_network>",
+            "example": "db_nmap 192.168.1.0/24",
+            "how_to": "1. Connect to the database first with 'db_connect'.\n"
+                      "2. Run 'db_nmap <network>' to scan and save results automatically.\n"
+                      "3. Use 'db_list' to query scan results."
+        },
+        "setdb": {
+            "description": "Set or change the database connection for modules.",
+            "usage": "setdb <db_name>",
+            "example": "setdb intsp_db",
+            "how_to": "1. Use 'setdb' to switch active database for modules.\n"
+                      "2. Modules will read/write from/to the selected database."
+        },
+        # -------------------- NETWORKING COMMANDS --------------------
+        "route": {
+            "description": "Add or view routing for specific IPs.",
+            "usage": "route add <target_ip> <via_ip> or route show",
+            "example": "route add 10.10.10.5 192.168.1.1",
+            "how_to": "1. Use 'route show' to see current routing table.\n"
+                      "2. Use 'route add <target_ip> <gateway>' to add a route.\n"
+                      "3. Routes help in multi-hop connections or pivoting."
+        },
+        "portfwd": {
+            "description": "Set up port forwarding rules.",
+            "usage": "portfwd add <lport> <rhost> <rport>",
+            "example": "portfwd add 8080 192.168.1.100 80",
+            "how_to": "1. 'lport' is the local listening port.\n"
+                      "2. 'rhost' is the target host.\n"
+                      "3. 'rport' is the port on the remote host to forward to."
+        },
+        "tunnel": {
+            "description": "Configure and manage routing tunnels for multi-hop or pivoting.",
+            "usage": "tunnel <command> [options]",
+            "example": "tunnel add 192.168.1.0/24 via 10.10.10.5",
+            "how_to": "1. Use 'tunnel add' to create a new tunnel.\n"
+                      "2. Use 'tunnel show' to display active tunnels.\n"
+                      "3. Useful for stealth routing and bypassing network restrictions."
+        },
+        "connect": {
+            "description": "Connect to a specified IP address.",
+            "usage": "connect <target_ip> [port]",
+            "example": "connect 192.168.1.100 22",
+            "how_to": "1. Provide target IP and optionally port.\n"
+                      "2. Establishes a session or socket connection."
+        },
+        # -------------------- AUXILIARY TOOLS --------------------
+        "neofetch": {
+            "description": "Display detailed system information.",
+            "usage": "neofetch",
+            "example": "neofetch",
+            "how_to": "1. Type 'neofetch' to show OS, kernel, CPU, RAM, and disk info."
+        },
+        "wifi_scan": {
+            "description": "Scan for nearby Wi-Fi networks.",
+            "usage": "wifi_scan --interface <interface>",
+            "example": "wifi_scan --interface wlan0 --verbose",
+            "how_to": "1. Ensure wireless interface is up.\n"
+                      "2. Run 'wifi_scan --interface <interface>'\n"
+                      "3. Use --verbose for more details like BSSID, signal, encryption."
+        },
+        "network_scan": {
+            "description": "Perform a network scan to discover devices.",
+            "usage": "network_scan <target_network> [--ports]",
+            "example": "network_scan 192.168.1.0/24 --ports",
+            "how_to": "1. Specify the network range in CIDR format.\n"
+                      "2. Ping hosts to identify active devices.\n"
+                      "3. Optional '--ports' to scan open ports."
+        },
+        "wardriving": {
+            "description": "Map and track Wi-Fi networks using GPS.",
+            "usage": "wardriving --interface <iface> --gps",
+            "example": "wardriving --interface wlan0 --gps",
+            "how_to": "1. Requires GPS coordinates.\n"
+                      "2. Run 'wardriving' with wireless interface and GPS option.\n"
+                      "3. Collects SSID, BSSID, channel, and GPS location."
+        },
+        # -------------------- ATTACKING COMMANDS --------------------
+        "dragon": {
+            "description": "Launch the Dragon brute-force tool.",
+            "usage": "dragon <target_ip> -u <username> -p <password_list> [options]",
+            "example": "dragon 192.168.1.100 -u admin -p passwords.txt --threads 10",
+            "how_to": "1. Provide target IP, username, and password file.\n"
+                      "2. Optionally use --threads to speed up attacks.\n"
+                      "3. Dragon will attempt login repeatedly until successful or list exhausted."
+        },
+        "introjan": {
+            "description": "Build and deploy advanced Trojan Horses.",
+            "usage": "introjan --target <IP> --payload <type> [options]",
+            "example": "introjan --target 192.168.1.100 --payload reverse_tcp",
+            "how_to": "1. Choose the payload type.\n"
+                      "2. Configure target IP and port.\n"
+                      "3. Generate executable and deliver via social engineering or other method."
+        },
+        # -------------------- OSINT COMMANDS --------------------
+        "oip": {
+            "description": "Search for open ports on a target system.",
+            "usage": "oip <target_ip> [--ports]",
+            "example": "oip 192.168.1.100 --ports 22,80,443",
+            "how_to": "1. Specify the target IP.\n"
+                      "2. Optionally specify ports to scan.\n"
+                      "3. Results show which ports are open and listening."
+        },
+        "intcrawler": {
+            "description": "Crawl and gather data from websites.",
+            "usage": "intcrawler <url> [options]",
+            "example": "intcrawler http://example.com --depth 2",
+            "how_to": "1. Provide the target URL.\n"
+                      "2. Optionally set crawl depth.\n"
+                      "3. Tool collects links, forms, and sensitive data."
+        },
+        "usersearcher": {
+            "description": "Search for information about specific users.",
+            "usage": "usersearcher <username>",
+            "example": "usersearcher john_doe",
+            "how_to": "1. Provide the username.\n"
+                      "2. Tool searches social media, forums, and public databases."
+        },
+        "mailsearcher": {
+            "description": "Search for email addresses linked to targets.",
+            "usage": "mailsearcher <domain>",
+            "example": "mailsearcher example.com",
+            "how_to": "1. Provide domain name.\n"
+                      "2. Tool collects emails from public sources and leaks."
+        },
+        # -------------------- SPECIALIZED TOOLS --------------------
+        "intweb": {
+            "description": "Perform web application scanning and analysis.",
+            "usage": "intweb <target_url> [options]",
+            "example": "intweb http://example.com --scan-all",
+            "how_to": "1. Provide target URL.\n"
+                      "2. Use options to scan for SQLi, XSS, LFI, RCE.\n"
+                      "3. Tool outputs detailed vulnerabilities and affected endpoints."
+        },
+        "intninja": {
+            "description": "Access stealth and ninja operations tools.",
+            "usage": "intninja <target_ip>",
+            "example": "intninja 10.10.10.10",
+            "how_to": "1. Provide target IP.\n"
+                      "2. Tools perform reconnaissance stealthily.\n"
+                      "3. Data collected is optimized to avoid detection."
+        },
+        "intmail": {
+            "description": "Search for email-related vulnerabilities.",
+            "usage": "intmail <email>",
+            "example": "intmail john@example.com",
+            "how_to": "1. Provide target email.\n"
+                      "2. Tool searches for breaches, misconfigurations, and leaks."
+        },
+        "intcam": {
+            "description": "Access or hack camera feeds (authorized or testing environments).",
+            "usage": "intcam <target_ip> [options]",
+            "example": "intcam 192.168.1.100",
+            "how_to": "1. Provide target IP.\n"
+                      "2. Tool attempts to access camera streams.\n"
+                      "3. Use only in legal or authorized environments."
+        },
+        # -------------------- PLUGIN HELP --------------------
+        "help plugins": {
+            "description": "Shows help for dynamically loaded plugins.",
+            "usage": "help plugins",
+            "example": "help plugins",
+            "how_to": "1. Type 'help plugins' to see available plugin commands.\n"
+                      "2. Use 'load <plugin>' to load a plugin dynamically.\n"
+                      "3. Use 'pl_help' for plugin-specific commands."
+        }
+    }
+
+    if command is None:
+        print("IntSpLoiT Framework Help Menu")
+    elif command.lower() == "help":
+    	print("IntSpLoiT Framework Help Menu")
+    	print("==============================")
+    	print("Type 'help <command>' for detailed information on a specific command.\n")
+    	print("Available commands:")
+    	for cmd in sorted(help_data.keys()):
+            print(f"  - {cmd}")
+    else:
+        cmd = command.lower()
+        if cmd in help_data:
+            info = help_data[cmd]
+            print(f"\nCommand: {cmd}")
+            print("-" * (9 + len(cmd)))
+            print(f"Description: {info.get('description', 'N/A')}")
+            print(f"Usage: {info.get('usage', 'N/A')}")
+            print(f"Example: {info.get('example', 'N/A')}")
+            if "how_to" in info:
+                print(f"How to:\n{info['how_to']}")
+        else:
+            print(f"[!] No help available for command: {command}")
+
 
 
 from prompt_toolkit.completion import FuzzyCompleter, Completer, Completion
@@ -1595,6 +2075,51 @@ class CommandCompleter(Completer):
             if cmd.startswith(text) and cmd not in self.history_commands:
                 yield Completion(cmd, start_position=-len(text), display=ANSI(f"{color}{cmd}\x1b[0m"), display_meta=desc)
 
+
+import argparse
+import requests
+import shlex
+
+def imei_check(imei):
+    url = f"https://imeicheck.com/imei-check/{imei}"
+    try:
+        response = requests.get(url, timeout=5)
+        if response.status_code == 200:
+            return response.text
+        else:
+            return f"Error: {response.status_code}"
+    except requests.exceptions.RequestException as e:
+        return f"Error: {str(e)}"
+
+def imei_handler(help_input):
+    """
+    Uses argparse exactly like the original script.
+    Example: "imei 123456789012345"
+    """
+    try:
+        # Convert input string into argv-style list
+        args_list = shlex.split(help_input)
+
+        parser = argparse.ArgumentParser(description='IMEI lookup tool')
+        parser.add_argument('imei', type=str, help='IMEI number to check')
+
+        # Ignore the first element if it is the command
+        if args_list[0].lower() == "imei":
+            args_list = args_list[1:]
+
+        args = parser.parse_args(args_list)
+        result = imei_check(args.imei)
+        print(result)
+
+    except SystemExit:
+        # Catch argparse's exit on errors
+        print("Error: Missing or invalid parameters. Example: imei 123456789012345")
+    except Exception as e:
+        print(f"Error: {str(e)}")
+
+# Example framework usage:
+# help_input = "imei 123456789012345"
+# imei_handler(help_input)
 
 class CommandColorLexer(Lexer):
     def lex_document(self, document):
@@ -1689,10 +2214,13 @@ def command_handler(help_input):
     	history_manager.log_command(help_input)
     	completer.add_to_history(help_input)
     if help_input == "":
-    	pass
-    
-    if help_input.lower() == "help":
-    	print("""
+    	pass   
+    if help_input.startswith("help"):
+    	m_help = help_input[5:].strip()
+    	if m_help:
+    		show_help(command=m_help)
+    	else:
+    		print("""
 IntSpLoiT Framework Help Menu
 ==============================
 
@@ -1800,7 +2328,9 @@ Command            - Function
 intweb             - Perform web application scanning and analysis  
 intninja           - Access Ninja tools for stealth operations  
 intmail            - Search for email-related vulnerabilities  
-intcam             - A camera hacking tool for Intikam21 users  
+intcam             - A camera hacking tool for intSpLoiT users 
+
+Type 'help <command>' for more information on a specific command.
 
 HELLO, WE ARE THE İNTSPLOİT CYBER TEAM!  
 The reason we made this tool is to educate people interested in hacking.  
@@ -1810,7 +2340,7 @@ Any malicious behavior or system infection caused by the user is not our respons
 [intcam] Cam Hack for intSpLoiT users  
 
 We are working...
-""")
+    		""")
     if help_input == "wifi_scan":
     	scan_wifispy()
     if help_input == "help plugins":
@@ -1881,12 +2411,6 @@ Type 'help <command>' for more information on a specific command.
     	os.system("cd $INTFRAMEWORK_PATH && cd modules")
     	os.system("python3 intweb "+hel)
     	os.system(f"cd {s}")
-    if help_input.lower().startswith("introjan"):
-    	hel = help_input[9:]
-    	s = os.getcwd()
-    	os.system("cd $INTFRAMEWORK_PATH && cd modules")
-    	os.system("python3 introjan.py "+hel)
-    	os.system(f"cd {s}")
     if help_input.lower().startswith("intcam"):
     	hel = help_input[7]
     	s = os.getcwd()
@@ -1906,39 +2430,18 @@ Type 'help <command>' for more information on a specific command.
     	os.system("cd modules")
     	os.system("python3 modules/intmail.py "+hel)
     	os.system(f"cd {s}")
-    if help_input.lower().startswith("intmeterpreter"):
-    	hel = help_input[15:]
-    	s = os.getcwd()
-    	os.system("cd $INTFRAMEWORK_PATH && cd modules")
-    	os.system("python3 modules/intmeterpreter.py "+hel)
-    	os.system(f"cd {s}")
     if help_input.lower().startswith("imei"):
     	if get_input(cdn="osint&int"):
     		hel = help_input[5:]
-    		s = os.getcwd()
-    		os.system("cd $INTFRAMEWORK_PATH && cd modules")
-    		os.system("python3 imei.py "+hel)
-    		os.system(f"cd {s}")
+    		imei_handler(help_input)
     	else:
     		pass	
-    if help_input.lower().startswith("mailsearcher"):
-    	hel = help_input[help_input.find("mailsearcher"):]
-    	s = os.getcwd()
-    	os.system("cd $INTFRAMEWORK_PATH && cd modules")
-    	os.system("python3 mailsearcher.py"+hel)
-    	os.system(f"cd {s}")
     if help_input.startswith("usersearcher"):
     	hel = help_input[help_input.find("usersearcher"):]
-    	s = os.getcwd()
-    	os.system("cd $INTFRAMEWORK_PATH && cd modules")
-    	os.system("python3 usersearcher.py"+hel)
-    	os.system(f"cd {s}")
+    	usersearch_handler(help_input)
     if help_input.startswith("shotgun"):
     	hel = help_input[help_input.find("shotgun "):]
-    	s = os.getcwd()
-    	os.system("cd $INTFRAMEWORK_PATH && cd modules")
-    	os.system(f"python3 shotgun.py {hel}" if hel else "python3 shotgun.py")
-    	os.system(f"cd {s}")
+    	shotgun_handler(help_input)
     if help_input.startswith("intcrawler"):
     	hel = help_input[help_input.find("intcrawler "):]
     	s = os.getcwd()
@@ -2413,8 +2916,14 @@ while True:
             continue  # Skip empty input
 
         # Zincirleme komut çalıştır
-        parse_and_execute(help_input)
-
+        try:
+        	parse_and_execute(help_input)
+        except KeyboardInterrupt:
+        	print(f"\n{Fore.YELLOW}[!] User interrupted input (Ctrl+C){Style.RESET_ALL}")
+        	pass
+        except Exception as outer_e:
+            print(f"{Fore.MAGENTA}[!] Unexpected error: {outer_e}{Style.RESET_ALL}")
+            continue
     except Exception as outer_e:
         print(f"{Fore.MAGENTA}[!] Unexpected error: {outer_e}{Style.RESET_ALL}")
-        continue
+        continue        
