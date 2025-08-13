@@ -1367,104 +1367,91 @@ def run_module(skar3792=None, payload=None, lhost=None, lport=None):
 
 
 def handle_sessions(args, sm):
-    from lib.session_manager.registry import list_sessions, remove_session
+    args = args.split() if isinstance(args, str) else args
 
-    if len(args) == 1 or "-l" in args or "--list" in args:
+    if not args or "-l" in args or "--list" in args:
         sm.list_sessions()
+        return
 
-    elif "-h" in args or "--help" in args:
+    if "-h" in args or "--help" in args:
         print("""
-Usage: session [options] or session [id]
+Usage: sessions [options] or sessions [id]
 
 Active session manipulation and interaction.
 
 OPTIONS:
 
-    -c, --command <command>              Run a command on the session given with -i, or all
-    -h, --help                           Help banner
-    -i, --interact <id>                  Interact with the supplied session ID
-    -k, --kill <id>                      Terminate sessions by session ID
-    -K, --kill-all                       Terminate all sessions
-    -l, --list                           List all active sessions
-    -n, --name <id> <name>               Name or rename a session by ID
-    -S, --search <filter>                Search session IPs (example: 192.168.)
-    -t, --timeout <seconds>              Set response timeout (default: 15)
-    -v, --list-verbose                   List sessions in verbose mode (partial)
-    -x, --list-extended                  List extended session info (partial)
+  -c, --command <command>         Run a command on session given with -i, or on all
+  -h, --help                      Show this help menu
+  -i, --interact <id>             Interact with session by ID
+  -k, --kill <id>                 Terminate session by ID
+  -K, --kill-all                  Terminate all sessions
+  -l, --list                      List active sessions
+  -n, --name <id> <name>          Rename a session by ID
+  -S, --search <filter>           Search session IPs (e.g., 192.168.)
+  -t, --timeout <seconds>         Set session response timeout
+  -v, --list-verbose              Verbose list of sessions
+  -x, --list-extended             Extended session information
 """)
+        return
 
-    elif "-i" in args or "--interact" in args:
-        try:
+    try:
+        if "-i" in args or "--interact" in args:
             idx = args.index("-i") if "-i" in args else args.index("--interact")
-            session_id = int(args[idx + 1])
-            sm.interact(session_id)
-        except:
-            print("[!] Usage: sessions -i <id>")
+            sid = int(args[idx + 1])
+            sm.interact(sid)
 
-    elif "-c" in args or "--command" in args:
-        try:
-            idx = args.index("-c") if "-c" in args else args.index("--command")
-            command = args[idx + 1]
+        elif "-c" in args or "--command" in args:
+            cidx = args.index("-c") if "-c" in args else args.index("--command")
+            command = args[cidx + 1]
             if "-i" in args:
                 iidx = args.index("-i")
-                session_id = int(args[iidx + 1])
-                output = sm.send_command(session_id, command)
-                print(output)
+                sid = int(args[iidx + 1])
+                output = sm.send_command(sid, command)
+                print(f"[Session {sid}] > {output}")
             else:
-                for sid in list_sessions().keys():
+                for sid in sm.sessions.keys():
                     output = sm.send_command(sid, command)
                     print(f"[Session {sid}] > {output}")
-        except:
-            print("[!] Usage: sessions -c <command> -i <id>")
 
-    elif "-k" in args or "--kill" in args:
-        try:
+        elif "-k" in args or "--kill" in args:
             idx = args.index("-k") if "-k" in args else args.index("--kill")
-            session_id = int(args[idx + 1])
-            remove_session(session_id)
-            print(f"[+] Session {session_id} terminated.")
-        except:
-            print("[!] Usage: sessions -k <id>")
+            sid = int(args[idx + 1])
+            sm.kill_session(sid)
+            print(f"[+] Session {sid} terminated.")
 
-    elif "-K" in args or "--kill-all" in args:
-        for sid in list(list_sessions().keys()):
-            remove_session(sid)
-        print("[+] All sessions terminated.")
+        elif "-K" in args or "--kill-all" in args:
+            for sid in list(sm.sessions.keys()):
+                sm.kill_session(sid)
+            print("[+] All sessions terminated.")
 
-    elif "-n" in args or "--name" in args:
-        try:
+        elif "-n" in args or "--name" in args:
             idx = args.index("-n") if "-n" in args else args.index("--name")
-            session_id = int(args[idx + 1])
+            sid = int(args[idx + 1])
             name = args[idx + 2]
-            sm.rename_session(session_id, name)
-        except:
-            print("[!] Usage: sessions -n <id> <name>")
+            sm.rename_session(sid, name)
+            print(f"[+] Session {sid} renamed to '{name}'.")
 
-    elif "-S" in args or "--search" in args:
-        try:
+        elif "-S" in args or "--search" in args:
             idx = args.index("-S") if "-S" in args else args.index("--search")
-            filter_value = args[idx + 1]
-            sm.search_sessions(filter_value)
-        except:
-            print("[!] Usage: sessions --search <filter>")
+            value = args[idx + 1]
+            sm.search_sessions(value)
 
-    elif "-t" in args or "--timeout" in args:
-        try:
+        elif "-t" in args or "--timeout" in args:
             idx = args.index("-t") if "-t" in args else args.index("--timeout")
-            timeout = int(args[idx + 1])
-            sm.set_timeout(timeout)
-        except:
-            print("[!] Usage: sessions --timeout <seconds>")
+            seconds = int(args[idx + 1])
+            sm.set_timeout(seconds)
+            print(f"[+] Timeout set to {seconds} seconds.")
 
-    elif "-v" in args or "--list-verbose" in args:
-        print("[*] Verbose session listing:")
-        for sid, sess in list_sessions().items():
-            print(f"Session {sid} | Addr: {sess.addr} | Alive: {sess.alive}")
+        elif "-v" in args or "--list-verbose" in args:
+            print("[*] Verbose session listing:")
+            for sid, sess in sm.sessions.items():
+                print(f"Session {sid} | Addr: {sess.addr} | Alive: {sess.alive}")
 
-    elif "-x" in args or "--list-extended" in args:
-        print("[*] Extended session info:")
-        for sid, sess in list_sessions().items():
-            print(f"""
+        elif "-x" in args or "--list-extended" in args:
+            print("[*] Extended session info:")
+            for sid, sess in sm.sessions.items():
+                print(f"""
 [Session #{sid}]
   IP       : {sess.addr[0]}
   Port     : {sess.addr[1]}
@@ -1472,8 +1459,11 @@ OPTIONS:
   Commands : {list(sess.shell.dynamic_commands.keys())}
 """)
 
-    else:
-        print("[!] Unknown sessions option. Use 'sessions -h' for help.")
+        else:
+            print("[!] Unknown option. Use 'sessions -h' for help.")
+
+    except (IndexError, ValueError):
+        print("[!] Invalid arguments. Use 'sessions -h' for correct syntax.")
         
 def monitor_process(proc):
     """Çalışan modülü izler"""
@@ -1483,17 +1473,6 @@ def monitor_process(proc):
             print(f"Module {modules} has stopped.")
             return
         time.sleep(1)  # Her saniye kontrol et
-
-
-import os, sys
-
-path = os.getenv("INTFRAMEWORK_PATH")
-if not path or not os.path.isdir(path):
-    sys.exit("[!] INTFRAMEWORK_PATH is not set or is invalid.")
-
-os.chdir(path)
-print(f"[✓] Changed working directory to: {path}")
-
 from prompt_toolkit.lexers import Lexer
 commands_with_desc = {
     "neofetch": ("Show system info", "\x1b[32m"),
@@ -1576,8 +1555,17 @@ def get_input(modules=None, modulename=None, cdn=None, payloads=None):
     promptin = f"{Fore.BLUE}{Style.BRIGHT}int4-pro{Style.RESET_ALL} >"
     return ANSI(f"\x1b[1;34mint4-pro\x1b[0m > ")
     
-    
-    
+try:
+	import db.auto as auto
+	from db.auto import ModuleManager
+	mmg = ModuleManager()
+	mmg.scan_modules()
+	os.system("mv modules.json db/modules.json")
+except:
+	pass
+	
+
+
 from prompt_toolkit.completion import FuzzyCompleter, Completer, Completion
 
 class CommandCompleter(Completer):
@@ -1691,11 +1679,7 @@ session = PromptSession(
     editing_mode=EditingMode.EMACS
 )
 prompt_str = get_input()
-import os, sys
-
-
-while True:
-    help_input = session.prompt(get_prompt(), completer= completer)
+def command_handler(help_input):
     hpparts = help_input.split() if help_input else []
     hpcommand = hpparts[0] if len(hpparts) > 0 else None
     hparguments = hpparts[1:] if len(hpparts) > 1 else None
@@ -1818,12 +1802,12 @@ intninja           - Access Ninja tools for stealth operations
 intmail            - Search for email-related vulnerabilities  
 intcam             - A camera hacking tool for Intikam21 users  
 
-HELLO, WE ARE THE İNTİKAM21 CYBER TEAM!  
+HELLO, WE ARE THE İNTSPLOİT CYBER TEAM!  
 The reason we made this tool is to educate people interested in hacking.  
 Any malicious behavior or system infection caused by the user is not our responsibility.  
 
-[intweb] Web scanner for Intikam21 users  
-[intcam] Cam Hack for Intikam21 users  
+[intweb] Web scanner for intSpLoiT users  
+[intcam] Cam Hack for intSpLoiT users  
 
 We are working...
 """)
@@ -2091,8 +2075,7 @@ Type 'help <command>' for more information on a specific command.
     		set_wlan = help_input[17:]
     		scan5115(set_wlan)
     	if setdbs == "end" or "exit" or "break" or "stop":
-    		break
-    		continue
+    		pass
     else:
     	pass
     if help_input.startswith("db_nmap"):
@@ -2152,17 +2135,25 @@ Type 'help <command>' for more information on a specific command.
     	pass
     if help_input == "intattack":
     	os.system("python3 intattack.py")
-    if help_input.startswith("network_scan"):
-    	import network_scan
-    	from network_scan import *
-    	scan_network()
+    try:
+        if help_input.startswith("network_scan"):
+        	import network_scan
+        	from network_scan import scan_network
+        	scan_network()
+    except Exception as e:
+    	print(f"Error executing {help_input}: {e}")
+    	
     if help_input.startswith("use "):
         use_module(help_input)
     if help_input.startswith("run") and "<" in help_input and ">" in help_input:
         start_index = help_input.find('<') + 1
         end_index = help_input.find('>')
         extracted_text = help_input[start_index:end_index]
-        run_module(skar3792=extracted_text)
+        try:
+        	run_module(skar3792=extracted_text)
+        except KeyboardInterrupt:
+            print(f"\n{Fore.YELLOW}[!] User interrupted input (Ctrl+C){Style.RESET_ALL}")
+            pass
     if help_input == "run":
         run_module()
     if help_input == "show options":
@@ -2279,7 +2270,7 @@ rm -rf $intweb
 
         if not s.strip():
             print("[!] Error: No arguments provided. Use '-h' for help.")
-            continue
+            pass
 
         # Build command dynamically
         command = f"python3 {intframework_path}/modules/commands/exploitdb.py"
@@ -2319,19 +2310,19 @@ rm -rf $intweb
     	if help_input.startswith("hydra"):
     		os.system(help_input)
     		add_job("working hydra")
-    		continue
+    		pass
     	if help_input.startswith("ls"):
     		os.system(help_input)
     		add_job(help_input)
-    		continue
+    		pass
     	if help_input.startswith("cd"):
     		os.system(help_input)
     		add_job(help_input)
-    		continue
+    		pass
     	if help_input.startswith("int"): 
     		os.system(help_input)
     		add_job(help_input)
-    		continue
+    		pass
     	print(f"{Fore.GREEN}[+] Running command: {help_input}")
     	os.system(help_input)
     	add_job(help_input)
@@ -2342,3 +2333,88 @@ rm -rf $intweb
     		db_connect()
     except:
     	pass
+
+
+
+
+import threading
+
+def parse_and_execute(help_input):
+    """
+    Execute commands with ;, &&, || and & support.
+    Background (&) commands run in a thread.
+    Shows Metasploit-style error messages.
+    """
+    chains = help_input.split(";")
+    last_exit_code = 0
+
+    for chain in chains:
+        and_parts = chain.strip().split("&&")
+        skip_and = False
+
+        for part in and_parts:
+            or_parts = part.strip().split("||")
+            executed = False
+
+            for cmd in or_parts:
+                background = cmd.endswith("&")
+                cmd = cmd.rstrip("&").strip()
+
+                if not skip_and:
+                    try:
+                        if background:
+                            threading.Thread(target=command_handler, args=(cmd,)).start()
+                            last_exit_code = 0
+                        else:
+                            command_handler(cmd)
+                            last_exit_code = 0
+                        executed = True
+                    except Exception as e:
+                        print(f"{Fore.RED}[!] Error executing '{cmd}': {e}{Style.RESET_ALL}")
+                        last_exit_code = 1
+
+                # OR (||) kontrolü
+                if last_exit_code == 0:
+                    skip_and = False
+                    break
+                else:
+                    skip_and = True
+
+            # AND (&&) kontrolü
+            if last_exit_code != 0:
+                break
+
+# --- Main loop ---
+while True:
+    try:
+        try:
+            raw_input_text = session.prompt(get_prompt(), completer=completer)
+        except KeyboardInterrupt:
+            print(f"\n{Fore.YELLOW}[!] User interrupted input (Ctrl+C){Style.RESET_ALL}")
+            continue
+        except EOFError:
+            print(f"\n{Fore.CYAN}[!] Session closed (Ctrl+D). Exiting...{Style.RESET_ALL}")
+            goodbye()
+            break
+        except Exception as e:
+            print(f"{Fore.RED}[!] Error executing input: {e}{Style.RESET_ALL}")
+            continue
+
+        # Multi-line input temizleme
+        try:
+            help_input = "\n".join(
+                line.strip() for line in raw_input_text.splitlines() if line.strip()
+            )
+        except Exception as e:
+            print(f"{Fore.RED}[!] Error processing input: {e}{Style.RESET_ALL}")
+            continue
+
+        if not help_input:
+            continue  # Skip empty input
+
+        # Zincirleme komut çalıştır
+        parse_and_execute(help_input)
+
+    except Exception as outer_e:
+        print(f"{Fore.MAGENTA}[!] Unexpected error: {outer_e}{Style.RESET_ALL}")
+        continue
