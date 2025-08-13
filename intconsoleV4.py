@@ -1,15 +1,5 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-import os, sys
-
-path = os.getenv("INTFRAMEWORK_PATH")
-if not path or not os.path.isdir(path):
-    sys.exit("[!] INTFRAMEWORK_PATH is not set or is invalid.")
-
-os.chdir(path)
-print(f"[✓] Changed working directory to: {path}")
-
-
 global phisherserror
 global clouderror
 import os
@@ -1276,10 +1266,11 @@ def detect_interpreter(module_path):
                     return "sqlcmd"
                 elif "html" in first_line:
                     return "browser"
-
+                else:
+                	print(f"{Fore.YELLOW}[+] No valid interpreter found. Defaulting to python3 for module: {Fore.CYAN}{module_path}{Style.RESET_ALL}")
+                	return "python3"
         # 4. Ne uzantı ne de shebang tespit edilemiyorsa, varsayılan olarak Python 3 döndür
-        print(f"{Fore.YELLOW}[+] No valid interpreter found. Defaulting to python3 for module: {Fore.CYAN}{module_path}{Style.RESET_ALL}")
-        return "python3"
+
 
     except Exception as e:
         print(f"{Fore.RED}[!] Error detecting interpreter for {Fore.CYAN}{module_path}{Style.RESET_ALL}: {e}{Style.RESET_ALL}")
