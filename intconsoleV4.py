@@ -1,5 +1,15 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
+import os, sys
+
+path = os.getenv("INTFRAMEWORK_PATH")
+if not path or not os.path.isdir(path):
+    sys.exit("[!] INTFRAMEWORK_PATH is not set or is invalid.")
+
+os.chdir(path)
+print(f"[✓] Changed working directory to: {path}")
+
+
 global phisherserror
 global clouderror
 import os
