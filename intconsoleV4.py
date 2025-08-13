@@ -17,6 +17,15 @@ try:
 		cto += 1
 except:
 	pass
+	import os, sys
+
+path = os.getenv("INTFRAMEWORK_PATH")
+if not path or not os.path.isdir(path):
+    sys.exit("[!] INTFRAMEWORK_PATH is not set or is invalid.")
+
+os.chdir(path)
+print(f"[✓] Changed working directory to: {path}")
+
 from pyfiglet import Figlet
 from colorama import Fore, init, Style
 import threading
