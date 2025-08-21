@@ -75,7 +75,8 @@ Create your module in the appropriate subfolder with a descriptive filename.
 
 Each module must define an `option_schema` dictionary to specify user-configurable options, e.g.:
 
-    ````python
+    ````python3
+
     option_schema = {
         "target": {
             "description": "Target IP address",
