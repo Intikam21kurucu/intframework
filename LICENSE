@@ -1,66 +1,120 @@
 
          Intframework License
-            Version 1.3, 2025
+            Version 1.4, 2025
 
-Copyright (C) [2025] intSpLoiT/intframework 
+Copyright © 2025 – intSpLoiT / Intframework
 
-This software is licensed under the following terms, along with the GNU General Public License Version 3 (GPLv3):
+This software is licensed under INTLICENSE, which builds upon the GNU General Public License v3 (GPLv3) and extends it with additional terms and conditions to ensure **global enforceability, legal clarity, and strict user compliance**. By downloading, installing, accessing, or using this software in any form, the user expressly acknowledges, understands, and agrees to all terms outlined herein. 
 
-1. Grant of License
+---
 
-      This software is provided under a non-transferable and unrestricted license, in accordance with the terms of this license, to use, modify, and distribute the software.
+## 1. LICENSE GRANT
+1.1 The software is provided under a **non-transferable, non-exclusive, and unrestricted license** solely for the purposes outlined in this document.  
+1.2 Users are authorized to use, modify, and distribute the software **only in strict accordance with the terms of this license**.  
+1.3 Sublicensing, leasing, or granting the software to third parties is strictly prohibited unless explicitly permitted by INTLICENSE.  
 
-2. Usage Rights
+---
 
-   Freedom to Use: You may use the software for personal, educational, or commercial purposes.
+## 2. USAGE RIGHTS
+2.1 **Right to Use**
+- The software may be used for personal, educational, commercial, research, or experimental purposes.  
+- Any use outside the terms of this license constitutes a violation and may result in automatic termination of rights and potential legal liability.  
 
-   Freedom to Modify: You may modify and adapt the software, but any changes made must be published under INTLICENSE.
+2.2 **Right to Modify**
+- Users may modify the software, provided that all changes are clearly documented and identifiable.  
+- Any derivative works, modifications, adaptations, or enhancements **must be distributed exclusively under INTLICENSE** and must maintain the attribution to the original authors.  
 
-   Freedom to Distribute: You may distribute the original or modified software, as long as it complies with the terms of this license.
+2.3 **Right to Distribute**
+- Distribution of the original or modified software is permitted **only when all conditions of this license are fully met**.  
+- Source code must always be included or made available to recipients alongside compiled or executable versions.  
+- Redistributions must **retain all copyright notices, license texts, and disclaimers**.
 
+---
 
-3. Source Code
+## 3. SOURCE CODE REQUIREMENTS
+3.1 The source code for any distributed copy, derivative work, or modification must be included or **readily accessible** to recipients.  
+3.2 All changes must be **explicitly documented**, including the nature, date, and author of modifications.  
+3.3 Failure to provide source code or documentation constitutes a breach of this license.  
 
-   When you distribute the software, the source code must be accessible either as part of the distribution or in a separate file.
+---
 
-   If you modify the software, you must explicitly indicate the changes made and publish the modified version under INTLICENSE.
+## 4. NO WARRANTY AND DISCLAIMER OF LIABILITY
+4.1 This software is provided **“as-is”**, without any express or implied warranty of any kind, including but not limited to warranties of merchantability, fitness for a particular purpose, non-infringement, or performance.  
+4.2 Users accept full responsibility for any damages, losses, or consequences arising from use, modification, deployment, or distribution of this software.  
+4.3 The authors, contributors, and distributors of the software **cannot and will not be held liable** for any legal, financial, or technical outcomes resulting from use or misuse of the software.  
 
+---
 
-4. No Warranty
+## 5. RESTRICTIONS AND PROHIBITIONS
+5.1 **No Tivoization**
+- Technical restrictions preventing the modification, analysis, or reverse engineering of the software are strictly prohibited.  
 
-   The software is provided "as-is," with no warranties, either express or implied. The authors are not responsible for any damages or issues arising from the use of the software.
+5.2 **No Sublicensing**
+- The software may not be sublicensed to any third party, organization, or entity without explicit permission.  
 
-5. Restrictions
+5.3 **Prohibited Activities**
+- Users are strictly forbidden from using the software for illegal, unethical, or unauthorized purposes.  
+- This includes hacking, unauthorized access to systems, intrusion testing without permission, or exploitation of vulnerabilities for malicious purposes.  
+- All risks and consequences of prohibited activities are solely assumed by the user.  
 
-   No Tivoization: You may not impose technical restrictions that prevent modifications to the software.
+5.4 **Integrity of Attribution**
+- Users must maintain all copyright, license notices, and attribution information intact in all copies and derivative works.  
 
-   No Sub-Licensing: You cannot sublicense the software to others.
+---
 
+## 6. COMMERCIAL AND DISTRIBUTIONAL USE
+6.1 The software or its derivative works may be commercially distributed, sold, or otherwise monetized.  
+6.2 All distributed versions, whether original or modified, must remain under INTLICENSE.  
+6.3 Every commercial or non-commercial copy must include:  
+- Full license text of INTLICENSE,  
+- Explicit attribution to the original authors,  
+- Clear documentation of any modifications, if applicable.  
 
-6. Commercial Use
+---
 
-   You may sell the software or its modified versions. However, any modifications must be published under INTLICENSE, and the terms of this license must apply to all copies or versions sold.
+## 7. DERIVATIVE WORKS AND MODIFICATIONS
+7.1 All derivative works must be published **under INTLICENSE exclusively**.  
+7.2 INTLICENSE preserves the rights and obligations defined under GPLv3, while mandating that all derivatives **cannot be relicensed under any alternative license**.  
+7.3 This ensures the software remains **perpetually open, transparent, and legally protected worldwide**.  
 
-7. Changes Under INTLICENSE
+---
 
-   Any changes made to the software must be published under INTLICENSE. INTLICENSE continues the rights and obligations of the original software under GPLv3, but any changes must be published only under INTLICENSE.
+## 8. TERMINATION OF RIGHTS
+8.1 Non-compliance with any term of this license results in **automatic termination** of all rights granted herein.  
+8.2 Upon termination, the user must:  
+- Cease all use of the software,  
+- Destroy or withdraw all copies, modified versions, and derivative works,  
+- Refrain from distributing the software in any form.  
 
-8. Termination
+---
 
-   If you fail to comply with any condition of this license, your rights under this license will automatically terminate.
+## 9. ATTRIBUTION AND NOTICE
+9.1 Every copy, distribution, or derivative work must clearly indicate:  
+- The software is licensed under INTLICENSE,  
+- Original authors and contributors,  
+- That full license terms are provided.  
 
-9. Attribution
+9.2 Failure to provide attribution constitutes a **breach of the license**.  
 
-   When you distribute the software, you must indicate the INTLICENSE license and include the full text of the INTLICENSE license in all copies or significant portions of the software.
+---
 
-10. Developer Liability  
+## 10. DEVELOPER LIABILITY AND USER RESPONSIBILITY
+10.1 The developers, contributors, and distributors are **not responsible** for any misuse, unauthorized access, or damage caused by the software.  
+10.2 Misuse includes, but is not limited to:  
+- Unauthorized system access or intrusion,  
+- Hacking, exploitation, or penetration testing without explicit permission,  
+- Data theft, unauthorized modification, or privacy violations.  
+10.3 Users accept **full legal and financial responsibility** for all actions performed using the software.  
 
-   - The developers of this software are not responsible for any misuse, including but not limited to hacking, penetration testing, or unauthorized access to systems. The user assumes full responsibility for any actions taken with the software.  
+---
 
-For more information or to request permission for any use not covered by this license, please contact: **[intikam21raporvegeribildirim@gmail.com]**  
+## 11. ENFORCEMENT, LEGAL EFFECT, AND GLOBAL APPLICABILITY
+11.1 INTLICENSE is enforceable under international law and applicable in all jurisdictions where the software is accessed, used, or distributed.  
+11.2 The license terms apply to all copies, distributions, derivative works, online access, and offline usage of the software.  
+11.3 INTLICENSE combined with GPLv3 ensures **maximum clarity, enforceability, and protection** of rights for both authors and users globally.  
 
-By using this software, you agree to comply with these terms.
-For more information or to request permission 
-for any use not covered by this license, please contact: [intikam21raporvegeribildirim@gmail.com]
+---
 
-By using this Software, you agree to comply with these terms.
+**Contact:** intikam21raporvegeribildirim@gmail.com  
+
+**Acceptance:** By downloading, installing, accessing, or using this software in any manner, you expressly acknowledge that you have read, understood, and fully agreed to all terms of INTLICENSE. Non-compliance may result in legal action and termination of rights.
