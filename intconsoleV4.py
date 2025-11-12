@@ -2827,10 +2827,10 @@ rm -rf $intweb
     if help_input == "exit" or help_input == "quit":
     	sys.exit()
     	# detect ai commands early\\
-    if line.strip().startswith("ai "):
+    if help_input.strip().startswith("ai "):
     	# let LyzronAssist parse and handle it
     	try:
-    		assist.handle_ai_command(line)
+    		assist.handle_ai_command(help_input)
     	except Exception as e:
     		print(f"[assist] ai command failed: {e}")
     		pass  # skip normal processing 
