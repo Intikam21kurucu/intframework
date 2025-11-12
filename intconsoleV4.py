@@ -18,11 +18,10 @@ try:
 except:
 	pass
 	import os, sys
-
+import sys, os
 path = os.getenv("INTFRAMEWORK_PATH")
 if not path or not os.path.isdir(path):
-    sys.exit("[!] INTFRAMEWORK_PATH is not set or is invalid.")
-
+	sys.exit("[!] INTFRAMEWORK_PATH is not set or is invalid.")
 os.chdir(path)
 print(f"[✓] Changed working directory to: {path}")
 
@@ -183,6 +182,11 @@ from uuid_manager import *
 import lib.search
 from lib.int4.config_manager import load_context, validate_required_options, module_context, load_schema_from_module
 import lib.int4.config_manager as config_manager
+# intconsole.py (snippet)
+from lib.intai.lyzronassistv01 import LyzronAssist
+
+# Create a single shared assistant (singleton for console lifetime)
+assist = LyzronAssist(modules_dir="modules")
 # Import the session manager module
 import readline
 import lib.history_manager as history_manager
@@ -2224,7 +2228,11 @@ def command_handler(help_input):
     	history_manager.log_command(help_input)
     	completer.add_to_history(help_input)
     if help_input == "":
-    	pass   
+    	pass
+    suggest = assist.suggest_command(help_input)
+    if suggest:
+    	print(f"[assist] {suggest}")  # veya konsolun mesaj fonksiyonunu kullan
+    	# Note: burada otomatik değişiklik yapma, sadece öneri göster 
     if help_input.startswith("help"):
     	m_help = help_input[5:].strip()
     	if m_help:
@@ -2818,6 +2826,14 @@ rm -rf $intweb
     	os.system("help")
     if help_input == "exit" or help_input == "quit":
     	sys.exit()
+    	# detect ai commands early\\
+    if line.strip().startswith("ai "):
+    	# let LyzronAssist parse and handle it
+    	try:
+    		assist.handle_ai_command(line)
+    	except Exception as e:
+    		print(f"[assist] ai command failed: {e}")
+    		pass  # skip normal processing 
     if not any(help_input.startswith(command) for command in valid_commands):
     	t.sleep(0.75)
     	if help_input.startswith("hydra"):
