@@ -359,6 +359,7 @@ def nmap_page():
 # ============================================================
 #  SERVER START
 # ============================================================
+PORT = int(os.environ.get("PORT", 10000))
 if __name__ == "__main__":
 
     threading.Thread(target=keep_alive_service, daemon=True).start()
@@ -369,5 +370,5 @@ if __name__ == "__main__":
     app.run(
         debug=False,
         host="0.0.0.0",
-        port=10000
+        port=PORT
     )
