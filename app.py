@@ -308,7 +308,7 @@ def subdomain_lookup_page():
 @app.route("/docs")
 def docs_index():
     files = find_markdown_files()
-    return render_template("index.html", md_files=files)
+    return render_template("docs.html", md_files=files)
 
 
 @app.route("/docs/view/<path:filename>")
