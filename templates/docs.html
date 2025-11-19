@@ -4,136 +4,171 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>IntSpLoiT Framework Docs</title>
-<style>
-    body {
-        margin: 0;
-        font-family: 'Courier New', monospace;
-        background-color: #0d0d0d;
-        color: #00FF00;
-        overflow-x: hidden;
-    }
 
-    header {
-        background-color: #111;
-        padding: 20px;
-        border-bottom: 2px solid #00FF00;
-        text-align: center;
-    }
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
 
-    header h1 {
-        margin: 0;
-        font-size: 2.5rem;
-        color: #FF0000;
-        text-shadow: 0 0 10px #FF0000;
-    }
-
-    .container {
-        display: flex;
-        flex-wrap: wrap;
-        padding: 20px;
-        gap: 20px;
-    }
-
-    .file-list {
-        flex: 1 1 250px;
-        max-width: 300px;
-        background-color: #111;
-        padding: 20px;
-        border-radius: 8px;
-        box-shadow: 0 0 20px rgba(0,255,0,0.4);
-        height: calc(100vh - 80px);
-        overflow-y: auto;
-    }
-
-    .file-item {
-        padding: 12px;
-        margin-bottom: 10px;
-        border: 1px solid #00FF00;
-        border-radius: 5px;
-        cursor: pointer;
-        transition: transform 0.3s, background-color 0.3s;
-    }
-
-    .file-item:hover {
-        background-color: #222;
-        transform: scale(1.03);
-    }
-
-    .file-item.active {
-        background-color: #00FF00;
-        color: #0d0d0d;
-        font-weight: bold;
-    }
-
-    .viewer {
-        flex: 3 1 600px;
-        background-color: #111;
-        padding: 20px;
-        border-radius: 8px;
-        box-shadow: 0 0 20px rgba(0,255,0,0.4);
-        max-height: calc(100vh - 80px);
-        overflow-y: auto;
-    }
-
-    .viewer h2 {
-        color: #FF0000;
-        margin-top: 0;
-    }
-
-    .viewer pre, .viewer code {
-        background-color: #000;
-        color: #00FF00;
-        padding: 8px;
-        border-radius: 5px;
-        overflow-x: auto;
-        font-family: 'Courier New', monospace;
-    }
-
-    a {
-        color: #00FF00;
-        text-decoration: underline;
-    }
-
-    a:hover {
-        color: #FF0000;
-    }
-
-    @media(max-width: 900px){
-        .container {
-            flex-direction: column;
-        }
-        .file-list, .viewer {
-            max-height: none;
-            height: auto;
-        }
-    }
-</style>
+<!-- Marked.js for Markdown -->
 <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-</head>
-<body>
 
+<style>
+/* ===================== Body & Background ===================== */
+body {
+    margin: 0;
+    font-family: 'Share Tech Mono', monospace;
+    color: #00FF00;
+    background-color: #0a0a0a;
+    overflow-x: hidden;
+    background-image: url('https://i.imgur.com/3jLPB46.gif'); /* Matrix Rain GIF */
+    background-size: cover;
+    background-attachment: fixed;
+}
+
+/* ===================== Header ===================== */
+header {
+    text-align: center;
+    padding: 20px;
+    background: rgba(0,0,0,0.7);
+    border-bottom: 2px solid #00FF00;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 2.5rem;
+    color: #00FF00;
+    text-shadow: 0 0 15px #00FF00;
+}
+
+/* ===================== Container ===================== */
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 20px;
+    gap: 20px;
+}
+
+/* ===================== File List ===================== */
+.file-list {
+    flex: 1 1 280px;
+    max-width: 320px;
+    background-color: rgba(0,0,0,0.7);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0,255,0,0.5);
+    height: calc(100vh - 100px);
+    overflow-y: auto;
+}
+
+.file-list input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    border: 1px solid #00FF00;
+    background-color: #111;
+    color: #00FF00;
+    outline: none;
+    font-family: 'Share Tech Mono', monospace;
+}
+
+.file-item {
+    padding: 12px;
+    margin-bottom: 10px;
+    border: 1px solid #00FF00;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: transform 0.3s, background-color 0.3s;
+}
+
+.file-item:hover {
+    background-color: #0f0f0f;
+    transform: scale(1.05);
+}
+
+.file-item.active {
+    background-color: #00FF00;
+    color: #0a0a0a;
+    font-weight: bold;
+}
+
+/* ===================== Markdown Viewer ===================== */
+.viewer {
+    flex: 3 1 600px;
+    background-color: rgba(0,0,0,0.7);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0,255,0,0.5);
+    max-height: calc(100vh - 100px);
+    overflow-y: auto;
+}
+
+.viewer h2 {
+    color: #00FF00;
+    margin-top: 0;
+    text-shadow: 0 0 10px #00FF00;
+}
+
+.viewer pre, .viewer code {
+    background-color: #111;
+    color: #00FF00;
+    padding: 8px;
+    border-radius: 5px;
+    overflow-x: auto;
+    font-family: 'Share Tech Mono', monospace;
+}
+
+a {
+    color: #00FF00;
+    text-decoration: underline;
+}
+
+a:hover {
+    color: #00FF00;
+}
+
+/* ===================== Responsive ===================== */
+@media(max-width: 900px){
+    .container {
+        flex-direction: column;
+    }
+    .file-list, .viewer {
+        max-height: none;
+        height: auto;
+    }
+}
+</style>
+</head>
+
+<body>
 <header>
     <h1>IntSpLoiT Framework Docs</h1>
 </header>
 
 <div class="container">
-    <div class="file-list" id="file-list">
-        {% for fname, path in md_files.items() %}
-        <div class="file-item" onclick="loadFile('{{ fname }}', this)">
-            {{ fname }}
+
+    <!-- ===================== File List Panel ===================== -->
+    <div class="file-list">
+        <input type="text" id="search" placeholder="Search files..." onkeyup="filterFiles()">
+        <div id="file-list">
+            {% for fname, path in md_files.items() %}
+            <div class="file-item" onclick="loadFile('{{ fname }}', this)">
+                {{ fname }}
+            </div>
+            {% endfor %}
         </div>
-        {% endfor %}
     </div>
 
+    <!-- ===================== Markdown Viewer ===================== -->
     <div class="viewer" id="viewer">
-        <h2>Select a Markdown file</h2>
+        <h2>Select a Markdown File</h2>
         <div id="md-content">
-            <p>Click on a file from the list to load its content.</p>
+            <p>Click on a file from the list to load its content here.</p>
         </div>
     </div>
 </div>
 
 <script>
+// ===================== Load File =====================
 function loadFile(filename, element) {
     // Aktif class kontrolü
     document.querySelectorAll('.file-item').forEach(item => item.classList.remove('active'));
@@ -150,6 +185,15 @@ function loadFile(filename, element) {
         .catch(err => {
             document.getElementById('md-content').innerHTML = `<p style="color:red;">${err.message}</p>`;
         });
+}
+
+// ===================== File Search =====================
+function filterFiles() {
+    const input = document.getElementById('search').value.toLowerCase();
+    document.querySelectorAll('.file-item').forEach(item => {
+        const text = item.textContent.toLowerCase();
+        item.style.display = text.includes(input) ? 'block' : 'none';
+    });
 }
 </script>
 
