@@ -20,6 +20,19 @@ import threading
 import time
 import os
 from concurrent.futures import ThreadPoolExecutor
+# ============================================================
+#  MARKDOWN VIEWER (SAFE & STRONG)
+# ============================================================
+
+import markdown
+from functools import lru_cache
+from flask import abort, render_template
+
+# Ayarlar
+REPO_ROOT = "intframework"
+DOC_DIR = os.path.join(REPO_ROOT, "Documentation")
+VALID_EXT = (".md", ".MD", ".markdown")
+
 
 
 # ============================================================
@@ -75,6 +88,77 @@ def subdomain_lookup():
 
     # GET request
     return render_template('subdomain_lookup.html')
+def find_markdown_files():
+    """
+    Finds all .md files in root and Documentation folder.
+    Returns dict { 'display_name': 'absolute_path' }
+    """
+    md_files = {}
+
+    # Root-level md
+    for f in os.listdir(REPO_ROOT):
+        if f.endswith(VALID_EXT):
+            md_files[f] = os.path.join(REPO_ROOT, f)
+
+    # Documentation folder md
+    if os.path.isdir(DOC_DIR):
+        for f in os.listdir(DOC_DIR):
+            if f.endswith(VALID_EXT):
+                md_files[f"Documentation/{f}"] = os.path.join(DOC_DIR, f)
+
+    return md_files
+
+
+@lru_cache(maxsize=256)
+def load_markdown_safe(path: str) -> str:
+    """
+    Safely reads a Markdown file and converts it to HTML.
+    Protected against path traversal.
+    """
+    abs_repo = os.path.abspath(REPO_ROOT)
+    abs_path = os.path.abspath(path)
+
+    if not abs_path.startswith(abs_repo):
+        abort(403)  # Forbidden
+
+    if not os.path.exists(abs_path):
+        abort(404)
+
+    with open(abs_path, "r", encoding="utf-8") as f:
+        content = f.read()
+
+    # Markdown → HTML conversion
+    html = markdown.markdown(
+        content,
+        extensions=["fenced_code", "tables", "codehilite", "toc"]
+    )
+
+    return html
+
+
+# Flask Routes
+
+@app.route("/docs")
+def docs_index():
+    """
+    List all Markdown files
+    """
+    files = find_markdown_files()
+    return render_template("index.html", md_files=files)
+
+
+@app.route("/docs/view/<path:filename>")
+def docs_view(filename):
+    """
+    View a single Markdown file
+    """
+    files = find_markdown_files()
+    if filename not in files:
+        abort(404)
+
+    html_content = load_markdown_safe(files[filename])
+    return render_template("viewer.html", filename=filename, content=html_content)
+
     
 # ============================================================
 #  SECURITY UTILITIES
