@@ -211,12 +211,12 @@ def live_module_watcher():
 # ============================================================
 #  NMAP / PORT SCAN PAGE
 # ============================================================
-
 @app.route('/nmap', methods=['GET', 'POST'])
 def nmap_page():
     """
     Manual port scanning implemented without external binaries.
     Uses Python socket to test connectivity.
+    Enhanced HTML output for better visualization.
     """
     if request.method == 'POST':
         target_ip = request.form.get('ip', '').strip()
@@ -226,7 +226,7 @@ def nmap_page():
         if not target_ip or not is_safe_input(target_ip):
             return render_template('nmap.html', result="Invalid or missing IP address.")
 
-        # Default: scan full port range
+        # Port list parsing
         if not port_str:
             ports = range(1, 65536)
         else:
@@ -240,15 +240,28 @@ def nmap_page():
         # Perform Scan
         open_ports = perform_port_scan(target_ip, ports)
 
+        # Generate stylish HTML output
         if open_ports:
-            output = "\n".join(f"Port {p} is open" for p in open_ports)
+            html_output = "<h3>Open Ports</h3>"
+            html_output += "<div class='port-container'>"
+            for p in open_ports:
+                html_output += f"""
+                <div class='port-box'>
+                    <span class='port-number'>{p}</span>
+                    <span class='port-status'>OPEN</span>
+                </div>
+                """
+            html_output += "</div>"
         else:
-            output = "No open ports detected."
+            html_output = """
+            <div class="no-port-box">
+                No open ports detected.
+            </div>
+            """
 
-        return render_template('nmap.html', result=output)
+        return render_template('nmap.html', result=html_output)
 
     return render_template('nmap.html')
-
 
 # ============================================================
 #  SERVER START
