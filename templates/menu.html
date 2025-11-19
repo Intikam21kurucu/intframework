@@ -1,293 +1,266 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IntFramework Web GUI</title>
-    <style>
-        /* Genel Stil ve Arka Plan */
-        body {
-            margin: 0;
-            padding: 0;
-            background-color: #121212;
-            color: #33FF00; /* Hacker yeşili */
-            font-family: 'Courier New', Courier, monospace;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            overflow: hidden;
-            flex-direction: column;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IntFramework Web GUI</title>
+<style>
+    /* Genel Stil ve Arka Plan */
+    body {
+        margin: 0;
+        padding: 0;
+        background-color: #121212;
+        color: #33FF00; /* Hacker yeşili */
+        font-family: 'Courier New', Courier, monospace;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        overflow-x: hidden;
+        flex-direction: column;
+    }
 
-        /* Animasyonlu Logo */
-        .logo-container {
-            text-align: center;
-            animation: fadeIn 2s ease-in-out;
-        }
+    /* Animasyonlu Logo */
+    .logo-container {
+        text-align: center;
+        animation: fadeIn 2s ease-in-out;
+    }
 
-        .logo-container img {
-            width: 150px;
-            border-radius: 50%;
-            box-shadow: 0 0 15px #33FF00;
-        }
+    .logo-container img {
+        width: 150px;
+        max-width: 80%;
+        border-radius: 50%;
+        box-shadow: 0 0 15px #33FF00;
+    }
 
-        h1 {
-            font-size: 48px;
-            font-weight: bold;
-            text-shadow: 2px 2px 10px #33FF00;
-            animation: slideIn 2s ease-in-out;
-        }
+    h1 {
+        font-size: 48px;
+        font-weight: bold;
+        text-shadow: 2px 2px 10px #33FF00;
+        animation: slideIn 2s ease-in-out;
+        margin: 10px 0;
+    }
 
-        /* Açıklama */
-        .description {
-            font-size: 18px;
-            color: #aaa;
-            text-align: center;
-            margin-top: 20px;
-            animation: fadeIn 3s ease-in-out 1.5s forwards;
-        }
+    /* Açıklama */
+    .description {
+        font-size: 18px;
+        color: #aaa;
+        text-align: center;
+        margin-top: 20px;
+        animation: fadeIn 3s ease-in-out 1.5s forwards;
+        max-width: 600px;
+    }
 
-        /* Kayma Animasyonu ile Komutlar */
-        .usage {
-            margin-top: 30px;
-            display: flex;
-            gap: 15px;
-            animation: slideRight 5s linear infinite;
-            white-space: nowrap;
-        }
+    /* Kayma Animasyonu ile Komutlar */
+    .usage {
+        margin-top: 30px;
+        display: flex;
+        gap: 15px;
+        animation: slideRight 10s linear infinite;
+        white-space: nowrap;
+        overflow: hidden;
+        padding: 0 10px;
+    }
 
-        .usage .example {
-            background-color: #1e1e1e;
-            padding: 15px;
-            border: 2px solid #33FF00;
-            border-radius: 5px;
-            font-size: 18px;
-            cursor: pointer;
-            box-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
-            color: #33FF00;
-            transition: transform 2s ease;
-        }
+    .usage .example {
+        background-color: #1e1e1e;
+        padding: 12px 18px;
+        border: 2px solid #33FF00;
+        border-radius: 5px;
+        font-size: 16px;
+        cursor: pointer;
+        box-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+        color: #33FF00;
+        transition: transform 0.3s ease;
+        white-space: nowrap;
+    }
 
-        .usage .example:hover {
-            transform: scale(1.1);
-        }
+    .usage .example:hover {
+        transform: scale(1.1);
+    }
 
-        /* Kayma Animasyonu Tanımları */
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
-        }
+    /* Kayma Animasyonu Tanımları */
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
 
-        @keyframes slideIn {
-            from {
-                transform: translateY(-30px);
-            }
-            to {
-                transform: translateY(0);
-            }
-        }
+    @keyframes slideIn {
+        from { transform: translateY(-30px); }
+        to { transform: translateY(0); }
+    }
 
-        @keyframes slideRight {
-            from {
-                transform: translateX(-100%);
-            }
-            to {
-                transform: translateX(100%);
-            }
-        }
+    @keyframes slideRight {
+        0% { transform: translateX(-100%); }
+        100% { transform: translateX(100%); }
+    }
 
-        /* Side Panel (Yan Menü) */
-        .side-panel {
-            position: fixed;
-            top: 0;
-            left: -250px;
-            width: 250px;
-            height: 100%;
-            background-color: #333;
-            padding: 20px;
-            transition: 0.3s;
-            overflow-y: auto;
-            z-index: 100;
-        }
+    /* Side Panel (Yan Menü) */
+    .side-panel {
+        position: fixed;
+        top: 0;
+        left: -250px;
+        width: 250px;
+        height: 100%;
+        background-color: #333;
+        padding: 20px;
+        transition: 0.3s;
+        overflow-y: auto;
+        z-index: 100;
+    }
 
-        .side-panel.active {
-            left: 0;
-        }
+    .side-panel.active {
+        left: 0;
+    }
 
-        .side-panel header {
-            text-align: center;
-            margin-bottom: 20px;
-        }
+    .side-panel header {
+        text-align: center;
+        margin-bottom: 20px;
+    }
 
-        .side-panel header img {
-            width: 180px;
-        }
+    .side-panel header img {
+        width: 180px;
+        max-width: 80%;
+    }
 
-        .side-panel a {
-            display: block;
-            padding: 12px 20px;
-            margin: 10px 0;
-            text-decoration: none;
-            color: #fff;
-            font-size: 18px;
-            border-radius: 5px;
-            transition: background-color 0.3s;
-        }
+    .side-panel a {
+        display: block;
+        padding: 12px 20px;
+        margin: 8px 0;
+        text-decoration: none;
+        color: #fff;
+        font-size: 18px;
+        border-radius: 5px;
+        transition: background-color 0.3s;
+    }
 
-        .side-panel a:hover {
-            background-color: #575757;
-        }
+    .side-panel a:hover {
+        background-color: #575757;
+    }
 
-        /* Menü Butonu */
-        .menu-btn {
-            font-size: 30px;
-            color: #fff;
-            background-color: #333;
-            border: none;
-            padding: 15px;
-            cursor: pointer;
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            z-index: 110;
-            transition: 0.3s;
-        }
+    /* Menü Butonu */
+    .menu-btn {
+        font-size: 30px;
+        color: #fff;
+        background-color: #333;
+        border: none;
+        padding: 15px;
+        cursor: pointer;
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        z-index: 110;
+        border-radius: 5px;
+        transition: 0.3s;
+    }
 
-        .menu-btn:hover {
-            background-color: #444;
-        }
+    .menu-btn:hover {
+        background-color: #444;
+    }
 
-        /* Get IntFramework Butonu */
-        .get-framework-btn {
-            margin-top: 30px;
-            padding: 15px 25px;
-            background-color: #33FF00;
-            border: none;
-            color: #121212;
-            font-size: 18px;
-            cursor: pointer;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
-            transition: background-color 0.3s;
-        }
+    /* Get IntFramework Butonu */
+    .get-framework-btn {
+        margin-top: 30px;
+        padding: 15px 25px;
+        background-color: #33FF00;
+        border: none;
+        color: #121212;
+        font-size: 18px;
+        cursor: pointer;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+        transition: background-color 0.3s;
+    }
 
-        .get-framework-btn:hover {
-            background-color: #28a700;
-        }
+    .get-framework-btn:hover {
+        background-color: #28a700;
+    }
 
-        /* Responsive Tasarım */
-        @media (max-width: 768px) {
-            .side-panel {
-                width: 100%;
-                left: -100%;
-            }
-            .side-panel.active {
-                left: 0;
-            }
-            .menu-btn {
-                font-size: 25px;
-            }
-            .logo-container img {
-                width: 120px;
-            }
-            h1 {
-                font-size: 36px;
-            }
-            .usage {
-                flex-direction: column;
-                align-items: center;
-            }
-            .usage .example {
-                margin-bottom: 10px;
-            }
-            .description {
-                font-size: 16px;
-            }
-        }
+    /* Responsive Tasarım */
+    @media (max-width: 768px) {
+        .side-panel { width: 100%; left: -100%; }
+        .side-panel.active { left: 0; }
+        .menu-btn { font-size: 25px; }
+        .logo-container img { width: 120px; }
+        h1 { font-size: 36px; }
+        .usage { flex-direction: column; align-items: center; }
+        .usage .example { margin-bottom: 10px; font-size: 14px; }
+        .description { font-size: 16px; max-width: 90%; }
+    }
 
-        @media (max-width: 480px) {
-            .logo-container img {
-                width: 100px;
-            }
-            h1 {
-                font-size: 28px;
-            }
-            .usage .example {
-                font-size: 16px;
-            }
-        }
-    </style>
+    @media (max-width: 480px) {
+        .logo-container img { width: 100px; }
+        h1 { font-size: 28px; }
+        .usage .example { font-size: 12px; }
+    }
+</style>
 </head>
 <body>
 
-    <!-- Menü Butonu -->
-    <button class="menu-btn">&#9776; Menu</button>
+<!-- Menü Butonu -->
+<button class="menu-btn">&#9776; Menu</button>
 
-    <!-- Side Panel (Yan Menü) -->
-    <div class="side-panel">
-        <header>
-            <img src="{{ url_for('static', filename='logo.png') }}" alt="IntFramework Logo">
-        </header>
-        <a href="used_services">Used Services</a>
-        <a href="contact">Contact</a>
-        <a href="privacy_policy">Privacy Policy</a>
-        <a href="download">Download</a>
-        <a href="docs">Docs</a>
-        <a href="live_module_watcher">Live Module Watcher</a>
-        <div class="web-tools">
-            <h3>Web Tools</h3>
-            <a href="nmap">Nmap</a>
-            <a href="subdomain_lookup">Subdomain Lookup</a>
-            <a href="whois_history">WHOIS History</a>
-            <a href="dns_lookup">DNS Lookup</a>
-        </div>
-    </div>
-
-    <!-- Logo ve Başlık -->
-    <div class="logo-container">
+<!-- Side Panel (Yan Menü) -->
+<div class="side-panel">
+    <header>
         <img src="{{ url_for('static', filename='logo.png') }}" alt="IntFramework Logo">
-        <h1>IntFramework Web GUI</h1>
+    </header>
+    <a href="used_services">Used Services</a>
+    <a href="contact">Contact</a>
+    <a href="privacy_policy">Privacy Policy</a>
+    <a href="download">Download</a>
+    <a href="docs">Docs</a>
+    <a href="live_module_watcher">Live Module Watcher</a>
+    <div class="web-tools">
+        <h3>Web Tools</h3>
+        <a href="nmap">Nmap</a>
+        <a href="subdomain_lookup">Subdomain Lookup</a>
+        <a href="whois_history">WHOIS History</a>
+        <a href="dns_lookup">DNS Lookup</a>
     </div>
+</div>
 
-    <!-- Açıklamalar -->
-    <div class="description">
-        <p>Welcome to IntFramework Web GUI. A powerful tool for cybersecurity professionals.</p>
-    </div>
+<!-- Logo ve Başlık -->
+<div class="logo-container">
+    <img src="{{ url_for('static', filename='logo.png') }}" alt="IntFramework Logo">
+    <h1>IntFramework Web GUI</h1>
+</div>
 
-    <!-- Kullanım Komutları (Yana Kayma Animasyonu) -->
-    <div class="usage">
-        <div class="example">run </div>
-        <div class="example">exploit</div>
-        <div class="example">use modules/exploits/multi/listeners/shellverse.py</div>
-        <div class="example">set LHOST 192.168.1.5</div>
-        <div class="example">set LPORT 5000</div>
-        <div class="example">run</div>
-        <div class="example">session 2</div>
-        <div class="example">db_connect</div>
-        <div class="example">help</div>
-        <div class="example">modular</div>
-        <div class="example">intdc 0123456789</div>
-        <div class="example">intcam --ipv4 xxx.xxx.xxx.xxx -p 1900 -s -c </div>
-        <div class="example">use modules/exploits/linux/remote/ark_sink.c</div>
-        <div class="example">&quot;run &lt;192.168.1.1 90&gt;&quot;</div>
-        <div class="example">network_scan</div>
-    </div>
+<!-- Açıklamalar -->
+<div class="description">
+    <p>Welcome to IntFramework Web GUI. A powerful tool for cybersecurity professionals.</p>
+</div>
 
-    <!-- Get IntFramework Butonu -->
-    <button class="get-framework-btn" onclick="window.location.href='https://github.com/intSpLoiT/intframework/archive/refs/heads/İntframeworkV4.zip'">
-        Get IntFramework
-    </button>
+<!-- Kullanım Komutları (Yana Kayma Animasyonu) -->
+<div class="usage">
+    <div class="example">run</div>
+    <div class="example">exploit</div>
+    <div class="example">use modules/exploits/multi/listeners/shellverse.py</div>
+    <div class="example">set LHOST 192.168.1.5</div>
+    <div class="example">set LPORT 5000</div>
+    <div class="example">run</div>
+    <div class="example">session 2</div>
+    <div class="example">db_connect</div>
+    <div class="example">help</div>
+    <div class="example">modular</div>
+    <div class="example">intdc 0123456789</div>
+    <div class="example">intcam --ipv4 xxx.xxx.xxx.xxx -p 1900 -s -c</div>
+    <div class="example">use modules/exploits/linux/remote/ark_sink.c</div>
+    <div class="example">"run &lt;192.168.1.1 90&gt;"</div>
+    <div class="example">network_scan</div>
+</div>
 
-    <script>
-        // Menü Butonunu Aktif Hale Getirme
-        document.querySelector('.menu-btn').addEventListener('click', function() {
-            document.querySelector('.side-panel').classList.toggle('active');
-        });
-    </script>
+<!-- Get IntFramework Butonu -->
+<button class="get-framework-btn" onclick="window.location.href='https://github.com/intSpLoiT/intframework/archive/refs/heads/İntframeworkV4.zip'">
+    Get IntFramework
+</button>
+
+<script>
+    // Menü Butonunu Aktif Hale Getirme
+    document.querySelector('.menu-btn').addEventListener('click', function() {
+        document.querySelector('.side-panel').classList.toggle('active');
+    });
+</script>
+
 </body>
 </html>
