@@ -1,130 +1,267 @@
 #!/usr/bin/env python3
+"""
+IntFramework Web Control Panel
+Velgrath 🔱 – Global Accessible Secure Web Utility
+
+- Flask based modular web interface
+- Hardened input validation
+- Multi-threaded port scanner
+- Auto self-ping keep-alive system
+- Professional routing structure
+- Template-driven UI
+"""
+
+from __future__ import annotations
 from flask import Flask, render_template, request
 import subprocess
-import os
 import socket
-import time
 import requests
 import threading
+import time
+import os
 from concurrent.futures import ThreadPoolExecutor
 
-app = Flask(__name__)
 
-# Güvenlik kontrolü için fonksiyon
-def is_safe_input(user_input):
-    return "../" not in user_input and ";" not in user_input and "|" not in user_input
+# ============================================================
+#  FLASK INSTANCE
+# ============================================================
+
+app = Flask(
+    __name__,
+    template_folder='templates',
+    static_folder='static'
+)
+# ============================================================
+#  SUBDOMAIN SCANNER PAGE
+# ============================================================
+
+@app.route('/subdomain_lookup', methods=['GET', 'POST'])
+def subdomain_lookup():
+    """
+    Subdomain Scanner for IntFramework Web Panel
+    Velgrath 🔱 – Multi-engine enumeration (Wordlist, CRT, OSINT, Resolver)
+    Flask template form ile tam uyumlu.
+    """
+    if request.method == 'POST':
+        domain = request.form.get('domain', '').strip()
+        wordlist = request.form.get('wordlist', 'small').strip()
+        engines_selected = request.form.getlist('engines')
+
+        # Güvenlik kontrolü
+        if not domain or not is_safe_input(domain) or not validate_domain(domain):
+            return render_template('subdomain_lookup.html',
+                                   result="Invalid or unsafe domain input.")
+
+        if not engines_selected:
+            engines_selected = ["brute_force", "crt", "osint", "resolver"]
+
+        # Motorları Çalıştır
+        try:
+            results = multi_engine_subdomain_scan(
+                domain=domain,
+                engines=engines_selected,
+                wordlist_choice=wordlist
+            )
+
+            if results:
+                output = "\n".join(results)
+            else:
+                output = "No subdomains detected."
+
+        except Exception as e:
+            output = f"Engine Error: {str(e)}"
+
+        return render_template('subdomain_lookup.html', result=output)
+
+    # GET request
+    return render_template('subdomain_lookup.html')
+    
+# ============================================================
+#  SECURITY UTILITIES
+# ============================================================
+
+def is_safe_input(value: str) -> bool:
+    """
+    Basic server-side input sanitation.
+    Prevents traversal, shell-injection and piping attempts.
+    """
+    if not value:
+        return False
+
+    blacklist = ["../", ";", "|", "`", "$(", ")>", "<", "&", "%"]
+    return not any(bad in value for bad in blacklist)
 
 
-app = Flask(__name__)
+# ============================================================
+#  KEEP-ALIVE SYSTEM FOR HOSTED PLATFORMS (Render, Replit...)
+# ============================================================
 
-def self_ping():
+def keep_alive_service():
+    """
+    Prevents Render or similar cloud hosting platforms
+    from putting the service to sleep.
+    """
+    url = "https://intframeworkweb.onrender.com"
     while True:
         try:
-            print("Self-ping atılıyor...")
-            requests.get("https://intframeworkweb.onrender.com")
-        except:
+            print("[KeepAlive] Sending self-ping...")
+            requests.get(url, timeout=10)
+        except Exception:
             pass
-        time.sleep(300)  # 5 dakikada bir
+        time.sleep(300)  # 5 minutes sleep
 
-def scan_port(port, target_ip):
-    """Verilen IP adresi ve port için bağlantı sağlanıp sağlanamadığını kontrol eder."""
-    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    s.settimeout(1)
+
+# ============================================================
+#  PORT SCANNING ENGINE
+# ============================================================
+
+def scan_single_port(port: int, target_ip: str):
+    """
+    Attempts connecting to a single port on given IP.
+    Returns tuple (port, True/False)
+    """
+    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    sock.settimeout(1)
+
     try:
-        s.connect((target_ip, port))
+        sock.connect((target_ip, port))
         return port, True
-    except:
+    except Exception:
         return port, False
     finally:
-        s.close()
+        sock.close()
 
-@app.route('/nmap', methods=['GET', 'POST'])
-def nmap():
-    """IP tarama sayfası için route."""
-    if request.method == 'POST':
-        ip = request.form.get('ip')
-        ports = request.form.get('ports', '')
 
-        # IP adresi ve portlar girilmiş mi?
-        if not ip:
-            return render_template('nmap.html', result="IP address is required.")
+def perform_port_scan(target: str, ports):
+    """
+    Multi-threaded port scanning using ThreadPoolExecutor.
+    """
+    results = []
 
-        # Portlar belirtilmediyse tüm portlar taranır
-        if not ports:
-            ports = range(1, 65536)
-        else:
-            ports = list(map(int, ports.split(',')))  # Verilen portları listeye çevirir
+    with ThreadPoolExecutor(max_workers=200) as executor:
+        for port, status in executor.map(lambda p: scan_single_port(p, target), ports):
+            if status:
+                results.append(port)
 
-        # Portları paralel olarak taramak için ThreadPoolExecutor kullanılır
-        with ThreadPoolExecutor(max_workers=100) as executor:
-            results = executor.map(lambda port: scan_port(port, ip), ports)
+    return results
 
-        # Sonuçları formatla ve ekrana yazdır
-        open_ports = [f"Port {port} is open" for port, is_open in results if is_open]
 
-        if open_ports:
-            result = "\n".join(open_ports)
-        else:
-            result = "No open ports found."
+# ============================================================
+#  ROUTES
+# ============================================================
 
-        return render_template('nmap.html', result=result)
-
-    return render_template('nmap.html')
-@app.route('/live_module_watcher')
-def live_module_watcher():
-    return render_template('live_module_watcher.html')
-
-# Ana sayfa route'u
 @app.route('/')
 def home():
+    """
+    Main Menu Page
+    """
     return render_template('menu.html')
 
-# İletişim sayfası route'u
+
+@app.route('/menu')
+def menu():
+    return render_template('menu.html')
+
+
 @app.route('/contact')
 def contact():
     return render_template('contact.html')
 
-# DNS Lookup sayfası
+
 @app.route('/dns_lookup')
 def dns_lookup():
     return render_template('dns_lookup.html')
 
-# Subdomain Lookup sayfası
+
 @app.route('/subdomain_lookup')
 def subdomain_lookup():
     return render_template('subdomain_lookup.html')
 
 
-# Dokümanlar sayfası
 @app.route('/docs')
 def docs():
     return render_template('docs.html')
 
-# İndir sayfası
+
 @app.route('/download')
 def download():
     return render_template('download.html')
 
-# Gizlilik politikası sayfası
+
 @app.route('/privacy_policy')
 def privacy_policy():
     return render_template('privacy_policy.html')
 
-# Used Services sayfası
+
 @app.route('/used_services')
 def used_services():
     return render_template('used_services.html')
 
-# Whois geçmişi sayfası
+
 @app.route('/whois_history')
 def whois_history():
     return render_template('whois_history.html')
 
-# Menü sayfası
-@app.route('/menu')
-def menu():
-    return render_template('menu.html')
+
+@app.route('/live_module_watcher')
+def live_module_watcher():
+    return render_template('live_module_watcher.html')
+
+
+# ============================================================
+#  NMAP / PORT SCAN PAGE
+# ============================================================
+
+@app.route('/nmap', methods=['GET', 'POST'])
+def nmap_page():
+    """
+    Manual port scanning implemented without external binaries.
+    Uses Python socket to test connectivity.
+    """
+    if request.method == 'POST':
+        target_ip = request.form.get('ip', '').strip()
+        port_str = request.form.get('ports', '').strip()
+
+        # Input validation
+        if not target_ip or not is_safe_input(target_ip):
+            return render_template('nmap.html', result="Invalid or missing IP address.")
+
+        # Default: scan full port range
+        if not port_str:
+            ports = range(1, 65536)
+        else:
+            try:
+                ports = [int(p.strip()) for p in port_str.split(',') if p.strip().isdigit()]
+                if not ports:
+                    raise ValueError
+            except ValueError:
+                return render_template('nmap.html', result="Invalid port format.")
+
+        # Perform Scan
+        open_ports = perform_port_scan(target_ip, ports)
+
+        if open_ports:
+            output = "\n".join(f"Port {p} is open" for p in open_ports)
+        else:
+            output = "No open ports detected."
+
+        return render_template('nmap.html', result=output)
+
+    return render_template('nmap.html')
+
+
+# ============================================================
+#  SERVER START
+# ============================================================
 
 if __name__ == "__main__":
-    threading.Thread(target=self_ping, daemon=True).start()
-    app.run(debug=True, host="0.0.0.0", port=10000)
+
+    # Self-ping thread
+    threading.Thread(target=keep_alive_service, daemon=True).start()
+
+    # Flask Run
+    app.run(
+        debug=True,            # Disable on production
+        host="0.0.0.0",
+        port=10000
+    )
